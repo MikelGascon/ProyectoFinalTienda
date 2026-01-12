@@ -1,11 +1,6 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['usuario'])) {
-    header("Location: login.php");
-    exit;
-}
-
 $mensaje = '';
 $errores = [];
 
@@ -74,11 +69,121 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
 <head>
     <meta charset="UTF-8">
     <title>Método de Pago</title>
+
+    <style>
+        :root {
+            --marron-claro: #AAA085;
+            --marron-oscuro: #8C836A;
+            --negro: #000000;
+            --gris-medio: #878686;
+            --gris-claro: #D9D9D9;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: url('../src/img/logo-rebelde.png');
+            background-repeat: repeat;
+            background-size: 140px;
+            opacity: 0.08;
+            transform: rotate(-35deg);
+            z-index: -1;
+        }
+
+        .contenedor {
+            width: 420px;
+            background: #fff;
+            padding: 35px 40px;
+            border-radius: 14px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--marron-oscuro);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--negro);
+            font-size: 1rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 18px;
+            border: 1px solid var(--gris-medio);
+            border-radius: 6px;
+            background-color: #fff;
+            font-size: 1rem;
+            box-sizing: border-box; /* 🔥 Justificación perfecta */
+        }
+
+        input:focus, select:focus {
+            border-color: var(--marron-claro);
+            outline: none;
+            box-shadow: 0 0 0 2px #AAA085;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--marron-claro);
+            color: #ffffffc5;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #7e7661ff;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 10px;
+            color: var(--marron-oscuro);
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: var(--marron-claro);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
 
-    <div>
+    <div class="contenedor">
         <h2>Registrar método de pago</h2>
 
         <form method="post">
