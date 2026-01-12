@@ -45,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             position: relative;
         }
 
-        /* Fondo diagonal repetido */
         body::before {
             content: "";
             position: fixed;
@@ -53,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             left: -50%;
             width: 200%;
             height: 200%;
-            background-image: url('logo-rebelde.png');
+            background-image: url('../src/img/logo-rebelde.png');
             background-repeat: repeat;
             background-size: 140px;
             opacity: 0.08;
@@ -165,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="login-box">
         <div class="login-header">
-            <img src="logo-rebelde.png" alt="El Corte Rebelde">
+            <img src="../src/img/logo-rebelde.png" alt="El Corte Rebelde">
         </div>
 
         <div class="login-body">
