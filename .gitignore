@@ -1,0 +1,8 @@
+#Lo mas importe 
+.env
+/vendor/
+
+#Lo normal y recomendado
+.DS_Store
+*.log
+cache/
