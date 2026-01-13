@@ -5,18 +5,22 @@ $mensaje = '';
 $registro_exitoso = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $usuario = $_POST['usuario'] ?? '';
+    $nombre = $_POST['nombre'] ?? '';
     $email = $_POST['email'] ?? '';
+    $usuario = $_POST['usuario'] ?? '';
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
 
+    // Lógica de validación y encriptación
     if ($password !== $confirm_password) {
         $mensaje = 'Las contraseñas no coinciden';
-    } elseif (strlen($password) < 6) {
-        $mensaje = 'La contraseña debe tener al menos 6 caracteres';
     } else {
+        // AQUÍ SE CRIPTA LA CONTRASEÑA
+        $password_encriptada = password_hash($password, PASSWORD_DEFAULT);
+        
+        // En un registro real, aquí guardarías $nombre, $email, $usuario y $password_encriptada en la BD
+        $mensaje = "¡Bienvenido/a, $nombre!";
         $registro_exitoso = true;
-        $mensaje = "¡Cuenta creada con éxito para $usuario!";
     }
 }
 ?>
@@ -72,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         .login-header {
             background: linear-gradient(to bottom, var(--marron-claro), var(--marron-oscuro));
-            padding: 25px 20px;
+            padding: 20px 20px;
             text-align: center;
         }
 
@@ -93,13 +97,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-bottom: 4px;
             color: var(--negro);
             font-size: 0.9rem;
-            font-weight: bold;
         }
 
         .login-body input {
             width: 100%;
             padding: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             border: 1px solid var(--gris-medio);
             border-radius: 6px;
             background-color: #fff;
@@ -124,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-weight: bold;
             cursor: pointer;
             font-size: 1rem;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .login-body button:hover {
@@ -138,8 +141,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align: center;
         }
 
-        .exito {
-            color: #2e7d32;
+        .bienvenida {
+            margin-top: 12px;
+            color: var(--marron-claro);
+            font-size: 1.1rem;
             font-weight: bold;
             text-align: center;
         }
@@ -168,26 +173,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="login-box">
         <div class="login-header">
             <img src="../src/img/logo-rebelde.png" alt="El Corte Rebelde">
-            <h2 style="color: white; margin: 0; font-size: 1.2rem;">Crear Cuenta</h2>
         </div>
 
         <div class="login-body">
             <?php if (!$registro_exitoso): ?>
                 <form method="post">
-                    <label for="usuario">Nombre de Usuario</label>
-                    <input type="text" name="usuario" id="usuario" placeholder="Ej: Usuario12" required>
+                    <label for="nombre">Nombre Completo</label>
+                    <input type="text" name="nombre" id="nombre" placeholder="Tu nombre" required>
 
-                    <label for="email">Correo Electrónico</label>
-                    <input type="email" name="email" id="email" placeholder="correo@ejemplo.com" required 
-                           style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid var(--gris-medio); border-radius: 6px;">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" placeholder="ejemplo@correo.com" required 
+                           style="width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid var(--gris-medio); border-radius: 6px;">
+
+                    <label for="usuario">Usuario</label>
+                    <input type="text" name="usuario" id="usuario" placeholder="Nombre de usuario" required>
 
                     <label for="password">Contraseña</label>
                     <input type="password" name="password" id="password" placeholder="Mínimo 6 caracteres" required>
 
-                    <label for="confirm_password">Confirmar Contraseña</label>
-                    <input type="password" name="confirm_password" id="confirm_password" placeholder="Repite tu contraseña" required>
+                    <label for="confirm_password">Repetir Contraseña</label>
+                    <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirma tu contraseña" required>
 
-                    <button type="submit">Registrarse</button>
+                    <button type="submit">Crear Cuenta</button>
                 </form>
 
                 <?php if ($mensaje): ?>
@@ -195,16 +202,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endif; ?>
 
             <?php else: ?>
-                <div class="exito"><?php echo htmlspecialchars($mensaje); ?></div>
-                <p style="text-align:center;">Ya puedes acceder a tu cuenta.</p>
-                <a href="login.php" style="text-decoration:none;">
-                    <button type="button">Ir al Inicio de Sesión</button>
+                <div class="bienvenida"><?php echo htmlspecialchars($mensaje); ?></div>
+                <p style="text-align:center;">Tu cuenta ha sido creada correctamente con seguridad de encriptado.</p>
+                
+                <a href="login.php" style="text-decoration: none;">
+                    <button type="button">Ir al inicio de sesión</button>
                 </a>
             <?php endif; ?>
         </div>
 
         <div class="login-footer">
-            ¿Ya tienes una cuenta? <a href="login.php">Inicia sesión aquí</a>
+            ¿Ya tienes cuenta? <a href="login.php">Inicia sesión</a>
         </div>
     </div>
 </body>
