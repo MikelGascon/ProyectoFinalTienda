@@ -1,5 +1,4 @@
 <?php
-// --- LÓGICA PHP ---
 $filtros_data = [
     'categorias' => ['Hombre', 'Mujer', 'Unisex'],
     'tipos' => ['Camisetas', 'Pantalones', 'Chaquetas', 'Accesorios'],
@@ -208,7 +207,6 @@ $mostrar_productos = !empty($_GET);
     </main>
 
     <script>
-        // Actualización dinámica del texto del precio
         const range = document.getElementById('range-p');
         const label = document.getElementById('val-p');
         
