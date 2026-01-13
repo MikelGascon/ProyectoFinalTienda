@@ -28,31 +28,35 @@ $basePath = $basePath ?? "../src";
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <!-- Custom CSS -->
     <link href="<?php echo $basePath; ?>/Css/styles.css" rel="stylesheet">
 </head>
 
 <body>
     <?php if ($showBanner): ?>
-    <!-- Top Banner -->
-    <div class="top-banner bg-primary-custom text-white text-center py-2 position-relative small">
-        <span><?php echo htmlspecialchars($bannerText); ?></span>
-        <button type="button" class="btn-close btn-close-white btn-sm" aria-label="Close"></button>
-    </div>
+        <!-- Top Banner -->
+        <div id="topBanner" class="top-banner bg-primary-custom text-white text-center py-2 position-relative small">
+            <span><?php echo htmlspecialchars($bannerText); ?></span>
+            <button type="button" class="btn-close btn-close-white btn-sm" aria-label="Close"
+                onclick="document.getElementById('topBanner').style.display='none'"></button>
+        </div>
     <?php endif; ?>
 
     <!-- Header / Navbar -->
     <nav class="navbar navbar-expand-lg bg-white sticky-top shadow-sm py-3">
         <div class="container">
             <!-- Mobile Menu Button -->
-            <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+            <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#mobileMenu">
                 <i class="bi bi-list fs-4"></i>
             </button>
 
             <!-- Logo -->
             <a class="navbar-brand" href="index.php">
-                <img src="<?php echo $basePath; ?>/img/logo_rebelde.png" alt="Logo Rebelde" height="40" class="d-inline-block">
+                <img src="<?php echo $basePath; ?>/img/logo_rebelde.png" alt="Logo Rebelde" height="40"
+                    class="d-inline-block">
             </a>
 
             <!-- Desktop Navigation -->
@@ -72,12 +76,14 @@ $basePath = $basePath ?? "../src";
 
             <!-- Search Bar (Desktop) -->
             <form class="d-none d-lg-flex mx-3">
-                <input class="form-control search-box px-3 py-2" type="search" placeholder="Buscar..." aria-label="Buscar">
+                <input class="form-control search-box px-3 py-2" type="search" placeholder="Buscar..."
+                    aria-label="Buscar">
             </form>
 
             <!-- Icons -->
             <div class="d-flex align-items-center">
-                <a href="#" class="icon-btn text-decoration-none fs-5 ms-3 d-none d-lg-inline"><i class="bi bi-search"></i></a>
+                <a href="#" class="icon-btn text-decoration-none fs-5 ms-3 d-none d-lg-inline"><i
+                        class="bi bi-search"></i></a>
                 <a href="#" class="icon-btn text-decoration-none fs-5 ms-3"><i class="bi bi-cart2"></i></a>
                 <a href="#" class="icon-btn text-decoration-none fs-5 ms-3"><i class="bi bi-person"></i></a>
             </div>
