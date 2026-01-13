@@ -11,14 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
 
-    // Lógica de validación y encriptación
     if ($password !== $confirm_password) {
         $mensaje = 'Las contraseñas no coinciden';
     } else {
-        // AQUÍ SE CRIPTA LA CONTRASEÑA
         $password_encriptada = password_hash($password, PASSWORD_DEFAULT);
         
-        // En un registro real, aquí guardarías $nombre, $email, $usuario y $password_encriptada en la BD
         $mensaje = "¡Bienvenido/a, $nombre!";
         $registro_exitoso = true;
     }
