@@ -17,22 +17,22 @@ include '../src/components/header.php';
             <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
         </div>
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="d-flex align-items-center justify-content-start h-100 ps-5">
-                    <!-- Espacio para imagen de fondo -->
-                    <a href="#" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase">Comprar</a>
+            <div class="carousel-item active"
+                style="background-image: url('https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg'); background-size: cover; background-position: center;">
+                <div class="d-flex align-items-end justify-content-center h-100 pb-5">
+                    <a href="#" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Comprar</a>
                 </div>
             </div>
-            <div class="carousel-item">
-                <div class="d-flex align-items-center justify-content-start h-100 ps-5">
-                    <!-- Espacio para imagen de fondo -->
-                    <a href="#" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase">Comprar</a>
+            <div class="carousel-item"
+                style="background-image: url('https://images.pexels.com/photos/1639729/pexels-photo-1639729.jpeg'); background-size: cover; background-position: center;">
+                <div class="d-flex align-items-end justify-content-center h-100 pb-5">
+                    <a href="#" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Comprar</a>
                 </div>
             </div>
-            <div class="carousel-item">
-                <div class="d-flex align-items-center justify-content-start h-100 ps-5">
-                    <!-- Espacio para imagen de fondo -->
-                    <a href="#" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase">Comprar</a>
+            <div class="carousel-item"
+                style="background-image: url('https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg'); background-size: cover; background-position: center;">
+                <div class="d-flex align-items-end justify-content-center h-100 pb-5">
+                    <a href="#" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Comprar</a>
                 </div>
             </div>
         </div>
