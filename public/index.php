@@ -1,9 +1,10 @@
-<?php 
+<?php
 // Configuración inicial
 $siteName = "LOGO";
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,10 +14,12 @@ $siteName = "LOGO";
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <!-- Custom CSS -->
     <link href="../src/Css/styles.css" rel="stylesheet">
 </head>
+
 <body>
     <!-- Top Banner -->
     <div class="top-banner bg-primary-custom text-white text-center py-2 position-relative small">
@@ -28,15 +31,16 @@ $siteName = "LOGO";
     <nav class="navbar navbar-expand-lg bg-white sticky-top shadow-sm py-3">
         <div class="container">
             <!-- Mobile Menu Button -->
-            <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+            <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#mobileMenu">
                 <i class="bi bi-list fs-4"></i>
             </button>
-            
+
             <!-- Logo -->
             <a class="navbar-brand" href="">
                 <img src="../src/img/logo_rebelde.png" alt="Logo Rebelde" height="40" class="d-inline-block">
             </a>
-            
+
             <!-- Desktop Navigation -->
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav">
@@ -51,15 +55,17 @@ $siteName = "LOGO";
                     </li>
                 </ul>
             </div>
-            
+
             <!-- Search Bar (Desktop) -->
             <form class="d-none d-lg-flex mx-3">
-                <input class="form-control search-box px-3 py-2" type="search" placeholder="Buscar..." aria-label="Buscar">
+                <input class="form-control search-box px-3 py-2" type="search" placeholder="Buscar..."
+                    aria-label="Buscar">
             </form>
-            
+
             <!-- Icons -->
             <div class="d-flex align-items-center">
-                <a href="#" class="icon-btn text-decoration-none fs-5 ms-3 d-none d-lg-inline"><i class="bi bi-search"></i></a>
+                <a href="#" class="icon-btn text-decoration-none fs-5 ms-3 d-none d-lg-inline"><i
+                        class="bi bi-search"></i></a>
                 <a href="#" class="icon-btn text-decoration-none fs-5 ms-3"><i class="bi bi-cart2"></i></a>
                 <a href="#" class="icon-btn text-decoration-none fs-5 ms-3"><i class="bi bi-person"></i></a>
             </div>
@@ -125,14 +131,16 @@ $siteName = "LOGO";
     <section class="py-5">
         <div class="container">
             <h2 class="fw-bold text-uppercase mb-4">NUEVO</h2>
-            
+
             <!-- Contenedor con flechas fuera -->
             <div class="new-products-section position-relative px-5">
                 <!-- Flecha izquierda -->
-                <button class="carousel-arrow prev position-absolute top-50 start-0 translate-middle-y bg-transparent border-0 fs-3" type="button" data-bs-target="#newProductsCarousel" data-bs-slide="prev">
+                <button
+                    class="carousel-arrow prev position-absolute top-50 start-0 translate-middle-y bg-transparent border-0 fs-3"
+                    type="button" data-bs-target="#newProductsCarousel" data-bs-slide="prev">
                     <i class="bi bi-arrow-left"></i>
                 </button>
-                
+
                 <!-- Carrusel -->
                 <div id="newProductsCarousel" class="carousel slide" data-bs-ride="false">
                     <div class="carousel-inner">
@@ -176,9 +184,11 @@ $siteName = "LOGO";
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Flecha derecha -->
-                <button class="carousel-arrow next position-absolute top-50 end-0 translate-middle-y bg-transparent border-0 fs-3" type="button" data-bs-target="#newProductsCarousel" data-bs-slide="next">
+                <button
+                    class="carousel-arrow next position-absolute top-50 end-0 translate-middle-y bg-transparent border-0 fs-3"
+                    type="button" data-bs-target="#newProductsCarousel" data-bs-slide="next">
                     <i class="bi bi-arrow-right"></i>
                 </button>
             </div>
@@ -232,7 +242,8 @@ $siteName = "LOGO";
             <div class="row g-4">
                 <div class="col-6 col-md-4">
                     <div class="text-center">
-                        <div class="photo-placeholder d-flex align-items-center justify-content-center text-white fw-semibold rounded-3 mb-3">
+                        <div
+                            class="photo-placeholder d-flex align-items-center justify-content-center text-white fw-semibold rounded-3 mb-3">
                             FOTO
                         </div>
                         <h6 class="fw-normal mb-1">Nombre producto</h6>
@@ -241,7 +252,8 @@ $siteName = "LOGO";
                 </div>
                 <div class="col-6 col-md-4">
                     <div class="text-center">
-                        <div class="photo-placeholder d-flex align-items-center justify-content-center text-white fw-semibold rounded-3 mb-3">
+                        <div
+                            class="photo-placeholder d-flex align-items-center justify-content-center text-white fw-semibold rounded-3 mb-3">
                             FOTO
                         </div>
                         <h6 class="fw-normal mb-1">Nombre producto</h6>
@@ -250,7 +262,8 @@ $siteName = "LOGO";
                 </div>
                 <div class="col-6 col-md-4">
                     <div class="text-center">
-                        <div class="photo-placeholder d-flex align-items-center justify-content-center text-white fw-semibold rounded-3 mb-3">
+                        <div
+                            class="photo-placeholder d-flex align-items-center justify-content-center text-white fw-semibold rounded-3 mb-3">
                             FOTO
                         </div>
                         <h6 class="fw-normal mb-1">Nombre producto</h6>
@@ -288,9 +301,7 @@ $siteName = "LOGO";
                 <!-- Logo & Social -->
                 <div class="col-12 col-lg-3 mb-4">
                     <div class="mb-3">
-                        <div class="logo-placeholder logo-placeholder-lg d-inline-flex align-items-center justify-content-center rounded">
-                            <!-- Espacio para logo -->
-                        </div>
+                        <img src="../src/img/logo_rebelde.png" alt="Logo Rebelde" height="40" class="d-inline-block">
                     </div>
                     <div class="social-icons">
                         <a href="#" class="text-dark text-decoration-none fs-5 me-3"><i class="bi bi-twitter-x"></i></a>
@@ -299,46 +310,62 @@ $siteName = "LOGO";
                         <a href="#" class="text-dark text-decoration-none fs-5 me-3"><i class="bi bi-linkedin"></i></a>
                     </div>
                 </div>
-                
+
                 <!-- Use Cases -->
                 <div class="col-6 col-md-4 col-lg-3 mb-4">
                     <h6 class="fw-semibold small mb-3">Use cases</h6>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">UI design</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">UX design</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Wireframing</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Diagramming</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Brainstorming</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Online whiteboard</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Team collaboration</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">UI design</a>
+                        </li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">UX design</a>
+                        </li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Wireframing</a>
+                        </li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Diagramming</a>
+                        </li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Brainstorming</a>
+                        </li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Online
+                                whiteboard</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Team
+                                collaboration</a></li>
                     </ul>
                 </div>
-                
+
                 <!-- Explore -->
                 <div class="col-6 col-md-4 col-lg-3 mb-4">
                     <h6 class="fw-semibold small mb-3">Explore</h6>
                     <ul class="list-unstyled">
                         <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Design</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Prototyping</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Development features</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Design systems</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Collaboration features</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Design process</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Prototyping</a>
+                        </li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Development
+                                features</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Design
+                                systems</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Collaboration
+                                features</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Design
+                                process</a></li>
                         <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">FigJam</a></li>
                     </ul>
                 </div>
-                
+
                 <!-- Resources -->
                 <div class="col-6 col-md-4 col-lg-3 mb-4">
                     <h6 class="fw-semibold small mb-3">Resources</h6>
                     <ul class="list-unstyled">
                         <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Blog</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Best practices</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Best
+                                practices</a></li>
                         <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Colors</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Color wheel</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Color wheel</a>
+                        </li>
                         <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Support</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Developers</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Resource library</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Developers</a>
+                        </li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Resource
+                                library</a></li>
                     </ul>
                 </div>
             </div>
@@ -347,12 +374,13 @@ $siteName = "LOGO";
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <script>
         // Close top banner
-        document.querySelector('.top-banner .btn-close')?.addEventListener('click', function() {
+        document.querySelector('.top-banner .btn-close')?.addEventListener('click', function () {
             document.querySelector('.top-banner').style.display = 'none';
         });
     </script>
 </body>
+
 </html>
