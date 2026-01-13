@@ -1,9 +1,15 @@
 <?php
 session_start();
 
+if (isset($_POST['logout'])) {
+    session_destroy();
+    header("Location: login.php");
+    exit;
+}
+
 $mensaje = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['logout'])) {
     $usuario_valido = 'cliente';
     $password_valida = 'ropa123';
 
@@ -191,14 +197,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <button type="submit" name="logout">Cerrar sesión</button>
                 </form>
             <?php endif; ?>
-
-            <?php
-            if (isset($_POST['logout'])) {
-                session_destroy();
-                header("Location: login.php");
-                exit;
-            }
-            ?>
         </div>
 
         <div class="login-footer">
