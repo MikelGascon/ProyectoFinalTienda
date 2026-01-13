@@ -1,5 +1,4 @@
 <?php
-// 1. CONEXIÓN A LA BASE DE DATOS
 $host = "localhost";
 $user = "root";
 $pass = "root";
@@ -7,13 +6,11 @@ $db   = "app_tienda";
 
 $conexion = new mysqli($host, $user, $pass, $db);
 
-// Verificar conexión
 if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
 }
 
-// 2. LÓGICA DE FILTROS SQL
-$sql = "SELECT * FROM productos WHERE 1=1"; // "1=1" facilita añadir "AND" dinámicamente
+$sql = "SELECT * FROM productos WHERE 1=1"; 
 
 if (!empty($_GET['categoria'])) {
     $categoria = $conexion->real_escape_string($_GET['categoria']);
@@ -40,10 +37,8 @@ if (!empty($_GET['material'])) {
     $sql .= " AND material = '$material'";
 }
 
-// Ejecutar consulta
 $resultado = $conexion->query($sql);
 
-// Datos para los selectores (esto también podría venir de la BD)
 $filtros_data = [
     'categorias' => ['Hombre', 'Mujer', 'Unisex'],
     'tipos' => ['Camisetas', 'Pantalones', 'Chaquetas', 'Accesorios'],
