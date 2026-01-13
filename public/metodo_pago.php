@@ -7,9 +7,11 @@ $errores = [];
 $metodo = $_POST['metodo'] ?? '';
 $titular = $_POST['titular'] ?? '';
 $numero = $_POST['numero'] ?? '';
-$fecha = $_POST['fecha'] ?? '';
+$mes = $_POST['mes'] ?? '';
+$anio = $_POST['anio'] ?? '';
 $cvv = $_POST['cvv'] ?? '';
 $paypal = $_POST['paypal'] ?? '';
+$pass_paypal = $_POST['pass_paypal'] ?? '';
 $banco = $_POST['banco'] ?? '';
 $iban = $_POST['iban'] ?? '';
 
@@ -31,9 +33,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
             $errores[] = "El número de tarjeta debe tener exactamente 12 dígitos.";
         }
 
-        $mes_actual = date("Y-m");
-        if ($fecha < $mes_actual) {
-            $errores[] = "La fecha de expiración no puede ser anterior al mes actual.";
+        if ($mes === '' || !preg_match('/^[0-9]{2}$/', $mes) || (int)$mes < 1 || (int)$mes > 12) {
+            $errores[] = "Introduce un mes válido (01-12).";
+        }
+
+        if ($anio === '' || !preg_match('/^[0-9]{2}$/', $anio)) {
+            $errores[] = "Introduce un año válido (dos dígitos).";
+        }
+
+        if (empty($errores)) {
+            $fechaIngresada = "20$anio-$mes";
+            $fechaActual = date("Y-m");
+
+            if ($fechaIngresada < $fechaActual) {
+                $errores[] = "La fecha de expiración no puede ser anterior al mes actual.";
+            }
         }
 
         if (!preg_match('/^[0-9]{3}$/', $cvv)) {
@@ -44,6 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
 
         if (!filter_var($paypal, FILTER_VALIDATE_EMAIL)) {
             $errores[] = "Introduce un correo válido para PayPal.";
+        }
+
+        if ($pass_paypal === '') {
+            $errores[] = "Introduce la contraseña de PayPal.";
         }
 
     } elseif ($metodo === 'transferencia') {
@@ -69,6 +87,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
 <head>
     <meta charset="UTF-8">
     <title>Método de Pago</title>
+
+    <!-- Iconos Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
         :root {
@@ -135,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
             border-radius: 6px;
             background-color: #fff;
             font-size: 1rem;
-            box-sizing: border-box; /* 🔥 Justificación perfecta */
+            box-sizing: border-box;
         }
 
         input:focus, select:focus {
@@ -178,6 +199,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
             text-decoration: underline;
             font-weight: bold;
         }
+
+        .fila {
+            display: flex;
+            gap: 12px;
+        }
+
+        .campo-mini, .campo-fecha {
+            width: 33%;
+        }
+
+        .input-icono {
+            position: relative;
+        }
+
+        .input-icono i {
+            position: absolute;
+            left: 12px;
+            top: 35%;
+            transform: translateY(-50%);
+            color: var(--gris-medio);
+            font-size: 1rem;
+            pointer-events: none;
+        }
+
+        .input-icono input,
+        .input-icono select {
+            padding-left: 40px;
+        }
     </style>
 </head>
 
@@ -198,21 +247,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
 
             <?php if ($metodo === 'tarjeta'): ?>
                 <label for="titular">Titular de la tarjeta</label>
-                <input type="text" name="titular" value="<?= htmlspecialchars($titular) ?>">
+                <div class="input-icono">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" name="titular" value="<?= htmlspecialchars($titular) ?>">
+                </div>
 
                 <label for="numero">Número de tarjeta</label>
-                <input type="text" name="numero" maxlength="12" value="<?= htmlspecialchars($numero) ?>">
+                <div class="input-icono">
+                    <i class="fa-solid fa-credit-card"></i>
+                    <input type="text" name="numero" maxlength="12" value="<?= htmlspecialchars($numero) ?>">
+                </div>
 
-                <label for="fecha">Fecha de expiración</label>
-                <input type="month" name="fecha" value="<?= htmlspecialchars($fecha) ?>">
+                <label>Fecha de expiración y CVV</label>
+                <div class="fila">
 
-                <label for="cvv">CVV</label>
-                <input type="password" name="cvv" maxlength="3" value="<?= htmlspecialchars($cvv) ?>">
+                    <div class="input-icono campo-fecha">
+                        <i class="fa-solid fa-calendar"></i>
+                        <input list="meses" name="mes" maxlength="2" placeholder="MM" value="<?= htmlspecialchars($mes) ?>">
+                        <datalist id="meses">
+                            <?php
+                            for ($m = 1; $m <= 12; $m++) {
+                                $mm = str_pad($m, 2, "0", STR_PAD_LEFT);
+                                echo "<option value='$mm'></option>";
+                            }
+                            ?>
+                        </datalist>
+                    </div>
+
+                    <div class="input-icono campo-fecha">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <input list="anios" name="anio" maxlength="2" placeholder="YY" value="<?= htmlspecialchars($anio) ?>">
+                        <datalist id="anios">
+                            <?php
+                            $anioActual = (int)date("y");
+                            for ($a = $anioActual; $a <= $anioActual + 15; $a++) {
+                                $aa = str_pad($a, 2, "0", STR_PAD_LEFT);
+                                echo "<option value='$aa'></option>";
+                            }
+                            ?>
+                        </datalist>
+                    </div>
+
+                    <div class="input-icono campo-mini">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" name="cvv" maxlength="3" placeholder="CVV" value="<?= htmlspecialchars($cvv) ?>">
+                    </div>
+
+                </div>
             <?php endif; ?>
 
             <?php if ($metodo === 'paypal'): ?>
                 <label for="paypal">Correo de PayPal</label>
-                <input type="email" name="paypal" value="<?= htmlspecialchars($paypal) ?>">
+                <div class="input-icono">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" name="paypal" value="<?= htmlspecialchars($paypal) ?>">
+                </div>
+
+                <label for="pass_paypal">Contraseña de PayPal</label>
+                <div class="input-icono">
+                    <i class="fa-solid fa-key"></i>
+                    <input type="password" name="pass_paypal">
+                </div>
             <?php endif; ?>
 
             <?php if ($metodo === 'transferencia'): ?>
