@@ -5,19 +5,16 @@ $mensaje = '';
 $registro_exitoso = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // En un sistema real, aquí conectarías a la base de datos
     $usuario = $_POST['usuario'] ?? '';
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
 
-    // Lógica básica de validación
     if ($password !== $confirm_password) {
         $mensaje = 'Las contraseñas no coinciden';
     } elseif (strlen($password) < 6) {
         $mensaje = 'La contraseña debe tener al menos 6 caracteres';
     } else {
-        // Aquí iría la inserción en la base de datos (INSERT INTO...)
         $registro_exitoso = true;
         $mensaje = "¡Cuenta creada con éxito para $usuario!";
     }
