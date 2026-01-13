@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 $pageTitle = "Tienda Online - Inicio";
 $bannerText = "20% OFF EN COLECCIÓN DE INVIERNO";
@@ -210,3 +211,30 @@ include '../src/components/header.php';
 // Incluir footer
 include '../src/components/footer.php';
 ?>
+=======
+<?php 
+// index.php
+
+// Cargamos la conexión desde el bootstrap
+$conn = require_once '../src/BDD/bootstrap.php';
+
+echo "<h1>Index de la aplicación</h1>";
+
+try {
+    // Obtenemos la conexión de Doctrine desde el EntityManager
+    $conn = $entityManager->getConnection();
+    
+    // Intentamos conectar activamente
+    $conn->connect();
+
+    if ($conn->isConnected()) {
+        echo "<p style='color: green;'> Conexión establecida correctamente vía Doctrine.</p>";
+        echo "<ul>
+                <li><strong>Base de datos:</strong> {$conn->getDatabase()}</li>
+                <li><strong>Driver:</strong> " . get_class($conn->getDriver()) . "</li>
+              </ul>";
+    }
+} catch (\Exception $e) {
+    echo "<p style='color: red;'> Error al conectar: " . $e->getMessage() . "</p>";
+}
+>>>>>>> abe94a2cec83679dd7d83baf074595962b2d050e
