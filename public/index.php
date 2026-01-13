@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 $pageTitle = "Tienda Online - Inicio";
 $bannerText = "20% OFF EN COLECCIÓN DE INVIERNO";
@@ -25,13 +24,13 @@ include '../src/components/header.php';
                 </div>
             </div>
             <div class="carousel-item"
-                style="background-image: url('https://images.pexels.com/photos/1639729/pexels-photo-1639729.jpeg'); background-size: cover; background-position: center;">
+                style="background-image: url('https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg'); background-size: cover; background-position: center;">
                 <div class="d-flex align-items-end justify-content-center h-100 pb-5">
                     <a href="#" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Comprar</a>
                 </div>
             </div>
             <div class="carousel-item"
-                style="background-image: url('https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg'); background-size: cover; background-position: center;">
+                style="background-image: url('https://images.pexels.com/photos/1488463/pexels-photo-1488463.jpeg'); background-size: cover; background-position: center;">
                 <div class="d-flex align-items-end justify-content-center h-100 pb-5">
                     <a href="#" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Comprar</a>
                 </div>
@@ -206,35 +205,3 @@ include '../src/components/header.php';
         </div>
     </div>
 </section>
-
-<?php
-// Incluir footer
-include '../src/components/footer.php';
-?>
-=======
-<?php 
-// index.php
-
-// Cargamos la conexión desde el bootstrap
-$conn = require_once '../src/BDD/bootstrap.php';
-
-echo "<h1>Index de la aplicación</h1>";
-
-try {
-    // Obtenemos la conexión de Doctrine desde el EntityManager
-    $conn = $entityManager->getConnection();
-    
-    // Intentamos conectar activamente
-    $conn->connect();
-
-    if ($conn->isConnected()) {
-        echo "<p style='color: green;'> Conexión establecida correctamente vía Doctrine.</p>";
-        echo "<ul>
-                <li><strong>Base de datos:</strong> {$conn->getDatabase()}</li>
-                <li><strong>Driver:</strong> " . get_class($conn->getDriver()) . "</li>
-              </ul>";
-    }
-} catch (\Exception $e) {
-    echo "<p style='color: red;'> Error al conectar: " . $e->getMessage() . "</p>";
-}
->>>>>>> abe94a2cec83679dd7d83baf074595962b2d050e
