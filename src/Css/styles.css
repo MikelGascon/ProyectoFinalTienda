@@ -1,0 +1,111 @@
+:root {
+    --color-primary: #b8a67e;        
+    --color-primary-hover: #a08f6a;  
+    --color-dark: #1a1a1a;          
+    --color-placeholder: #e0e0e0;    
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* COLORES PERSONALIZADOS */
+.bg-primary-custom,
+.shipping-banner,
+.category-card,
+.photo-placeholder {
+    background-color: var(--color-primary);
+}
+
+/* TOP BANNER */
+.top-banner .btn-close {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    filter: brightness(0) invert(1);
+}
+
+/* NAVBAR */
+.nav-link {
+    color: var(--color-dark) !important;
+}
+
+.nav-link:hover,
+.icon-btn:hover,
+.text-nav span:hover,
+.social-icons a:hover,
+.footer-links a:hover {
+    color: var(--color-primary) !important;
+}
+
+/* BARRA DE BUSQUEDA */
+.search-box {
+    border-radius: 25px;
+    min-width: 250px;
+}
+
+.search-box:focus {
+    box-shadow: none;
+    border-color: var(--color-primary);
+}
+
+/* PLACEHOLDERS */
+.logo-placeholder {
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-placeholder);
+}
+
+.logo-placeholder-lg {
+    width: 50px;
+    height: 50px;
+}
+
+.product-placeholder {
+    aspect-ratio: 3/4;
+}
+
+.photo-placeholder,
+.category-card {
+    aspect-ratio: 1/1;
+}
+
+/* HERO SLIDER */
+.hero-slider .carousel-item {
+    height: 400px;
+}
+
+/* BOTÓN "Comprar" */
+.btn-comprar {
+    background-color: var(--color-primary);
+    border-radius: 25px;
+}
+
+.btn-comprar:hover {
+    background-color: var(--color-primary-hover);
+    color: white;
+}
+
+/* FLECHAS CARRUSEL */
+.carousel-arrow:hover {
+    color: var(--color-primary);
+}
+
+/* ELEMENTOS CON COLOR PRIMARIO */
+.dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-primary);
+}
+
+.brand-logo:hover {
+    border-color: var(--color-primary) !important;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .hero-slider .carousel-item {
+        height: 300px;
+    }
+}
