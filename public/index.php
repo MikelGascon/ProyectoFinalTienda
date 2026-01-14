@@ -23,6 +23,7 @@ include '../src/components/header.php';
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
+    <!-- Links necesarios para BootsTrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
@@ -46,19 +47,19 @@ include '../src/components/header.php';
                 <div class="carousel-item active"
                     style="background-image: url('https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg'); background-size: cover; background-position: center;">
                     <div class="d-flex align-items-end justify-content-center h-100 pb-5">
-                        <a href="#" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Comprar</a>
+                        <a href="filtro.php" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Comprar</a>
                     </div>
                 </div>
                 <div class="carousel-item"
                     style="background-image: url('https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg'); background-size: cover; background-position: center;">
                     <div class="d-flex align-items-end justify-content-center h-100 pb-5">
-                        <a href="#" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Comprar</a>
+                        <a href="filtro.php" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Comprar</a>
                     </div>
                 </div>
                 <div class="carousel-item"
                     style="background-image: url('https://images.pexels.com/photos/1488463/pexels-photo-1488463.jpeg'); background-size: cover; background-position: center;">
                     <div class="d-flex align-items-end justify-content-center h-100 pb-5">
-                        <a href="#" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Comprar</a>
+                        <a href="filtro.php" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Comprar</a>
                     </div>
                 </div>
             </div>
