@@ -1,5 +1,5 @@
 <?php
-echo "El directorio de este archivo es: " . dirname(__FILE__) . "\n";
+
 
 require_once '../vendor/autoload.php';
 
