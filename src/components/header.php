@@ -37,6 +37,8 @@ $basePath = $basePath ?? "../src";
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
+
+        
     <!-- Custom CSS -->
     <link href="<?php echo $basePath; ?>/Css/styles.css" rel="stylesheet">
 </head>
@@ -52,7 +54,7 @@ $basePath = $basePath ?? "../src";
     <?php endif; ?>
 
     <!-- Header / Navbar -->
-    <nav class="navbar navbar-expand-lg bg-white sticky-top shadow-sm py-3">
+    <nav class="navbar navbar-expand-lg bg-white sticky-top shadow-sm py-3 opacidad">
         <div class="container">
             <!-- Menú hamburguesa -->
             <button class="btn border-0 me-2 p-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
@@ -73,13 +75,19 @@ $basePath = $basePath ?? "../src";
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link fw-medium mx-2" href="#">INICIO</a>
+                        <a class="nav-link fw-medium mx-2" href="index.php">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fw-medium mx-2" href="#">TEXTO</a>
+                        <a class="nav-link fw-medium mx-2" href="#">Mujer</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fw-medium mx-2" href="#">TEXTO</a>
+                        <a class="nav-link fw-medium mx-2" href="#">Hombre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-medium mx-2" href="#">Niños</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-medium mx-2" href="nosotros.php">Sobre nosotros</a>
                     </li>
                 </ul>
             </div>
@@ -125,6 +133,7 @@ $basePath = $basePath ?? "../src";
             </ul>
         </div>
     </div>
+
 </body>
 
 </html>

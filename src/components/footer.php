@@ -12,6 +12,7 @@ $basePath = $basePath ?? "../src";
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,53 +32,44 @@ $basePath = $basePath ?? "../src";
                             class="d-inline-block">
                     </div>
                     <div class="social-icons">
-                        <a href="#" class="text-dark text-decoration-none fs-5 me-3"><i class="bi bi-twitter-x"></i></a>
-                        <a href="#" class="text-dark text-decoration-none fs-5 me-3"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-dark text-decoration-none fs-5 me-3"><i class="bi bi-youtube"></i></a>
-                        <a href="#" class="text-dark text-decoration-none fs-5 me-3"><i class="bi bi-linkedin"></i></a>
+                        <a href="https://x.com/" class="text-dark text-decoration-none fs-5 me-3"><i
+                                class="bi bi-twitter-x"></i></a>
+                        <a href="https://www.instagram.com/" class="text-dark text-decoration-none fs-5 me-3"><i
+                                class="bi bi-instagram"></i></a>
+                        <a href="https://www.youtube.com/" class="text-dark text-decoration-none fs-5 me-3"><i
+                                class="bi bi-youtube"></i></a>
+                        <a href="https://es.linkedin.com/" class="text-dark text-decoration-none fs-5 me-3"><i
+                                class="bi bi-linkedin"></i></a>
                     </div>
                 </div>
 
                 <!-- Use Cases -->
                 <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <h6 class="fw-semibold small mb-3">Use cases</h6>
+                    <h6 class="fw-semibold small mb-3">Ayuda</h6>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">UI design</a>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Preguntas
+                                frecuentes</a>
                         </li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">UX design</a>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Tramitar
+                                devolucion</a>
                         </li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Wireframing</a>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Servicios de la
+                                tienda</a>
                         </li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Diagramming</a>
-                        </li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Brainstorming</a>
-                        </li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Online
-                                whiteboard</a>
-                        </li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Team
-                                collaboration</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Tarjeta de
+                                regalo</a>
                     </ul>
                 </div>
 
                 <!-- Explore -->
                 <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <h6 class="fw-semibold small mb-3">Explore</h6>
+                    <h6 class="fw-semibold small mb-3">Empresa</h6>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Design</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Prototyping</a>
+                        <li class="mb-2"><a href="../public/nosotros.php" class="text-secondary text-decoration-none small">Quienes somos</a>
                         </li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Development
-                                features</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Design
-                                systems</a>
+                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Trabaja con
+                                nosotros</a>
                         </li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Collaboration
-                                features</a></li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Design
-                                process</a>
-                        </li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">FigJam</a></li>
                     </ul>
                 </div>
 
@@ -100,6 +92,11 @@ $basePath = $basePath ?? "../src";
                         </li>
                     </ul>
                 </div>
+            </div>
+
+            <!-- Añadir el eslogan de CopyRight-->
+            <div>
+                CopyRight - Todos los derechos reservador a CorteRebelde
             </div>
         </div>
     </footer>

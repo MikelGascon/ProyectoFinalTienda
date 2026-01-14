@@ -203,7 +203,7 @@ include '../src/components/header.php';
 
 <body>
 
-    <div>
+    <div style="display: flex;">
 
         <aside class="sidebar">
             <form method="GET" action="">
@@ -267,6 +267,13 @@ include '../src/components/header.php';
                             <div style="font-size:0.7rem; color:#999;"><?php echo $prod['color']; ?> |
                                 <?php echo $prod['categoria']; ?>
                             </div>
+
+                            <!-- 
+                            Creacion de las nueva pagina, ademas de el añadir a carrito
+                            Estilos, de prueba
+                            -->
+                            <a href="detalles.php" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Detalles...</a>
+                            <a href="filtro.php" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Añadir</a>
                         </div>
                     <?php endwhile; ?>
                 <?php else: ?>

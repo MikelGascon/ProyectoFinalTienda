@@ -200,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['logout'])) {
         </div>
 
         <div class="login-footer">
-            ¿Nuevo en la tienda? <a href="#">Crear cuenta</a>
+            ¿Nuevo en la tienda? <a href="registro.php">Crear cuenta</a>
         </div>
     </div>
 </body>

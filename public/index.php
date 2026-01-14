@@ -239,6 +239,15 @@ include '../src/components/header.php';
         </div>
     </section>
 
+    <!-- Comentarios-->
+
+    <!--
+    Crear un div, mas que muestre un panel de poder poner comentarios de los usuarios, Se mostraran los detalles de las  
+    valoraciones, en una pagina diferente
+    
+    -->
+
+
  <?php include "../src/components/footer.php"?>
 </body>
 
