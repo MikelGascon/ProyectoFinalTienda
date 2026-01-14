@@ -1,5 +1,5 @@
 <?php
-$pageTitle = "Tienda Online - Inicio";
+$pageTitle = "El Corte Rebelde";
 $bannerText = "20% OFF EN COLECCIÓN DE INVIERNO";
 $showBanner = true;
 $basePath = "../src";
