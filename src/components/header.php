@@ -52,7 +52,7 @@ $basePath = $basePath ?? "../src";
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link fw-medium mx-2" href="#">TEXTO</a>
+                        <a class="nav-link fw-medium mx-2" href="#">INICIO</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link fw-medium mx-2" href="#">TEXTO</a>
