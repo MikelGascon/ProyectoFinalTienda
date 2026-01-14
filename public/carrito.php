@@ -1,6 +1,6 @@
 <?php
 session_start();
-$showBanner = false; // Evita el warning en header.php
+$showBanner = false; 
 ?>
 
 <!DOCTYPE html>
