@@ -164,6 +164,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['logout'])) {
             text-decoration: underline;
             font-weight: bold;
         }
+
+        .login-body input[type="text"],
+        .login-body input[type="password"] {
+            box-sizing: border-box;
+        }
+
     </style>
 </head>
 
