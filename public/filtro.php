@@ -15,11 +15,31 @@ $sql = "SELECT * FROM productos WHERE 1=1";
 if (!empty($_GET['categoria'])) {
     $categoria = $conexion->real_escape_string($_GET['categoria']);
     $sql .= " AND categoria = '$categoria'";
+    
+// 2. CONSULTA SQL CON INNER JOIN Y LEFT JOIN
+$sql = "SELECT p.*, c.nombre AS nombre_categoria, t.nombre AS nombre_tipo, m.nombre AS nombre_marca
+        FROM productos p
+        INNER JOIN categoriaSexo c ON p.categoriaId = c.id
+        INNER JOIN tipoRopa t ON p.tipo_ropaId = t.id
+        LEFT JOIN marcas m ON p.marcaId = m.id
+        WHERE 1=1";
+}
+
+// 3. FILTROS DINÁMICOS
+if (!empty($_GET['marca'])) {
+    $marca = $conexion->real_escape_string($_GET['marca']);
+    $sql .= " AND m.nombre = '$marca'";
+}
+
+if (!empty($_GET['categoria'])) {
+    $categoria = $conexion->real_escape_string($_GET['categoria']);
+    $sql .= " AND c.nombre = '$categoria'";
 }
 
 if (!empty($_GET['tipo'])) {
     $tipo = $conexion->real_escape_string($_GET['tipo']);
     $sql .= " AND tipo_ropa = '$tipo'";
+    $sql .= " AND t.nombre = '$tipo'";
 }
 
 if (!empty($_GET['color'])) {
@@ -35,6 +55,12 @@ if (!empty($_GET['precio'])) {
 if (!empty($_GET['material'])) {
     $material = $conexion->real_escape_string($_GET['material']);
     $sql .= " AND material = '$material'";
+    $sql .= " AND p.color = '$color'";
+}
+
+if (!empty($_GET['precio'])) {
+    $precio_max = (float)$_GET['precio'];
+    $sql .= " AND p.precio <= $precio_max";
 }
 
 $resultado = $conexion->query($sql);
