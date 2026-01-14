@@ -222,12 +222,12 @@ include '../src/components/header.php';
     <!-- Brand Logos -->
     <section class="py-5">
         <div class="container">
-            <div class="d-flex flex-wrap justify-content-center gap-3">
-                <div class="brand-logo border rounded px-4 py-3 fw-medium text-uppercase small">LOGO MARCA</div>
-                <div class="brand-logo border rounded px-4 py-3 fw-medium text-uppercase small">LOGO MARCA</div>
-                <div class="brand-logo border rounded px-4 py-3 fw-medium text-uppercase small">LOGO MARCA</div>
-                <div class="brand-logo border rounded px-4 py-3 fw-medium text-uppercase small">LOGO MARCA</div>
-                <div class="brand-logo border rounded px-4 py-3 fw-medium text-uppercase small">LOGO MARCA</div>
+            <div class="d-flex flex-wrap justify-content-center gap-5">
+                <div class="brand-logo"><img src="../src/img/logo_dior.png" alt="dior"></div>
+                <div class="brand-logo"><img src="../src/img/logo_gucci.png" alt="gucci"></div>
+                <div class="brand-logo"><img src="../src/img/logo_loius.png" alt="loius"></div>
+                <div class="brand-logo"><img src="../src/img/logo_moncler.png" alt="moncler"></div>
+                <div class="brand-logo"><img src="../src/img/logo_versace.png" alt="versace"></div>
             </div>
         </div>
     </section>

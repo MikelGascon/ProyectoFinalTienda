@@ -103,6 +103,18 @@
     border-color: var(--color-primary) !important;
 }
 
+.brand-logo {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-logo img {
+    height: 40%;
+    width: auto;
+    object-fit: contain;
+}
 /* RESPONSIVE */
 @media (max-width: 768px) {
     .hero-slider .carousel-item {
