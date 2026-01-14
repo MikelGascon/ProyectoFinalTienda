@@ -233,7 +233,7 @@ include '../src/components/header.php';
         </div>
     </section>
 
-
+ <?php include "../src/components/footer.php"?>
 </body>
 
 </html>

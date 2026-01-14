@@ -90,8 +90,10 @@ $basePath = $basePath ?? "../src";
             <div class="d-flex align-items-center">
                 <a href="#" class="icon-btn text-decoration-none fs-5 ms-3 d-none d-lg-inline"><i
                         class="bi bi-search"></i></a>
-                <a href="../public/carrito.php" class="icon-btn text-decoration-none fs-5 ms-3"><i class="bi bi-cart2"></i></a>
-                <a href="../public/login.php" class="icon-btn text-decoration-none fs-5 ms-3"><i class="bi bi-person"></i></a>
+                <a href="../public/carrito.php" class="icon-btn text-decoration-none fs-5 ms-3"><i
+                        class="bi bi-cart2"></i></a>
+                <a href="../public/login.php" class="icon-btn text-decoration-none fs-5 ms-3"><i
+                        class="bi bi-person"></i></a>
             </div>
         </div>
     </nav>
@@ -119,3 +121,6 @@ $basePath = $basePath ?? "../src";
             </ul>
         </div>
     </div>
+</body>
+
+</html>
