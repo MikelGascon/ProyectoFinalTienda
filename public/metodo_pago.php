@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
             left: -50%;
             width: 200%;
             height: 200%;
-            background-image: url('../src/img/logo-rebelde.png');
+            background-image: url('../src/img/logo_rebelde.png');
             background-repeat: repeat;
             background-size: 140px;
             opacity: 0.08;

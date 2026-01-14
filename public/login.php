@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['logout'])) {
             left: -50%;
             width: 200%;
             height: 200%;
-            background-image: url('../src/img/logo-rebelde.png');
+            background-image: url('../src/img/logo_rebelde.png');
             background-repeat: repeat;
             background-size: 140px;
             opacity: 0.08;
@@ -170,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['logout'])) {
 <body>
     <div class="login-box">
         <div class="login-header">
-            <img src="../src/img/logo-rebelde.png" alt="El Corte Rebelde">
+            <img src="../src/img/logo_rebelde.png" alt="El Corte Rebelde">
         </div>
 
         <div class="login-body">
