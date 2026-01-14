@@ -1,5 +1,5 @@
 <?php
-$pageTitle = "Tienda Online - Inicio";
+$pageTitle = "El Corte Rebelde";
 $bannerText = "20% OFF EN COLECCIÓN DE INVIERNO";
 $showBanner = true;
 $basePath = "../src";
@@ -86,18 +86,18 @@ include '../src/components/header.php';
                         <div class="carousel-item active">
                             <div class="row g-3 g-md-4">
                                 <div class="col-4">
-                                    <div class="product-placeholder bg-secondary-subtle rounded-3">
-                                        <!-- Espacio para foto producto -->
+                                    <div class="product-placeholder rounded-3"
+                                        style="background-image: url('https://images.pexels.com/photos/1055691/pexels-photo-1055691.jpeg'); background-size: cover; background-position: center;">
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <div class="product-placeholder bg-secondary-subtle rounded-3">
-                                        <!-- Espacio para foto producto -->
+                                    <div class="product-placeholder rounded-3"
+                                        style="background-image: url('https://images.pexels.com/photos/27308637/pexels-photo-27308637.png'); background-size: cover; background-position: center;">
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <div class="product-placeholder bg-secondary-subtle rounded-3">
-                                        <!-- Espacio para foto producto -->
+                                    <div class="product-placeholder rounded-3"
+                                        style="background-image: url('https://images.pexels.com/photos/27230001/pexels-photo-27230001.png'); background-size: cover; background-position: center;">
                                     </div>
                                 </div>
                             </div>
@@ -105,18 +105,18 @@ include '../src/components/header.php';
                         <div class="carousel-item">
                             <div class="row g-3 g-md-4">
                                 <div class="col-4">
-                                    <div class="product-placeholder bg-secondary-subtle rounded-3">
-                                        <!-- Espacio para foto producto -->
+                                    <div class="product-placeholder rounded-3"
+                                        style="background-image: url('https://images.pexels.com/photos/20470892/pexels-photo-20470892.jpeg'); background-size: cover; background-position: center;">
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <div class="product-placeholder bg-secondary-subtle rounded-3">
-                                        <!-- Espacio para foto producto -->
+                                    <div class="product-placeholder rounded-3"
+                                        style="background-image: url('https://images.pexels.com/photos/27239701/pexels-photo-27239701.png'); background-size: cover; background-position: center;">
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <div class="product-placeholder bg-secondary-subtle rounded-3">
-                                        <!-- Espacio para foto producto -->
+                                    <div class="product-placeholder rounded-3"
+                                        style="background-image: url('https://images.pexels.com/photos/25054142/pexels-photo-25054142.jpeg'); background-size: cover; background-position: center;">
                                     </div>
                                 </div>
                             </div>
@@ -137,22 +137,22 @@ include '../src/components/header.php';
     <!-- Categories Section -->
     <section class="py-4">
         <div class="container-fluid px-0">
-            <div class="row g-0">
-                <div class="col-12 col-md-4">
-                    <div class="category-card d-flex align-items-end p-3 text-white position-relative overflow-hidden">
-                        <!-- Espacio para imagen de fondo categoría -->
+            <div class="categories-row">
+                <div class="category-col">
+                    <div class="category-card d-flex align-items-end p-3 text-white position-relative overflow-hidden"
+                        style="background-image: url('https://images.pexels.com/photos/1187777/pexels-photo-1187777.jpeg'); background-size: cover; background-position: center;">
                         <h5 class="fw-normal small lh-base">Lorem ipsum<br>dolor sit amet</h5>
                     </div>
                 </div>
-                <div class="col-12 col-md-4">
-                    <div class="category-card d-flex align-items-end p-3 text-white position-relative overflow-hidden">
-                        <!-- Espacio para imagen de fondo categoría -->
+                <div class="category-col">
+                    <div class="category-card d-flex align-items-end p-3 text-white position-relative overflow-hidden"
+                        style="background-image: url('https://images.pexels.com/photos/29391506/pexels-photo-29391506.jpeg'); background-size: cover; background-position: center;">
                         <h5 class="fw-normal small lh-base">Lorem ipsum<br>dolor sit amet</h5>
                     </div>
                 </div>
-                <div class="col-12 col-md-4">
-                    <div class="category-card d-flex align-items-end p-3 text-white position-relative overflow-hidden">
-                        <!-- Espacio para imagen de fondo categoría -->
+                <div class="category-col">
+                    <div class="category-card d-flex align-items-end p-3 text-white position-relative overflow-hidden"
+                        style="background-image: url('https://images.pexels.com/photos/5898472/pexels-photo-5898472.jpeg'); background-size: cover; background-position: center;">
                         <h5 class="fw-normal small lh-base">Lorem ipsum<br>dolor sit amet</h5>
                     </div>
                 </div>
@@ -180,34 +180,40 @@ include '../src/components/header.php';
         <div class="container">
             <div class="row g-4">
                 <div class="col-6 col-md-4">
-                    <div class="text-center">
-                        <div
-                            class="photo-placeholder d-flex align-items-center justify-content-center text-white fw-semibold rounded-3 mb-3">
-                            FOTO
+                    <a href="#producto1" class="text-decoration-none text-dark">
+                        <div class="text-center">
+                            <div class="photo-placeholder product-card rounded-3 mb-3">
+                                <div class="img-default" style="background-image: url('https://images.pexels.com/photos/15462793/pexels-photo-15462793.jpeg');"></div>
+                                <div class="img-hover" style="background-image: url('https://images.vestiairecollective.com/images/resized/w=1024,q=75,f=auto,/produit/bolsos-clutch-gucci-de-terciopelo-caqui-30611847-1_3.jpg');"></div>
+                            </div>
+                            <h6 class="fw-normal mb-1">Nombre producto</h6>
+                            <p class="fw-bold mb-0">PRECIO</p>
                         </div>
-                        <h6 class="fw-normal mb-1">Nombre producto</h6>
-                        <p class="fw-bold mb-0">PRECIO</p>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-6 col-md-4">
-                    <div class="text-center">
-                        <div
-                            class="photo-placeholder d-flex align-items-center justify-content-center text-white fw-semibold rounded-3 mb-3">
-                            FOTO
+                    <a href="#producto2" class="text-decoration-none text-dark">
+                        <div class="text-center">
+                            <div class="photo-placeholder product-card rounded-3 mb-3">
+                                <div class="img-default" style="background-image: url('https://assets.christiandior.com/is/image/diorprod/LOOK_H_26_2_LOOK_002_E01-1?$r9x10_raw$&crop=0,0,4000,5000&wid=1536&hei=1661&scale=0.8303&bfc=on&qlt=85');"></div>
+                                <div class="img-hover" style="background-image: url('https://assets.christiandior.com/is/image/diorprod/683M629A4002C889_SBG_E01-5?$r9x10_raw$&crop=0,0,4000,5000&wid=1536&hei=1661&scale=0.8303&bfc=on&qlt=85');"></div>
+                            </div>
+                            <h6 class="fw-normal mb-1">Nombre producto</h6>
+                            <p class="fw-bold mb-0">PRECIO</p>
                         </div>
-                        <h6 class="fw-normal mb-1">Nombre producto</h6>
-                        <p class="fw-bold mb-0">PRECIO</p>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-6 col-md-4">
-                    <div class="text-center">
-                        <div
-                            class="photo-placeholder d-flex align-items-center justify-content-center text-white fw-semibold rounded-3 mb-3">
-                            FOTO
+                    <a href="#producto3" class="text-decoration-none text-dark">
+                        <div class="text-center">
+                            <div class="photo-placeholder product-card rounded-3 mb-3">
+                                <div class="img-default" style="background-image: url('https://assets.christiandior.com/is/image/diorprod/LOOK_F_26_2_LOOK_007_E07?$r9x10_raw$&crop=0,0,4000,5000&wid=1024&hei=1107&scale=0.5535&bfc=on&qlt=85');"></div>
+                                <div class="img-hover" style="background-image: url('https://assets.christiandior.com/is/image/diorprod/E4464WOMLQD309_SBG_E03?$r9x10_raw$&crop=0,0,4000,5000&wid=1024&hei=1107&scale=0.5535&bfc=on&qlt=85');"></div>
+                            </div>
+                            <h6 class="fw-normal mb-1">Nombre producto</h6>
+                            <p class="fw-bold mb-0">PRECIO</p>
                         </div>
-                        <h6 class="fw-normal mb-1">Nombre producto</h6>
-                        <p class="fw-bold mb-0">PRECIO</p>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -223,12 +229,12 @@ include '../src/components/header.php';
     <!-- Brand Logos -->
     <section class="py-5">
         <div class="container">
-            <div class="d-flex flex-wrap justify-content-center gap-3">
-                <div class="brand-logo border rounded px-4 py-3 fw-medium text-uppercase small">LOGO MARCA</div>
-                <div class="brand-logo border rounded px-4 py-3 fw-medium text-uppercase small">LOGO MARCA</div>
-                <div class="brand-logo border rounded px-4 py-3 fw-medium text-uppercase small">LOGO MARCA</div>
-                <div class="brand-logo border rounded px-4 py-3 fw-medium text-uppercase small">LOGO MARCA</div>
-                <div class="brand-logo border rounded px-4 py-3 fw-medium text-uppercase small">LOGO MARCA</div>
+            <div class="d-flex flex-wrap justify-content-center gap-5">
+                <div class="brand-logo"><img src="../src/img/logo_dior.png" alt="dior"></div>
+                <div class="brand-logo"><img src="../src/img/logo_gucci.png" alt="gucci"></div>
+                <div class="brand-logo"><img src="../src/img/logo_loius.png" alt="loius"></div>
+                <div class="brand-logo"><img src="../src/img/logo_moncler.png" alt="moncler"></div>
+                <div class="brand-logo"><img src="../src/img/logo_versace.png" alt="versace"></div>
             </div>
         </div>
     </section>

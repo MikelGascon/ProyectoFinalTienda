@@ -44,32 +44,36 @@ $basePath = $basePath ?? "../src";
 <body>
     <?php if ($showBanner): ?>
         <!-- Top Banner -->
-        <div class="top-banner bg-primary-custom text-white text-center py-2 position-relative small">
+        <div id="topBanner" class="top-banner bg-primary-custom text-white text-center py-2 position-relative small">
             <span><?php echo htmlspecialchars($bannerText); ?></span>
-            <button type="button" class="btn-close btn-close-white btn-sm" aria-label="Close"></button>
+            <button type="button" class="btn-close btn-close-white btn-sm" aria-label="Close"
+                onclick="document.getElementById('topBanner').style.display='none'"></button>
         </div>
     <?php endif; ?>
 
     <!-- Header / Navbar -->
     <nav class="navbar navbar-expand-lg bg-white sticky-top shadow-sm py-3">
         <div class="container">
-            <!-- Mobile Menu Button -->
-            <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#mobileMenu">
+            <!-- Menú hamburguesa -->
+            <button class="btn border-0 me-2 p-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
+                aria-label="Abrir menú">
                 <i class="bi bi-list fs-4"></i>
             </button>
 
             <!-- Logo -->
-            <a class="navbar-brand" href="index.php">
+            <a class="navbar-brand ms-3" href="index.php">
                 <img src="<?php echo $basePath; ?>/img/logo_rebelde.png" alt="Logo Rebelde" height="40"
                     class="d-inline-block">
             </a>
+
+            <!-- Spacer para centrar el logo en móvil -->
+            <div class="d-lg-none flex-grow-1"></div>
 
             <!-- Desktop Navigation -->
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link fw-medium mx-2" href="#">TEXTO</a>
+                        <a class="nav-link fw-medium mx-2" href="#">INICIO</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link fw-medium mx-2" href="#">TEXTO</a>
