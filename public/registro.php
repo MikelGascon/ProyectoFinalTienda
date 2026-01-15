@@ -1,32 +1,8 @@
-<?php
-session_start();
-
-$mensaje = '';
-$registro_exitoso = false;
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre = $_POST['nombre'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $usuario = $_POST['usuario'] ?? '';
-    $password = $_POST['password'] ?? '';
-    $confirm_password = $_POST['confirm_password'] ?? '';
-
-    if ($password !== $confirm_password) {
-        $mensaje = 'Las contraseñas no coinciden';
-    } else {
-        $password_encriptada = password_hash($password, PASSWORD_DEFAULT);
-        
-        $mensaje = "¡Bienvenido/a, $nombre!";
-        $registro_exitoso = true;
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <title>Registro - El Corte Rebelde</title>
+    <title>Registro Luxury - El Corte Rebelde</title>
     <style>
         :root {
             --marron-claro: #AAA085;
@@ -37,44 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background-image: url('../src/img/logo-rebelde.png');
-            background-repeat: repeat;
-            background-size: 140px;
-            opacity: 0.08;
-            transform: rotate(-35deg);
-            z-index: -1;
-        }
-
-        .login-box {
-            background-color: #fff;
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
-            width: 420px;
-            overflow: hidden;
             margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background-color: #ffffff;
             height: 100vh; display: flex; align-items: center; justify-content: center;
             overflow: hidden; position: relative;
         }
 
-        /* Fondo decorativo */
+        /* Fondo decorativo con el logo */
         body::before {
             content: ""; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
             background-image: url('../src/img/logo-rebelde.png'); background-repeat: repeat;
@@ -84,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .login-box {
             background-color: #fff; border-radius: 14px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); width: 420px; overflow: hidden;
+            z-index: 1;
         }
 
         .login-header {
@@ -95,7 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         .login-body { padding: 30px 40px; background-color: var(--gris-claro); }
 
-        .login-body label { display: block; margin-bottom: 5px; color: var(--negro); font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
+        .login-body label { 
+            display: block; margin-bottom: 5px; color: var(--negro); 
+            font-size: 0.8rem; font-weight: bold; text-transform: uppercase; 
+        }
 
         .login-body input {
             width: 100%; padding: 12px; margin-bottom: 15px;
@@ -112,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .login-body button:hover { background-color: var(--marron-oscuro); }
         .login-body button:disabled { background-color: var(--gris-medio); cursor: not-allowed; }
 
-        /* Mensajes AJAX */
+        /* Estilos de los mensajes de respuesta */
         #respuesta {
             margin-top: 15px; padding: 12px; border-radius: 6px; 
             text-align: center; font-size: 0.9rem; display: none;
@@ -165,17 +113,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <script>
 document.getElementById('form-registro').addEventListener('submit', function(e) {
-    e.preventDefault(); // Detener recarga de página
+    e.preventDefault(); // Detener la recarga de la página
 
     const btn = document.getElementById('btn-enviar');
     const respuestaDiv = document.getElementById('respuesta');
     const formData = new FormData(this);
 
-    // Feedback visual
+    // Feedback visual inmediato
     btn.disabled = true;
     btn.innerText = "PROCESANDO...";
     respuestaDiv.style.display = 'none';
 
+    // Petición AJAX al servidor
     fetch('procesar_registro.php', {
         method: 'POST',
         body: formData
@@ -188,21 +137,24 @@ document.getElementById('form-registro').addEventListener('submit', function(e) 
         
         if(data.status === 'success') {
             btn.innerText = "¡REGISTRO COMPLETADO!";
-            // REDIRECCIÓN TRAS 1.5 SEGUNDOS
+            // Redirección al login tras 1.5 segundos
             setTimeout(() => {
                 window.location.href = 'login.php'; 
             }, 1500);
         } else {
+            // Si hay error, rehabilitar el botón para intentar de nuevo
             btn.disabled = false;
             btn.innerText = "CREAR CUENTA";
         }
     })
     .catch(error => {
+        // En caso de fallo técnico (error 500, archivo no encontrado, etc)
         btn.disabled = false;
         btn.innerText = "CREAR CUENTA";
         respuestaDiv.style.display = 'block';
         respuestaDiv.className = 'error';
-        respuestaDiv.innerText = "Error en el servidor. Inténtalo de nuevo.";
+        respuestaDiv.innerText = "Error técnico: Asegúrate de que 'procesar_registro.php' existe.";
+        console.error('Error:', error);
     });
 });
 </script>
