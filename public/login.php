@@ -6,7 +6,6 @@ use App\Entity\Usuario;
 $entityManager = require_once __DIR__ . '/../src/Entity/bootstrap.php';
 require_once __DIR__ . '/../src/Entity/Usuario.php';
 
-// Si la petición viene por AJAX, devolvemos JSON
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $usuario = $_POST['usuario'] ?? '';
@@ -15,7 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $repo = $entityManager->getRepository(Usuario::class);
     $user = $repo->findOneBy(['usuario' => $usuario]);
 
-    if ($user && password_verify($password, $user->getPassword())) {
+    // IMPORTANTE: usar getPass() porque en tu BD la columna es "pass"
+    if ($user && password_verify($password, $user->getPass())) {
 
         $_SESSION['usuario'] = $user->getUsuario();
 
@@ -109,9 +109,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-size: 1rem;
         }
 
+        /* 🔥 Inputs y botón EXACTAMENTE del mismo tamaño */
+        .login-body input[type="text"],
+        .login-body input[type="password"],
+        .login-body button {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
         .login-body input[type="text"],
         .login-body input[type="password"] {
-            width: 100%;
             padding: 12px;
             margin-bottom: 18px;
             border: 1px solid var(--gris-medio);
@@ -128,7 +135,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .login-body button {
-            width: 100%;
             padding: 12px;
             background-color: var(--marron-claro);
             color: #ffffffc5;
