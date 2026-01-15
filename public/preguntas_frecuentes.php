@@ -126,7 +126,6 @@
                     </div>
                 </div>
 
-                <!-- 5 -->
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
@@ -140,7 +139,6 @@
                     </div>
                 </div>
 
-                <!-- 6 -->
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
@@ -154,7 +152,6 @@
                     </div>
                 </div>
 
-                <!-- 7 -->
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
@@ -168,7 +165,6 @@
                     </div>
                 </div>
 
-                <!-- 8 -->
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
@@ -182,7 +178,6 @@
                     </div>
                 </div>
 
-                <!-- 9 -->
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq9">
