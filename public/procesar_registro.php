@@ -1,44 +1,54 @@
 <?php
+// Desactivar visualización de errores HTML para no romper el JSON, 
+// pero registrarlos en el servidor
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
 header('Content-Type: application/json');
 
-// 1. CONEXIÓN
-$conexion = new mysqli("localhost", "root", "", "app_tienda");
+$host = "localhost";
+$user = "root";
+$pass = "root";
+$db   = "app_tienda";
 
-if ($conexion->connect_error) {
-    echo json_encode(['status' => 'error', 'mensaje' => 'Fallo de conexión']);
-    exit;
+try {
+    $conexion = new mysqli($host, $user, $pass, $db);
+
+    if ($conexion->connect_error) {
+        throw new Exception("Error de conexión a la base de datos");
+    }
+
+    // Validar que lleguen los datos
+    if (!isset($_POST['usuario'], $_POST['password'], $_POST['nombre'], $_POST['email'])) {
+        throw new Exception("Faltan datos en el formulario");
+    }
+
+    $nombre   = $conexion->real_escape_string($_POST['nombre']);
+    $email    = $conexion->real_escape_string($_POST['email']);
+    $usuario  = $conexion->real_escape_string($_POST['usuario']);
+    $password = $_POST['password'];
+    $confirm  = $_POST['confirm_password'];
+
+    if ($password !== $confirm) {
+        throw new Exception("Las contraseñas no coinciden");
+    }
+
+    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+
+    $sql = "INSERT INTO usuarios (nombre, email, usuario, password) 
+            VALUES ('$nombre', '$email', '$usuario', '$password_hash')";
+
+    if ($conexion->query($sql)) {
+        echo json_encode(['status' => 'success', 'mensaje' => 'Registro exitoso. Redirigiendo...']);
+    } else {
+        if ($conexion->errno === 1062) {
+            throw new Exception("El usuario o email ya están registrados");
+        } else {
+            throw new Exception("Error al guardar: " . $conexion->error);
+        }
+    }
+
+    $conexion->close();
+
+} catch (Exception $e) {
+    echo json_encode(['status' => 'error', 'mensaje' => $e->getMessage()]);
 }
-
-// 2. RECOGIDA DE DATOS
-$nombre   = $conexion->real_escape_string($_POST['nombre']);
-$email    = $conexion->real_escape_string($_POST['email']);
-$usuario  = $conexion->real_escape_string($_POST['usuario']);
-$password = $_POST['password'];
-$confirm  = $_POST['confirm_password'];
-
-// 3. VALIDACIONES
-if (empty($nombre) || empty($email) || empty($usuario) || empty($password)) {
-    echo json_encode(['status' => 'error', 'mensaje' => 'Todos los campos son obligatorios']);
-    exit;
-}
-
-if ($password !== $confirm) {
-    echo json_encode(['status' => 'error', 'mensaje' => 'Las contraseñas no coinciden']);
-    exit;
-}
-
-// 4. ENCRIPTACIÓN Y SQL
-$password_hash = password_hash($password, PASSWORD_DEFAULT);
-
-$sql = "INSERT INTO usuarios (nombre, email, usuario, password) 
-        VALUES ('$nombre', '$email', '$usuario', '$password_hash')";
-
-if ($conexion->query($sql) === TRUE) {
-    // Si todo va bien, mandamos éxito al AJAX
-    echo json_encode(['status' => 'success', 'mensaje' => '¡Cuenta creada! Redirigiendo al login...']);
-} else {
-    // Error de duplicados (email o usuario ya registrados)
-    echo json_encode(['status' => 'error', 'mensaje' => 'El usuario o email ya están registrados']);
-}
-
-$conexion->close();

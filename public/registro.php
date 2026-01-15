@@ -1,8 +1,32 @@
+<?php
+session_start();
+
+$mensaje = '';
+$registro_exitoso = false;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nombre = $_POST['nombre'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $usuario = $_POST['usuario'] ?? '';
+    $password = $_POST['password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
+
+    if ($password !== $confirm_password) {
+        $mensaje = 'Las contraseñas no coinciden';
+    } else {
+        $password_encriptada = password_hash($password, PASSWORD_DEFAULT);
+        
+        $mensaje = "¡Bienvenido/a, $nombre!";
+        $registro_exitoso = true;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Registro Luxury - El Corte Rebelde</title>
+    <title>Registro - El Corte Rebelde</title>
     <style>
         :root {
             --marron-claro: #AAA085;
@@ -13,6 +37,38 @@
         }
 
         body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: url('../src/img/logo-rebelde.png');
+            background-repeat: repeat;
+            background-size: 140px;
+            opacity: 0.08;
+            transform: rotate(-35deg);
+            z-index: -1;
+        }
+
+        .login-box {
+            background-color: #fff;
+            border-radius: 14px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+            width: 420px;
+            overflow: hidden;
             margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background-color: #ffffff;
             height: 100vh; display: flex; align-items: center; justify-content: center;
             overflow: hidden; position: relative;
