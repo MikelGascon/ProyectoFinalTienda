@@ -1,8 +1,9 @@
 <?php
+// 1. CONEXIÓN A LA BASE DE DATOS
 $host = "localhost";
 $user = "root";
 $pass = "root";
-$db = "app_tienda";
+$db   = "app_tienda";
 
 $conexion = new mysqli($host, $user, $pass, $db);
 
@@ -10,12 +11,6 @@ if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
 }
 
-$sql = "SELECT * FROM productos WHERE 1=1";
-
-if (!empty($_GET['categoria'])) {
-    $categoria = $conexion->real_escape_string($_GET['categoria']);
-    $sql .= " AND categoria = '$categoria'";
-    
 // 2. CONSULTA SQL CON INNER JOIN Y LEFT JOIN
 $sql = "SELECT p.*, c.nombre AS nombre_categoria, t.nombre AS nombre_tipo, m.nombre AS nombre_marca
         FROM productos p
@@ -23,7 +18,6 @@ $sql = "SELECT p.*, c.nombre AS nombre_categoria, t.nombre AS nombre_tipo, m.nom
         INNER JOIN tipoRopa t ON p.tipo_ropaId = t.id
         LEFT JOIN marcas m ON p.marcaId = m.id
         WHERE 1=1";
-}
 
 // 3. FILTROS DINÁMICOS
 if (!empty($_GET['marca'])) {
@@ -38,23 +32,11 @@ if (!empty($_GET['categoria'])) {
 
 if (!empty($_GET['tipo'])) {
     $tipo = $conexion->real_escape_string($_GET['tipo']);
-    $sql .= " AND tipo_ropa = '$tipo'";
     $sql .= " AND t.nombre = '$tipo'";
 }
 
 if (!empty($_GET['color'])) {
     $color = $conexion->real_escape_string($_GET['color']);
-    $sql .= " AND color = '$color'";
-}
-
-if (!empty($_GET['precio'])) {
-    $precio_max = (float) $_GET['precio'];
-    $sql .= " AND precio <= $precio_max";
-}
-
-if (!empty($_GET['material'])) {
-    $material = $conexion->real_escape_string($_GET['material']);
-    $sql .= " AND material = '$material'";
     $sql .= " AND p.color = '$color'";
 }
 
@@ -64,6 +46,8 @@ if (!empty($_GET['precio'])) {
 }
 
 $resultado = $conexion->query($sql);
+
+
 
 $filtros_data = [
     'categorias' => ['Hombre', 'Mujer', 'Unisex'],
@@ -270,7 +254,7 @@ include '../src/components/header.php';
 
                 <div class="filter-group">
                     <label>Precio Máx: <span id="val-p"><?php echo $_GET['precio'] ?? '500'; ?></span>€</label>
-                    <input type="range" name="precio" min="0" max="500" value="<?php echo $_GET['precio'] ?? '500'; ?>"
+                    <input type="range" name="precio" min="0" max="15000" value="<?php echo $_GET['precio'] ?? '500'; ?>"
                         id="range-p">
                 </div>
 
