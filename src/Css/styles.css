@@ -1,29 +1,15 @@
-/* ============================================
-   TIENDA ONLINE - ESTILOS PRINCIPALES
-   Solo estilos que NO se pueden lograr con Bootstrap
-   ============================================ */
-
-/* ============================================
-   VARIABLES DE COLORES
-   Modifica estos valores para cambiar los colores del sitio
-   ============================================ */
 :root {
-    --color-primary: #b8a67e;        /* Color dorado principal */
-    --color-primary-hover: #a08f6a;  /* Color dorado hover */
-    --color-dark: #1a1a1a;           /* Color oscuro para textos */
-    --color-placeholder: #e0e0e0;    /* Color gris para placeholders */
+    --color-primary: #b8a67e;        
+    --color-primary-hover: #a08f6a;  
+    --color-dark: #1a1a1a;          
+    --color-placeholder: #e0e0e0;    
 }
 
-/* ============================================
-   TIPOGRAFÍA
-   ============================================ */
 * {
     font-family: 'Poppins', sans-serif;
 }
 
-/* ============================================
-   COLORES PERSONALIZADOS (no existen en Bootstrap)
-   ============================================ */
+/* COLORES PERSONALIZADOS */
 .bg-primary-custom,
 .shipping-banner,
 .category-card,
@@ -31,9 +17,7 @@
     background-color: var(--color-primary);
 }
 
-/* ============================================
-   TOP BANNER
-   ============================================ */
+/* TOP BANNER */
 .top-banner .btn-close {
     position: absolute;
     right: 15px;
@@ -42,9 +26,7 @@
     filter: brightness(0) invert(1);
 }
 
-/* ============================================
-   NAVBAR - Colores hover personalizados
-   ============================================ */
+/* NAVBAR */
 .nav-link {
     color: var(--color-dark) !important;
 }
@@ -57,7 +39,7 @@
     color: var(--color-primary) !important;
 }
 
-/* Barra de búsqueda redondeada */
+/* BARRA DE BUSQUEDA */
 .search-box {
     border-radius: 25px;
     min-width: 250px;
@@ -68,9 +50,7 @@
     border-color: var(--color-primary);
 }
 
-/* ============================================
-   PLACEHOLDERS (dimensiones fijas)
-   ============================================ */
+/* PLACEHOLDERS */
 .logo-placeholder {
     width: 40px;
     height: 40px;
@@ -86,19 +66,70 @@
     aspect-ratio: 3/4;
 }
 
-.photo-placeholder,
-.category-card {
+.photo-placeholder {
     aspect-ratio: 1/1;
 }
 
-/* ============================================
-   HERO SLIDER
-   ============================================ */
+/* CATEGORIAS CON HOVER EXPANDIBLE */
+.categories-row {
+    display: flex;
+    height: 500px;
+    overflow: hidden;
+}
+
+.categories-row .category-col {
+    flex: 1;
+    transition: flex 0.4s ease;
+    overflow: hidden;
+}
+
+.categories-row .category-col:hover {
+    flex: 1.3;
+}
+
+.categories-row .category-card {
+    height: 100%;
+    width: 100%;
+    aspect-ratio: auto;
+}
+
+/* PRODUCTO CON HOVER */
+.product-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.product-card .img-default,
+.product-card .img-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 0.3s ease;
+}
+
+.product-card .img-hover {
+    opacity: 0;
+}
+
+.product-card:hover .img-default {
+    opacity: 0;
+}
+
+.product-card:hover .img-hover {
+    opacity: 1;
+}
+
+/* HERO SLIDER */
 .hero-slider .carousel-item {
     height: 400px;
 }
 
-/* Botón "Comprar" */
+/* BOTÓN "Comprar" */
 .btn-comprar {
     background-color: var(--color-primary);
     border-radius: 25px;
@@ -109,16 +140,12 @@
     color: white;
 }
 
-/* ============================================
-   FLECHAS CARRUSEL - Sección Nuevo
-   ============================================ */
+/* FLECHAS CARRUSEL */
 .carousel-arrow:hover {
     color: var(--color-primary);
 }
 
-/* ============================================
-   ELEMENTOS CON COLOR PRIMARIO
-   ============================================ */
+/* ELEMENTOS CON COLOR PRIMARIO */
 .dot {
     width: 8px;
     height: 8px;
@@ -129,9 +156,19 @@
     border-color: var(--color-primary) !important;
 }
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
+.brand-logo {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-logo img {
+    height: 40%;
+    width: auto;
+    object-fit: contain;
+}
+/* RESPONSIVE */
 @media (max-width: 768px) {
     .hero-slider .carousel-item {
         height: 300px;
