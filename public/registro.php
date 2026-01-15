@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../config/config.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,14 +9,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
-    <link href="../src/Css/registro.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo BASE_URL . CSS_URL; ?>/registro.css">
 </head>
 
 <body>
 
     <div class="login-box">
+
         <div class="login-header">
-            <img src="../src/img/logo-rebelde.png" alt="El Corte Rebelde">
+            <img src="<?php echo BASE_URL . IMG_URL?>/logo-rebelde.png" alt="El Corte Rebelde">
         </div>
 
         <div class="login-body">
@@ -43,7 +48,7 @@
         </div>
     </div>
 
-    <script src="../src/Js/registro.js"></script>
+    <script src="<?php echo BASE_URL . JS_URL; ?>/registro.js"></script>
 
 </body>
 
