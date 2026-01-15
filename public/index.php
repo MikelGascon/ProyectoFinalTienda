@@ -193,18 +193,28 @@ include '../src/components/header.php';
     </div>
 </section>
 
-<!-- Brand Logos -->
 <section class="py-5">
     <div class="container">
-        <div class="d-flex flex-wrap justify-content-center gap-3">
-            <div class="brand-logo border rounded px-3 py-2 text-center"> <img src="../src/img/logo dior.png" alt="Logo Marca 1" class="img-fluid"> </div>
-            <div class="brand-logo border rounded px-3 py-2 text-center"> <img src="../src/img/logo gucci.png" alt="Logo Marca 2" class="img-fluid"></div>
-            <div class="brand-logo border rounded px-3 py-2 text-center"> <img src="../src/img/logo lv.png" alt="Logo Marca 3" class="img-fluid"> </div>
-            <div class="brand-logo border rounded px-3 py-2 text-center"> <img src="../src/img/logo moncler.png" alt="Logo Marca 4" class="img-fluid"> </div>
-            <div class="brand-logo border rounded px-3 py-2 text-center"> <img src="../src/img/logo versace.png" alt="Logo Marca 5" class="img-fluid"> </div>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <div class="brand-logo border rounded text-center">
+                <img src="../src/img/logo dior.png" alt="Logo Marca 1">
+            </div>
+            <div class="brand-logo border rounded text-center">
+                <img src="../src/img/logo gucci.png" alt="Logo Marca 2">
+            </div>
+            <div class="brand-logo border rounded text-center">
+                <img src="../src/img/logo lv.png" alt="Logo Marca 3">
+            </div>
+            <div class="brand-logo border rounded text-center">
+                <img src="../src/img/logo moncler.png" alt="Logo Marca 4">
+            </div>
+            <div class="brand-logo border rounded text-center">
+                <img src="../src/img/logo versace.png" alt="Logo Marca 5">
+            </div>
         </div>
     </div>
 </section>
+
 
 <?php
 // Incluir footer
