@@ -81,7 +81,7 @@ $basePath = $basePath ?? "../src";
                         class="bi bi-person"></i></a>
                 <a href="../public/carrito.php" class="icon-btn text-decoration-none text-dark fs-5"><i
                         class="bi bi-cart2"></i></a>
-                <a href="#" class="icon-btn text-decoration-none text-dark fs-5"><i class="bi bi-heart"></i></a>
+                <a href="#" class="icon-btn text-decoration-none text-dark fs-6"><i class="bi bi-heart"></i></a>
             </div>
         </div>
 
