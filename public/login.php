@@ -1,26 +1,35 @@
 <?php
 session_start();
 
-if (isset($_POST['logout'])) {
-    session_destroy();
-    header("Location: login.php");
-    exit;
-}
+use App\Entity\Usuario;
 
-$mensaje = '';
+$entityManager = require_once __DIR__ . '/../src/Entity/bootstrap.php';
+require_once __DIR__ . '/../src/Entity/Usuario.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['logout'])) {
-    $usuario_valido = 'cliente';
-    $password_valida = 'ropa123';
+// Si la petición viene por AJAX, devolvemos JSON
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $usuario = $_POST['usuario'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    if ($usuario === $usuario_valido && $password === $password_valida) {
-        $_SESSION['usuario'] = $usuario;
-        $mensaje = "Bienvenido, $usuario";
+    $repo = $entityManager->getRepository(Usuario::class);
+    $user = $repo->findOneBy(['usuario' => $usuario]);
+
+    if ($user && password_verify($password, $user->getPassword())) {
+
+        $_SESSION['usuario'] = $user->getUsuario();
+
+        echo json_encode([
+            'status' => 'success',
+            'mensaje' => "Bienvenido, " . $user->getNombre()
+        ]);
+        exit;
     } else {
-        $mensaje = 'Usuario o contraseña incorrectos';
+        echo json_encode([
+            'status' => 'error',
+            'mensaje' => 'Usuario o contraseña incorrectos'
+        ]);
+        exit;
     }
 }
 ?>
@@ -29,7 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['logout'])) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Login | El Corte Rebelde</title>
+
     <style>
         :root {
             --marron-claro: #AAA085;
@@ -133,18 +143,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['logout'])) {
             background-color: #7e7661ff;
         }
 
-        .mensaje {
+        #respuesta-login {
             margin-top: 12px;
-            color: #b00020;
-            font-size: 0.9rem;
             text-align: center;
+            font-size: 0.9rem;
+            display: none;
         }
 
-        .bienvenida {
-            margin-top: 12px;
-            color: var(--marron-claro);
-            font-size: 1rem;
-            text-align: center;
+        .exito {
+            color: var(--marron-oscuro);
+        }
+
+        .error {
+            color: #b00020;
         }
 
         .login-footer {
@@ -156,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['logout'])) {
         }
 
         .login-footer a {
-            color: var(--marron-claro);
+            color: var(--marron-oscuro);
             text-decoration: none;
         }
 
@@ -164,51 +175,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['logout'])) {
             text-decoration: underline;
             font-weight: bold;
         }
-
-        .login-body input[type="text"],
-        .login-body input[type="password"] {
-            box-sizing: border-box;
-        }
-
     </style>
 </head>
 
 <body>
+
     <div class="login-box">
         <div class="login-header">
             <img src="../src/img/logo_rebelde.png" alt="El Corte Rebelde">
         </div>
 
         <div class="login-body">
-            <?php if (!isset($_SESSION['usuario'])): ?>
-                <form method="post">
-                    <label for="usuario">Usuario</label>
-                    <input type="text" name="usuario" id="usuario" placeholder="Tu nombre de usuario - Usuario12" required>
 
-                    <label for="password">Contraseña</label>
-                    <input type="password" name="password" id="password" placeholder="Tu contraseña - Contraseña1234" required>
+            <form id="form-login">
+                <label for="usuario">Usuario</label>
+                <input type="text" name="usuario" id="usuario" placeholder="Tu usuario" required>
 
-                    <button type="submit">Entrar</button>
-                </form>
+                <label for="password">Contraseña</label>
+                <input type="password" name="password" id="password" placeholder="Tu contraseña" required>
 
-                <?php if ($mensaje): ?>
-                    <div class="mensaje"><?php echo htmlspecialchars($mensaje); ?></div>
-                <?php endif; ?>
+                <button type="submit" id="btn-login">Entrar</button>
+            </form>
 
-            <?php else: ?>
-                <div class="bienvenida"><?php echo htmlspecialchars($mensaje); ?></div>
-                <p style="text-align:center;">Catálogo disponible próximamente.</p>
+            <div id="respuesta-login"></div>
 
-                <form method="post">
-                    <button type="submit" name="logout">Cerrar sesión</button>
-                </form>
-            <?php endif; ?>
         </div>
 
         <div class="login-footer">
             ¿Nuevo en la tienda? <a href="registro.php">Crear cuenta</a>
         </div>
     </div>
-</body>
 
+    <script src="../src/Js/login.js"></script>
+
+</body>
 </html>
