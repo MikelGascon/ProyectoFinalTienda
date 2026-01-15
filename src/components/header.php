@@ -1,14 +1,4 @@
 <?php
-/**
- * Header Component
- * Incluye: DOCTYPE, head con CSS, top banner y navbar
- * 
- * Variables opcionales:
- * - $pageTitle: Título de la página (default: "Tienda Online")
- * - $bannerText: Texto del banner promocional (default: "20% OFF EN COLECCIÓN DE INVIERNO")
- * - $showBanner: Mostrar/ocultar banner (default: true)
- */
-
 $pageTitle = $pageTitle ?? "Tienda Online";
 $bannerText = $bannerText ?? "20% OFF EN COLECCIÓN DE INVIERNO";
 $showBanner = $showBanner ?? true;
@@ -38,7 +28,7 @@ $basePath = $basePath ?? "../src";
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
 
-        
+
     <!-- Custom CSS -->
     <link href="<?php echo $basePath; ?>/Css/styles.css" rel="stylesheet">
 </head>
@@ -56,14 +46,16 @@ $basePath = $basePath ?? "../src";
     <!-- Header / Navbar -->
     <nav class="navbar navbar-expand-lg bg-white sticky-top shadow-sm py-3 opacidad">
         <div class="container">
-            <!-- Menú hamburguesa -->
-            <button class="btn border-0 me-2 p-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
-                aria-label="Abrir menú">
-                <i class="bi bi-list fs-4"></i>
-            </button>
+            <!-- Menú hamburguesa centrado -->
+            <div class="d-flex align-items-center justify-content-center hamburger-container">
+                <button class="btn border-0 p-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
+                    aria-label="Abrir menú">
+                    <i class="bi bi-list hamburger-icon"></i>
+                </button>
+            </div>
 
             <!-- Logo -->
-            <a class="navbar-brand ms-3" href="index.php">
+            <a class="navbar-brand" href="index.php">
                 <img src="<?php echo $basePath; ?>/img/logo_rebelde.png" alt="Logo Rebelde" height="40"
                     class="d-inline-block">
             </a>
@@ -93,19 +85,26 @@ $basePath = $basePath ?? "../src";
             </div>
 
             <!-- Search Bar (Desktop) -->
-            <form class="d-none d-lg-flex mx-3">
-                <input class="form-control search-box px-3 py-2" type="search" placeholder="Buscar..."
-                    aria-label="Buscar">
+            <form class="d-none d-lg-flex mx-3 search-container">
+                <div class="search-wrapper">
+                    <input class="form-control search-box px-3 py-2" type="text" id="searchInput" placeholder=""
+                        aria-label="Buscar">
+                    <button type="button" class="btn-clear-search" id="clearSearch" aria-label="Limpiar búsqueda">
+                        <i class="bi bi-x"></i>
+                    </button>
+                    <button type="submit" class="btn-search" aria-label="Buscar">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
             </form>
 
             <!-- Icons -->
-            <div class="d-flex align-items-center">
-                <a href="#" class="icon-btn text-decoration-none fs-5 ms-3 d-none d-lg-inline"><i
-                        class="bi bi-search"></i></a>
-                <a href="../public/carrito.php" class="icon-btn text-decoration-none fs-5 ms-3"><i
-                        class="bi bi-cart2"></i></a>
-                <a href="../public/login.php" class="icon-btn text-decoration-none fs-5 ms-3"><i
+            <div class="d-flex align-items-center gap-3">
+                <a href="../public/login.php" class="icon-btn text-decoration-none text-dark fs-5"><i
                         class="bi bi-person"></i></a>
+                <a href="../public/carrito.php" class="icon-btn text-decoration-none text-dark fs-5"><i
+                        class="bi bi-cart2"></i></a>
+                <a href="#" class="icon-btn text-decoration-none text-dark fs-5"><i class="bi bi-heart"></i></a>
             </div>
         </div>
     </nav>
@@ -133,6 +132,32 @@ $basePath = $basePath ?? "../src";
             </ul>
         </div>
     </div>
+
+    <!-- Script para el buscador -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('searchInput');
+            const clearBtn = document.getElementById('clearSearch');
+
+            if (searchInput && clearBtn) {
+                // Mostrar/ocultar botón X según el contenido del input
+                searchInput.addEventListener('input', function () {
+                    if (this.value.length > 0) {
+                        clearBtn.classList.add('visible');
+                    } else {
+                        clearBtn.classList.remove('visible');
+                    }
+                });
+
+                // Limpiar el input al hacer clic en la X
+                clearBtn.addEventListener('click', function () {
+                    searchInput.value = '';
+                    clearBtn.classList.remove('visible');
+                    searchInput.focus();
+                });
+            }
+        });
+    </script>
 
 </body>
 
