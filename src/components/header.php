@@ -42,7 +42,7 @@ $basePath = $basePath ?? "../src";
     <?php endif; ?>
 
     <!-- Header / Navbar -->
-    <nav class="navbar bg-white sticky-top shadow-sm py-2 opacidad">
+    <nav class="navbar sticky-top shadow-sm py-2 opacidad">
         <div class="container d-flex align-items-center">
             <!-- Menú hamburguesa -->
             <div class="hamburger-container">
@@ -108,9 +108,6 @@ $basePath = $basePath ?? "../src";
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body">
-            <form class="mb-4">
-                <input class="form-control search-box" type="search" placeholder="Buscar...">
-            </form>
             <ul class="navbar-nav">
                 <li class="nav-item py-2 border-bottom">
                     <a class="nav-link" href="#">Mujer</a>
@@ -149,6 +146,18 @@ $basePath = $basePath ?? "../src";
                     searchInput.value = '';
                     clearBtn.classList.remove('visible');
                     searchInput.focus();
+                });
+            }
+
+            // Efecto glassmorphism en navbar al hacer scroll
+            const navbar = document.querySelector('.navbar.opacidad');
+            if (navbar) {
+                window.addEventListener('scroll', function () {
+                    if (window.scrollY > 50) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
                 });
             }
         });
