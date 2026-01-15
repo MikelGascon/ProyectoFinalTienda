@@ -1,20 +1,21 @@
 <?php
+// Dentro de src/BDD/bootstrap.php
 
-
-require_once '../vendor/autoload.php';
+// 1. El autoload está DOS niveles arriba
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 use Dotenv\Dotenv;
 
-// Cargar variables de entorno desde la raíz del proyecto
+// 2. El archivo .env está DOS niveles arriba (en la raíz)
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
 $dotenv->load();
 
-$paths = array('./src');
+// 3. Las Entidades están en un nivel paralelo (subir uno y entrar en Entity)
+$paths = [__DIR__ . '/../Entity']; 
 $isDevMode = true;
 
-// Configuración usando las variables del .env
 $dbParams = array(
     'driver'   => 'pdo_mysql',
     'host'     => $_ENV['DB_HOST'],

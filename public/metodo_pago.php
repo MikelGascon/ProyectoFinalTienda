@@ -260,12 +260,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
             pointer-events: none;
         }
 
-        <<<<<<< HEAD .input-icono input,
+         HEAD .input-icono input,
         .input-icono select {
             padding-left: 40px;
         }
 
-        =======.input-icono input {
+        .input-icono input {
             padding-left: 40px;
         }
 
