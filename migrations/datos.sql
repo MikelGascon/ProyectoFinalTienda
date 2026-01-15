@@ -44,6 +44,10 @@ CREATE TABLE tipoRopa (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL
 );
+CREATE TABLE tallaRopa (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
+);
 INSERT INTO categoriaSexo (nombre) VALUES ('Hombre'), ('Mujer'), ('Unisex');
 
 INSERT INTO tipoRopa (nombre) VALUES ('Camisetas'), ('Pantalones'), ('Chaquetas'), ('Accesorios'), ('Vestidos');
