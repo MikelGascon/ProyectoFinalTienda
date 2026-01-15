@@ -3,7 +3,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "root";
-$db   = "app_tienda";
+$db = "app_tienda";
 
 $conexion = new mysqli($host, $user, $pass, $db);
 
@@ -41,7 +41,7 @@ if (!empty($_GET['color'])) {
 }
 
 if (!empty($_GET['precio'])) {
-    $precio_max = (float)$_GET['precio'];
+    $precio_max = (float) $_GET['precio'];
     $sql .= " AND p.precio <= $precio_max";
 }
 
@@ -52,9 +52,14 @@ $filtros_data = [
     'categorias' => ['Hombre', 'Mujer', 'Unisex'],
     'tipos' => ['Camisetas', 'Pantalones', 'Chaquetas', 'Accesorios', 'Vestidos'],
     'colores' => [
-        'Blanco' => '#FFFFFF', 'Negro' => '#000000', 'Gris' => '#808080', 
-        'Beige' => '#F5F5DC', 'Azul' => '#000080', 'Rojo' => '#FF0000',
-        'Verde' => '#556B2F', 'Marrón' => '#8B4513'
+        'Blanco' => '#FFFFFF',
+        'Negro' => '#000000',
+        'Gris' => '#808080',
+        'Beige' => '#F5F5DC',
+        'Azul' => '#000080',
+        'Rojo' => '#FF0000',
+        'Verde' => '#556B2F',
+        'Marrón' => '#8B4513'
     ]
 ];
 ?>
@@ -247,8 +252,8 @@ include '../src/components/header.php';
 
                 <div class="filter-group">
                     <label>Precio Máx: <span id="val-p"><?php echo $_GET['precio'] ?? '500'; ?></span>€</label>
-                    <input type="range" name="precio" min="0" max="15000" value="<?php echo $_GET['precio'] ?? '500'; ?>"
-                        id="range-p">
+                    <input type="range" name="precio" min="0" max="15000"
+                        value="<?php echo $_GET['precio'] ?? '500'; ?>" id="range-p">
                 </div>
 
                 <button type="submit" class="btn-apply">APLICAR FILTROS</button>
@@ -275,7 +280,8 @@ include '../src/components/header.php';
                             Creacion de las nueva pagina, ademas de el añadir a carrito
                             Estilos, de prueba
                             -->
-                            <a href="detalles.php" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Detalles...</a>
+                            <a href="detalles.php"
+                                class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Detalles...</a>
                             <a href="filtro.php" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Añadir</a>
                         </div>
                     <?php endwhile; ?>
