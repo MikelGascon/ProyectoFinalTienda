@@ -164,13 +164,6 @@ $basePath = $basePath ?? "../src";
                 });
             }
 
-            // Función para cerrar menú y desbloquear scroll
-            function closeMenu() {
-                document.body.classList.remove('menu-open');
-                const backdrop = document.getElementById('menuBackdrop');
-                if (backdrop) backdrop.classList.remove('show');
-            }
-
             // Bloquear scroll y mostrar backdrop cuando el menú hamburguesa está abierto
             const mobileMenu = document.getElementById('mobileMenu');
             const menuBackdrop = document.getElementById('menuBackdrop');
@@ -181,13 +174,15 @@ $basePath = $basePath ?? "../src";
                     menuBackdrop.classList.add('show');
                 });
                 
-                mobileMenu.addEventListener('hide.bs.offcanvas', function () {
-                    closeMenu();
+                mobileMenu.addEventListener('hidden.bs.offcanvas', function () {
+                    document.body.classList.remove('menu-open');
+                    menuBackdrop.classList.remove('show');
                 });
 
                 // Cerrar menú al hacer click en el backdrop
                 menuBackdrop.addEventListener('click', function() {
-                    closeMenu();
+                    document.body.classList.remove('menu-open');
+                    menuBackdrop.classList.remove('show');
                     const offcanvas = bootstrap.Offcanvas.getInstance(mobileMenu);
                     if (offcanvas) {
                         offcanvas.hide();
