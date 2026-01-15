@@ -30,6 +30,7 @@
 .navbar.opacidad {
     background-color: #fff !important;
     transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+    z-index: 1050;
 }
 
 .navbar.opacidad.scrolled {
@@ -61,6 +62,48 @@
     font-size: 1.5rem;
     transform: scaleX(1.4);
     display: inline-block;
+}
+
+/* OFFCANVAS MENU */
+.offcanvas-menu {
+    position: fixed !important;
+    top: 103px !important;
+    height: calc(100vh - 103px) !important;
+    margin-top: 0;
+    z-index: 1060;
+}
+
+.offcanvas-menu .offcanvas-header {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 10;
+    padding-top: 20px;
+}
+
+.offcanvas-menu .offcanvas-body {
+    overflow-y: auto;
+}
+
+/* Backdrop personalizado */
+.menu-backdrop {
+    display: none;
+    position: fixed;
+    top: 103px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1055;
+}
+
+.menu-backdrop.show {
+    display: block;
+}
+
+/* Bloquear scroll cuando el menú está abierto */
+body.menu-open {
+    overflow: hidden;
 }
 
 /* LOGO */

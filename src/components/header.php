@@ -101,8 +101,11 @@ $basePath = $basePath ?? "../src";
         </div>
     </nav>
 
+    <!-- Backdrop personalizado para el menú -->
+    <div id="menuBackdrop" class="menu-backdrop"></div>
+
     <!-- Opciones Menu hamburguesa -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu">
+    <div class="offcanvas offcanvas-start offcanvas-menu" tabindex="-1" id="mobileMenu" data-bs-backdrop="false">
         <div class="offcanvas-header border-bottom">
             <h5 class="offcanvas-title">Menú</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
@@ -157,6 +160,37 @@ $basePath = $basePath ?? "../src";
                         navbar.classList.add('scrolled');
                     } else {
                         navbar.classList.remove('scrolled');
+                    }
+                });
+            }
+
+            // Función para cerrar menú y desbloquear scroll
+            function closeMenu() {
+                document.body.classList.remove('menu-open');
+                const backdrop = document.getElementById('menuBackdrop');
+                if (backdrop) backdrop.classList.remove('show');
+            }
+
+            // Bloquear scroll y mostrar backdrop cuando el menú hamburguesa está abierto
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuBackdrop = document.getElementById('menuBackdrop');
+            
+            if (mobileMenu && menuBackdrop) {
+                mobileMenu.addEventListener('show.bs.offcanvas', function () {
+                    document.body.classList.add('menu-open');
+                    menuBackdrop.classList.add('show');
+                });
+                
+                mobileMenu.addEventListener('hide.bs.offcanvas', function () {
+                    closeMenu();
+                });
+
+                // Cerrar menú al hacer click en el backdrop
+                menuBackdrop.addEventListener('click', function() {
+                    closeMenu();
+                    const offcanvas = bootstrap.Offcanvas.getInstance(mobileMenu);
+                    if (offcanvas) {
+                        offcanvas.hide();
                     }
                 });
             }
