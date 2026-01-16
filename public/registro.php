@@ -47,7 +47,7 @@ require_once __DIR__ . '/../config/config.php';
             ¿Ya tienes cuenta? <a href="login.php">Inicia sesión</a>
         </div>
     </div>
-
+    
     <script src="<?php echo BASE_URL . JS_URL; ?>/registro.js"></script>
 
 </body>
