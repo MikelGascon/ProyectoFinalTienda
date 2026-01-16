@@ -6,7 +6,7 @@ require_once BASE_URL . ENTITY_URL . '/bootstrap.php';
 
 */
 // 1. CARGA DE DOCTRINE
-require_once 'C:\xampp\htdocs\CorteRebelde\ProyectoFinalTienda\src\Entity\bootstrap.php';
+require_once 'C:\xampp\htdocs\ProyectoFinal\ProyectoFinalTienda\src\Entity\bootstrap.php';
 
 require_once '../src/Entity/Producto.php';
 require_once '../src/Entity/Marcas.php';
