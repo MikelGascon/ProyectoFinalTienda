@@ -1,11 +1,10 @@
-/* ============================================================
-   ESTILOS ESPECÍFICOS PARA FILTRO.PHP (DISEÑO LUXURY)
-   ============================================================ */
+:root {
+    --color-primary: #b8a67e;        
+    --color-primary-hover: #a08f6a;  
+    --color-dark: #1a1a1a;          
+    --color-placeholder: #e0e0e0;    
+}
 
-<<<<<<< HEAD
-/* Contenedor principal para separar Sidebar de Contenido */
-.layout {
-=======
 * {
     font-family: 'Poppins', sans-serif;
 }
@@ -167,175 +166,97 @@
 
 /* CATEGORIAS CON HOVER EXPANDIBLE */
 .categories-row {
->>>>>>> e463d170a725de2007e829243d14640ad4c710ce
     display: flex;
-    max-width: 1600px;
-    margin: 40px auto;
-    padding: 0 20px;
-    gap: 40px;
-    align-items: flex-start;
+    height: 500px;
+    overflow: hidden;
 }
 
-/* 1. SIDEBAR: Diseño original que pediste */
-.sidebar {
-    width: 280px;
-    flex-shrink: 0;
-    background: #fff;
-    padding: 10px;
-    position: sticky;
-    top: 120px; /* Ajustado para que no choque con tu navbar opacidad */
+.categories-row .category-col {
+    flex: 1;
+    transition: flex 0.4s ease;
+    overflow: hidden;
 }
 
-.filter-group {
-    margin-bottom: 25px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 20px;
+.categories-row .category-col:hover {
+    flex: 1.3;
 }
 
-.filter-group label {
-    display: block;
-    font-weight: 600;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 15px;
-    color: var(--color-dark);
-}
-
-.filter-group select {
+.categories-row .category-card {
+    height: 100%;
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    outline: none;
+    aspect-ratio: auto;
+}
+
+/* PRODUCTO CON HOVER */
+.product-card {
+    position: relative;
+    overflow: hidden;
     cursor: pointer;
 }
 
-/* Círculos de color */
-.color-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-.color-circle { width: 22px; height: 22px; cursor: pointer; position: relative; }
-.color-circle input { display: none; }
-.color-circle .inner {
-    display: block; width: 100%; height: 100%;
-    border-radius: 50%; border: 1px solid #ddd;
-}
-.color-circle input:checked + .inner {
-    outline: 2px solid var(--color-dark);
-    outline-offset: 3px;
+.product-card .img-default,
+.product-card .img-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 0.3s ease;
 }
 
-/* Botón Aplicar del Sidebar */
-.btn-apply {
-    width: 100%;
-    padding: 12px;
-    background-color: var(--color-dark);
+.product-card .img-hover {
+    opacity: 0;
+}
+
+.product-card:hover .img-default {
+    opacity: 0;
+}
+
+.product-card:hover .img-hover {
+    opacity: 1;
+}
+
+/* HERO SLIDER */
+.hero-slider .carousel-item {
+    height: 400px;
+}
+
+/* BOTÓN "Comprar" */
+.btn-comprar {
+    background-color: var(--color-primary);
+    border-radius: 25px;
+}
+
+.btn-comprar:hover {
+    background-color: var(--color-primary-hover);
     color: white;
-    border: none;
-    border-radius: 25px; /* Estilo redondeado del Index */
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    cursor: pointer;
 }
 
-.btn-apply:hover {
+/* FLECHAS CARRUSEL */
+.carousel-arrow:hover {
+    color: var(--color-primary);
+}
+
+/* ELEMENTOS CON COLOR PRIMARIO */
+.dot {
+    width: 8px;
+    height: 8px;
     background-color: var(--color-primary);
 }
 
-/* 2. GRID DE PRODUCTOS: 4 por fila, 3 filas */
-.main-container {
-    flex-grow: 1;
+.brand-logo:hover {
+    border-color: var(--color-primary) !important;
 }
 
-.grid-productos {
-    display: grid;
-    /* Esto obliga a que sean 4 columnas exactamente en pantallas grandes */
-    grid-template-columns: repeat(4, 1fr); 
-    gap: 25px;
+.brand-logo {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Tarjeta de producto estilo Index */
-.producto-card {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.prod-img {
-    aspect-ratio: 3/4; /* Relación de aspecto de fotografía de moda */
-    overflow: hidden;
-    background-color: #f9f9f9;
-    margin-bottom: 15px;
-    position: relative;
-}
-
-.img-fit {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.producto-card:hover .img-fit {
-    transform: scale(1.08);
-}
-
-.prod-name {
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    color: var(--color-dark);
-    margin-bottom: 5px;
-}
-
-.prod-price {
-    font-size: 1rem;
-    color: var(--color-primary);
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-.prod-info {
-    font-size: 0.7rem;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 15px;
-}
-
-/* Botones de la tarjeta (Igual que el Index) */
-.btn-link {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    text-decoration: none;
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    border-radius: 25px;
-    transition: 0.3s;
-}
-
-.btn-dark { background: var(--color-dark); color: white; border: 1px solid var(--color-dark); }
-.btn-outline { background: transparent; color: var(--color-dark); border: 1px solid var(--color-dark); }
-
-.btn-dark:hover { background: var(--color-primary); border-color: var(--color-primary); }
-.btn-outline:hover { background: var(--color-dark); color: white; }
-
-/* RESPONSIVE: Ajuste automático de columnas */
-@media (max-width: 1200px) {
-    .grid-productos { grid-template-columns: repeat(3, 1fr); }
-}
-
-<<<<<<< HEAD
-@media (max-width: 992px) {
-    .layout { flex-direction: column; }
-    .sidebar { width: 100%; position: relative; top: 0; }
-    .grid-productos { grid-template-columns: repeat(2, 1fr); }
-}
-=======
 .brand-logo img {
     height: 40%;
     width: auto;
@@ -374,4 +295,3 @@
         outline: none;
     }
 }
->>>>>>> e463d170a725de2007e829243d14640ad4c710ce
