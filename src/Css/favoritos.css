@@ -1,0 +1,90 @@
+:root {
+            --marron-claro: #AAA085;
+            --marron-oscuro: #8C836A;
+            --negro: #000000;
+            --gris-medio: #878686;
+            --gris-claro: #D9D9D9;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+        }
+
+        /* Reutilizamos la misma clase que el carrito para consistencia */
+        .wishlist-box {
+            max-width: 720px;
+            margin: 80px auto;
+            background-color: #fff;
+            border-radius: 14px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+            padding: 40px;
+        }
+
+        .wishlist-box h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            color: var(--marron-oscuro);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .lista-vacia {
+            text-align: center;
+            font-size: 1rem;
+            color: var(--gris-medio);
+            padding: 20px;
+            border: 1px solid var(--gris-medio);
+            border-radius: 10px;
+            background-color: var(--gris-claro);
+        }
+
+        .acciones {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .acciones button {
+            padding: 12px 24px;
+            background-color: var(--marron-claro);
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .acciones button:hover {
+            background-color: var(--marron-oscuro);
+        }
+
+        .login-aviso {
+            text-align: center;
+            font-size: 1rem;
+            color: var(--gris-medio);
+        }
+
+        .login-aviso a {
+            color: var(--marron-claro);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .login-aviso a:hover {
+            text-decoration: underline;
+        }
+
+        /* Icono decorativo opcional para la lista de deseos */
+        .heart-icon {
+            display: block;
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--marron-claro);
+            margin-bottom: 10px;
+        }
