@@ -1,4 +1,5 @@
 <?php
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,59 +19,23 @@ class Usuario
     private string $nombre;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private string $pass;
+    private string $password;
 
     #[ORM\Column(type: 'string', length: 100, unique: true)]
     private string $email;
 
     // --- GETTERS Y SETTERS ---
-    public function getId(): int
-    {
-        return $this->id;
-    }
+    public function getId(): int { return $this->id; }
 
-    public function getUsuario(): string
-    {
-        return $this->usuario;
-    }
+    public function getUsuario(): string { return $this->usuario; }
+    public function setUsuario(string $usuario): self { $this->usuario = $usuario; return $this; }
 
-    public function setUsuario(string $usuario): self
-    {
-        $this->usuario = $usuario;
-        return $this;
-    }
+    public function getNombre(): string { return $this->nombre; }
+    public function setNombre(string $nombre): self { $this->nombre = $nombre; return $this; }
 
-    public function getNombre(): string
-    {
-        return $this->nombre;
-    }
+    public function getPassword(): string { return $this->password; }
+    public function setPassword(string $password): self { $this->password = $password; return $this; }
 
-    public function setNombre(string $nombre): self
-    {
-        $this->nombre = $nombre;
-        return $this;
-    }
-
-    public function getPass(): string
-    {
-        return $this->pass;
-    }
-
-    public function setPass(string $pass): self
-    {
-        // Recuerda siempre hashear la contraseña antes de usar este setter
-        $this->pass = $pass;
-        return $this;
-    }
-
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-        return $this;
-    }
+    public function getEmail(): string { return $this->email; }
+    public function setEmail(string $email): self { $this->email = $email; return $this; }
 }
