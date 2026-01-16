@@ -1,0 +1,36 @@
+:root {
+    --marron-claro: #AAA085;
+    --marron-oscuro: #8C836A;
+}
+
+.hero-section {
+    background: #f8f9fa;
+    padding: 80px 0;
+}
+
+.logo-rebelde {
+    width: 120px;
+    margin-bottom: 20px;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: var(--marron-oscuro);
+    color: white;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+    border-color: var(--marron-oscuro);
+}
+
+.accordion-button:hover {
+    background-color: var(--marron-claro);
+    color: white;
+}
+
+.accordion-item {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}

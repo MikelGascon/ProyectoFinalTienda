@@ -6,54 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Preguntas Frecuentes | El Corte Rebelde</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        :root {
-            --marron-claro: #AAA085;
-            --marron-oscuro: #8C836A;
-        }
-
-        .hero-section {
-            background: #f8f9fa;
-            padding: 80px 0;
-        }
-
-        .logo-rebelde {
-            width: 120px;
-            margin-bottom: 20px;
-        }
-
-        .accordion-button:not(.collapsed) {
-            background-color: var(--marron-oscuro);
-            color: white;
-        }
-
-        .accordion-button:focus {
-            box-shadow: none;
-            border-color: var(--marron-oscuro);
-        }
-
-        .accordion-button:hover {
-            background-color: var(--marron-claro);
-            color: white;
-        }
-
-        .accordion-item {
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #ddd;
-            margin-bottom: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="../src/Css/preguntas_frecuentes.css">
 </head>
 
 <body>
 
     <?php include "../src/components/header.php"; ?>
 
-    <!-- Hero -->
     <section class="hero-section text-center">
         <div class="container">
             <img src="../src/img/logo_rebelde.png" alt="Logo El Corte Rebelde" class="logo-rebelde">
@@ -64,13 +25,11 @@
         </div>
     </section>
 
-    <!-- FAQ -->
     <section class="py-5">
         <div class="container" style="max-width: 900px;">
 
             <div class="accordion" id="faqAccordion">
 
-                <!-- 1 -->
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
@@ -84,7 +43,6 @@
                     </div>
                 </div>
 
-                <!-- 2 -->
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
@@ -98,7 +56,6 @@
                     </div>
                 </div>
 
-                <!-- 3 -->
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
@@ -112,7 +69,6 @@
                     </div>
                 </div>
 
-                <!-- 4 -->
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
