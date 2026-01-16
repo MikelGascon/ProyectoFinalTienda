@@ -46,8 +46,7 @@ $basePath = $basePath ?? "../src";
         <div class="container d-flex align-items-center">
             <!-- Menú hamburguesa -->
             <div class="hamburger-container">
-                <button class="btn border-0 p-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
-                    aria-label="Abrir menú">
+                <button class="btn border-0 p-0" type="button" id="menuToggle" aria-label="Abrir menú">
                     <i class="bi bi-list hamburger-icon"></i>
                 </button>
             </div>
@@ -101,29 +100,21 @@ $basePath = $basePath ?? "../src";
         </div>
     </nav>
 
-    <!-- Backdrop personalizado para el menú -->
+    <!-- Backdrop para el menú -->
     <div id="menuBackdrop" class="menu-backdrop"></div>
 
-    <!-- Opciones Menu hamburguesa -->
-    <div class="offcanvas offcanvas-start offcanvas-menu" tabindex="-1" id="mobileMenu" data-bs-backdrop="false">
-        <div class="offcanvas-header border-bottom">
-            <h5 class="offcanvas-title">Menú</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    <!-- Menú lateral personalizado -->
+    <div id="sideMenu" class="side-menu">
+        <div class="side-menu-header">
+            <h5>Menú</h5>
+            <button type="button" class="btn-close" id="menuClose"></button>
         </div>
-        <div class="offcanvas-body">
-            <ul class="navbar-nav">
-                <li class="nav-item py-2 border-bottom">
-                    <a class="nav-link" href="#">Mujer</a>
-                </li>
-                <li class="nav-item py-2 border-bottom">
-                    <a class="nav-link" href="#">Hombre</a>
-                </li>
-                <li class="nav-item py-2 border-bottom">
-                    <a class="nav-link" href="#">Niños</a>
-                </li>
-                <li class="nav-item py-2 border-bottom">
-                    <a class="nav-link" href="nosotros.php">Sobre Nosotros</a>
-                </li>
+        <div class="side-menu-body">
+            <ul class="menu-nav">
+                <li><a href="#">Mujer</a></li>
+                <li><a href="#">Hombre</a></li>
+                <li><a href="#">Niños</a></li>
+                <li><a href="nosotros.php">Sobre Nosotros</a></li>
             </ul>
         </div>
     </div>
@@ -164,30 +155,38 @@ $basePath = $basePath ?? "../src";
                 });
             }
 
-            // Bloquear scroll y mostrar backdrop cuando el menú hamburguesa está abierto
-            const mobileMenu = document.getElementById('mobileMenu');
+            // ====== MENÚ LATERAL ======
+            const menuToggle = document.getElementById('menuToggle');
+            const menuClose = document.getElementById('menuClose');
+            const sideMenu = document.getElementById('sideMenu');
             const menuBackdrop = document.getElementById('menuBackdrop');
+            const navbarElement = document.querySelector('.navbar');
             
-            if (mobileMenu && menuBackdrop) {
-                mobileMenu.addEventListener('show.bs.offcanvas', function () {
-                    document.body.classList.add('menu-open');
-                    menuBackdrop.classList.add('show');
-                });
+            if (menuToggle && menuClose && sideMenu && menuBackdrop && navbarElement) {
+                function updateMenuPosition() {
+                    const navbarRect = navbarElement.getBoundingClientRect();
+                    const topPosition = navbarRect.bottom;
+                    sideMenu.style.top = topPosition + 'px';
+                    sideMenu.style.height = 'calc(100vh - ' + topPosition + 'px)';
+                    menuBackdrop.style.top = topPosition + 'px';
+                }
                 
-                mobileMenu.addEventListener('hidden.bs.offcanvas', function () {
-                    document.body.classList.remove('menu-open');
+                function openMenu() {
+                    updateMenuPosition();
+                    sideMenu.classList.add('open');
+                    menuBackdrop.classList.add('show');
+                    document.body.classList.add('menu-open');
+                }
+                
+                function closeMenu() {
+                    sideMenu.classList.remove('open');
                     menuBackdrop.classList.remove('show');
-                });
-
-                // Cerrar menú al hacer click en el backdrop
-                menuBackdrop.addEventListener('click', function() {
                     document.body.classList.remove('menu-open');
-                    menuBackdrop.classList.remove('show');
-                    const offcanvas = bootstrap.Offcanvas.getInstance(mobileMenu);
-                    if (offcanvas) {
-                        offcanvas.hide();
-                    }
-                });
+                }
+                
+                menuToggle.addEventListener('click', openMenu);
+                menuClose.addEventListener('click', closeMenu);
+                menuBackdrop.addEventListener('click', closeMenu);
             }
         });
     </script>
