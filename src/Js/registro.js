@@ -4,14 +4,19 @@ document.getElementById('form-registro').addEventListener('submit', function (e)
     const btn = document.getElementById('btn-enviar');
     const respuestaDiv = document.getElementById('respuesta');
     const formData = new FormData(this);
-
+    
     // Feedback visual inmediato
     btn.disabled = true;
     btn.innerText = "PROCESANDO...";
     respuestaDiv.style.display = 'none';
 
+    //Variables de entornos de injeccion.phP
+    //const urlProceso = CONFIG.BASE_URL + CONFIG.PROCESS_URL + '/procesar_registro.php';
+
+
     // Petición AJAX al servidor
-    fetch('../src/procesos/procesar_registro.php', {
+    //../src/procesos/procesar_registro.php
+    fetch("../src/procesos/procesar_registro.php", {
         method: 'POST',
         body: formData
     })
