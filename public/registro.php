@@ -9,7 +9,7 @@ require_once __DIR__ . '/../config/config.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
-    <link rel="stylesheet" href="<?php echo BASE_URL . CSS_URL; ?>/registro.css">
+    <link rel="stylesheet" href="../src/Css/registro.css">
 </head>
 
 <body>
@@ -17,7 +17,7 @@ require_once __DIR__ . '/../config/config.php';
     <div class="login-box">
 
         <div class="login-header">
-            <img src="<?php echo BASE_URL . IMG_URL?>/logo-rebelde.png" alt="El Corte Rebelde">
+            <img src="../src/img/logo-rebelde.png" alt="El Corte Rebelde">
         </div>
 
         <div class="login-body">
