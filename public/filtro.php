@@ -1,6 +1,14 @@
 <?php
+<<<<<<< HEAD
 // 1. CARGA DE DOCTRINE (Ruta absoluta para XAMPP)
 require_once 'C:/xampp/htdocs/proyectoFinal/ProyectoFinalTienda/src/BDD/bootstrap.php'; 
+=======
+// 1. CONEXIÓN A LA BASE DE DATOS
+$host = "localhost";
+$user = "root";
+$pass = "root";
+$db = "app_tienda";
+>>>>>>> e463d170a725de2007e829243d14640ad4c710ce
 
 use App\Entity\Producto;
 use App\Entity\Marcas;
@@ -32,6 +40,7 @@ $optCats = $entityManager->getRepository(CategoriaSexo::class)->findAll();
 $optTipos = $entityManager->getRepository(TipoRopa::class)->findAll();
 $optTallas = $entityManager->getRepository(TallaRopa::class)->findAll();
 
+<<<<<<< HEAD
 // 4. MAPEO DE IMÁGENES Y COLORES
 $img_marcas = [
     'Gucci'         => 'https://media.gucci.com/style/DarkGray_Center_0_0_1200x1200/1730222114/784361_XJGTE_1152_001_100_0000_Light-camiseta-de-punto-de-algodon-estampado.jpg',
@@ -40,6 +49,39 @@ $img_marcas = [
     'Versace'       => 'https://www.versace.com/dw/image/v2/BGWN_PRD/on/demandware.static/-/Sites-ver-master-catalog/default/dw3f96a6e4/original/90_1020082-1A16350_5X000_10_PrintedSilkKnitShirt-Knitwear-Versace-online-store_0_2.jpg?sw=850&q=85&strip=true',
     'Louis Vuitton' => 'https://es.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-cartera-lily-con-cadena--M82509_PM2_Front%20view.jpg',
     'Default'       => 'https://via.placeholder.com/500x600?text=Luxury+Item'
+=======
+if (!empty($_GET['tipo'])) {
+    $tipo = $conexion->real_escape_string($_GET['tipo']);
+    $sql .= " AND t.nombre = '$tipo'";
+}
+
+if (!empty($_GET['color'])) {
+    $color = $conexion->real_escape_string($_GET['color']);
+    $sql .= " AND p.color = '$color'";
+}
+
+if (!empty($_GET['precio'])) {
+    $precio_max = (float) $_GET['precio'];
+    $sql .= " AND p.precio <= $precio_max";
+}
+
+$resultado = $conexion->query($sql);
+
+$filtros_data = [
+    'marcas' => ['Gucci', 'Dior', 'Moncler', 'Versace', 'Louis Vuitton'],
+    'categorias' => ['Hombre', 'Mujer', 'Unisex'],
+    'tipos' => ['Camisetas', 'Pantalones', 'Chaquetas', 'Accesorios', 'Vestidos'],
+    'colores' => [
+        'Blanco' => '#FFFFFF',
+        'Negro' => '#000000',
+        'Gris' => '#808080',
+        'Beige' => '#F5F5DC',
+        'Azul' => '#000080',
+        'Rojo' => '#FF0000',
+        'Verde' => '#556B2F',
+        'Marrón' => '#8B4513'
+    ]
+>>>>>>> e463d170a725de2007e829243d14640ad4c710ce
 ];
 
 $colores_map = [
@@ -61,6 +103,7 @@ include '../src/components/header.php';
 </head>
 <body>
 
+<<<<<<< HEAD
 <div class="layout">
     <aside class="sidebar">
         <form method="GET">
@@ -75,6 +118,87 @@ include '../src/components/header.php';
                         </option>
                     <?php endforeach; ?>
                 </select>
+=======
+    <div style="display: flex;">
+
+        <aside class="sidebar">
+            <form method="GET" action="">
+                <div class="filter-group">
+                    <label>Categoría</label>
+                    <select name="categoria">
+                        <option value="">Todas</option>
+                        <?php foreach ($filtros_data['categorias'] as $cat): ?>
+                            <option value="<?php echo $cat; ?>" <?php echo (isset($_GET['categoria']) && $_GET['categoria'] == $cat) ? 'selected' : ''; ?>>
+                                <?php echo $cat; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Tipo de Ropa</label>
+                    <select name="tipo">
+                        <option value="">Cualquiera</option>
+                        <?php foreach ($filtros_data['tipos'] as $t): ?>
+                            <option value="<?php echo $t; ?>" <?php echo (isset($_GET['tipo']) && $_GET['tipo'] == $t) ? 'selected' : ''; ?>><?php echo $t; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Colores</label>
+                    <div class="color-grid">
+                        <?php foreach ($filtros_data['colores'] as $nombre => $hex): ?>
+                            <label class="color-circle">
+                                <input type="radio" name="color" value="<?php echo $nombre; ?>" <?php echo (isset($_GET['color']) && $_GET['color'] == $nombre) ? 'checked' : ''; ?>>
+                                <span class="inner" style="background-color: <?php echo $hex; ?>;"
+                                    title="<?php echo $nombre; ?>"></span>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label>Precio Máx: <span id="val-p"><?php echo $_GET['precio'] ?? '500'; ?></span>€</label>
+                    <input type="range" name="precio" min="0" max="15000"
+                        value="<?php echo $_GET['precio'] ?? '500'; ?>" id="range-p">
+                </div>
+
+                <button type="submit" class="btn-apply">APLICAR FILTROS</button>
+                <a href="filtro.php"
+                    style="display:block; text-align:center; margin-top:10px; color:var(--gris-medio); font-size:0.8rem; text-decoration:none;">Limpiar</a>
+            </form>
+        </aside>
+
+        <main class="main-container">
+            <div class="grid-productos">
+                <?php if ($resultado->num_rows > 0): ?>
+                    <?php while ($prod = $resultado->fetch_assoc()): ?>
+                        <div class="producto-card">
+                            <div class="prod-img">IMAGEN</div>
+                            <div style="font-weight:bold;"><?php echo htmlspecialchars($prod['nombre']); ?></div>
+                            <div style="color:var(--marron-claro); font-weight:bold;">
+                                <?php echo number_format($prod['precio'], 2); ?>€
+                            </div>
+                            <div style="font-size:0.7rem; color:#999;"><?php echo $prod['color']; ?> |
+                                <?php echo $prod['categoria']; ?>
+                            </div>
+
+                            <!-- 
+                            Creacion de las nueva pagina, ademas de el añadir a carrito
+                            Estilos, de prueba
+                            -->
+                            <a href="detalles.php"
+                                class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Detalles...</a>
+                            <a href="filtro.php" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Añadir</a>
+                        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <p style="grid-column: 1 / -1; text-align: center; color: #999; margin-top: 50px;">
+                        No se han encontrado productos con esos filtros.
+                    </p>
+                <?php endif; ?>
+>>>>>>> e463d170a725de2007e829243d14640ad4c710ce
             </div>
 
             <div class="filter-group">

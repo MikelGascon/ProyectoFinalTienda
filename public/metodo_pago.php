@@ -545,8 +545,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
             <a href="#">Volver</a>
 
         </div>
-        >>>>>>> 5f999619b2ddff369a43653c150dc0dbcc23d0e4
-
 </body>
 
 </html>

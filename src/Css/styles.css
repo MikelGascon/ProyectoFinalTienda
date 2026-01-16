@@ -2,8 +2,172 @@
    ESTILOS ESPECÍFICOS PARA FILTRO.PHP (DISEÑO LUXURY)
    ============================================================ */
 
+<<<<<<< HEAD
 /* Contenedor principal para separar Sidebar de Contenido */
 .layout {
+=======
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* COLORES PERSONALIZADOS */
+.bg-primary-custom,
+.shipping-banner,
+.category-card,
+.photo-placeholder {
+    background-color: var(--color-primary);
+}
+
+/* TOP BANNER */
+.top-banner .btn-close {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    filter: brightness(0) invert(1);
+}
+
+/* NAVBAR */
+.nav-link {
+    color: var(--color-dark) !important;
+}
+
+.nav-link:hover,
+.icon-btn:hover,
+.text-nav span:hover,
+.social-icons a:hover,
+.footer-links a:hover {
+    color: var(--color-primary) !important;
+}
+
+/* HAMBURGER MENU */
+.hamburger-container {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.hamburger-icon {
+    font-size: 1.5rem;
+    transform: scaleX(1.4);
+    display: inline-block;
+}
+
+/* LOGO */
+.logo-position {
+    position: relative;
+    left: 40px;
+    margin-right: 0;
+}
+
+/* BARRA DE BUSQUEDA */
+.search-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    max-width: 500px;
+    min-width: 200px;
+}
+
+.icons-container {
+    margin-left: auto;
+}
+
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    overflow: hidden;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.search-wrapper:focus-within {
+    border-color: var(--color-dark);
+}
+
+.search-box {
+    border: none;
+    border-radius: 25px 0 0 25px;
+    min-width: 280px;
+    padding-right: 70px !important;
+}
+
+.search-box:focus {
+    box-shadow: none;
+    border-color: transparent;
+    outline: none;
+}
+
+.btn-clear-search {
+    position: absolute;
+    right: 45px;
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.btn-clear-search:hover {
+    color: #333;
+}
+
+.btn-clear-search.visible {
+    display: flex;
+}
+
+.btn-search {
+    position: absolute;
+    right: 5px;
+    background-color: var(--color-primary);
+    border: none;
+    color: #fff;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-search:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.logo-placeholder {
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-placeholder);
+}
+
+.logo-placeholder-lg {
+    width: 50px;
+    height: 50px;
+}
+
+.product-placeholder {
+    aspect-ratio: 3/4;
+}
+
+.photo-placeholder {
+    aspect-ratio: 1/1;
+}
+
+/* CATEGORIAS CON HOVER EXPANDIBLE */
+.categories-row {
+>>>>>>> e463d170a725de2007e829243d14640ad4c710ce
     display: flex;
     max-width: 1600px;
     margin: 40px auto;
@@ -165,8 +329,49 @@
     .grid-productos { grid-template-columns: repeat(3, 1fr); }
 }
 
+<<<<<<< HEAD
 @media (max-width: 992px) {
     .layout { flex-direction: column; }
     .sidebar { width: 100%; position: relative; top: 0; }
     .grid-productos { grid-template-columns: repeat(2, 1fr); }
 }
+=======
+.brand-logo img {
+    height: 40%;
+    width: auto;
+    object-fit: contain;
+}
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .hero-slider .carousel-item {
+        height: 300px;
+    }
+
+    .hamburger-container {
+        margin-right: 10px;
+    }
+
+    .logo-position {
+        left: 0;
+    }
+
+    .search-container {
+        position: relative;
+        left: auto;
+        transform: none;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .search-box-mobile {
+        border: none;
+        width: 100%;
+        padding-right: 70px !important;
+    }
+
+    .search-box-mobile:focus {
+        box-shadow: none;
+        outline: none;
+    }
+}
+>>>>>>> e463d170a725de2007e829243d14640ad4c710ce
