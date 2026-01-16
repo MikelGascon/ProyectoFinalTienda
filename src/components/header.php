@@ -1,4 +1,3 @@
-
 <?php
 $pageTitle = $pageTitle ?? "Tienda Online";
 $bannerText = $bannerText ?? "20% OFF EN COLECCIÓN DE INVIERNO";
@@ -43,12 +42,11 @@ $basePath = $basePath ?? "../src";
     <?php endif; ?>
 
     <!-- Header / Navbar -->
-    <nav class="navbar bg-white sticky-top shadow-sm py-2 opacidad">
+    <nav class="navbar sticky-top shadow-sm py-2 opacidad">
         <div class="container d-flex align-items-center">
             <!-- Menú hamburguesa -->
             <div class="hamburger-container">
-                <button class="btn border-0 p-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
-                    aria-label="Abrir menú">
+                <button class="btn border-0 p-0" type="button" id="menuToggle" aria-label="Abrir menú">
                     <i class="bi bi-list hamburger-icon"></i>
                 </button>
             </div>
@@ -82,7 +80,7 @@ $basePath = $basePath ?? "../src";
                         class="bi bi-person"></i></a>
                 <a href="../public/carrito.php" class="icon-btn text-decoration-none text-dark fs-5"><i
                         class="bi bi-cart2"></i></a>
-                <a href="#" class="icon-btn text-decoration-none text-dark fs-5"><i class="bi bi-heart"></i></a>
+                <a href="#" class="icon-btn text-decoration-none text-dark fs-6"><i class="bi bi-heart"></i></a>
             </div>
         </div>
 
@@ -102,29 +100,21 @@ $basePath = $basePath ?? "../src";
         </div>
     </nav>
 
-    <!-- Opciones Menu hamburguesa -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu">
-        <div class="offcanvas-header border-bottom">
-            <h5 class="offcanvas-title">Menú</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    <!-- Backdrop para el menú -->
+    <div id="menuBackdrop" class="menu-backdrop"></div>
+
+    <!-- Menú lateral personalizado -->
+    <div id="sideMenu" class="side-menu">
+        <div class="side-menu-header">
+            <h5>Menú</h5>
+            <button type="button" class="btn-close" id="menuClose"></button>
         </div>
-        <div class="offcanvas-body">
-            <form class="mb-4">
-                <input class="form-control search-box" type="search" placeholder="Buscar...">
-            </form>
-            <ul class="navbar-nav">
-                <li class="nav-item py-2 border-bottom">
-                    <a class="nav-link" href="#">Mujer</a>
-                </li>
-                <li class="nav-item py-2 border-bottom">
-                    <a class="nav-link" href="#">Hombre</a>
-                </li>
-                <li class="nav-item py-2 border-bottom">
-                    <a class="nav-link" href="#">Niños</a>
-                </li>
-                <li class="nav-item py-2 border-bottom">
-                    <a class="nav-link" href="nosotros.php">Sobre Nosotros</a>
-                </li>
+        <div class="side-menu-body">
+            <ul class="menu-nav">
+                <li><a href="#">Mujer</a></li>
+                <li><a href="#">Hombre</a></li>
+                <li><a href="#">Niños</a></li>
+                <li><a href="nosotros.php">Sobre Nosotros</a></li>
             </ul>
         </div>
     </div>
@@ -151,6 +141,52 @@ $basePath = $basePath ?? "../src";
                     clearBtn.classList.remove('visible');
                     searchInput.focus();
                 });
+            }
+
+            // Efecto glassmorphism en navbar al hacer scroll
+            const navbar = document.querySelector('.navbar.opacidad');
+            if (navbar) {
+                window.addEventListener('scroll', function () {
+                    if (window.scrollY > 50) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
+                });
+            }
+
+            // ====== MENÚ LATERAL ======
+            const menuToggle = document.getElementById('menuToggle');
+            const menuClose = document.getElementById('menuClose');
+            const sideMenu = document.getElementById('sideMenu');
+            const menuBackdrop = document.getElementById('menuBackdrop');
+            const navbarElement = document.querySelector('.navbar');
+            
+            if (menuToggle && menuClose && sideMenu && menuBackdrop && navbarElement) {
+                function updateMenuPosition() {
+                    const navbarRect = navbarElement.getBoundingClientRect();
+                    const topPosition = navbarRect.bottom;
+                    sideMenu.style.top = topPosition + 'px';
+                    sideMenu.style.height = 'calc(100vh - ' + topPosition + 'px)';
+                    menuBackdrop.style.top = topPosition + 'px';
+                }
+                
+                function openMenu() {
+                    updateMenuPosition();
+                    sideMenu.classList.add('open');
+                    menuBackdrop.classList.add('show');
+                    document.body.classList.add('menu-open');
+                }
+                
+                function closeMenu() {
+                    sideMenu.classList.remove('open');
+                    menuBackdrop.classList.remove('show');
+                    document.body.classList.remove('menu-open');
+                }
+                
+                menuToggle.addEventListener('click', openMenu);
+                menuClose.addEventListener('click', closeMenu);
+                menuBackdrop.addEventListener('click', closeMenu);
             }
         });
     </script>
