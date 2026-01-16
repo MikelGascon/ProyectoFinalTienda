@@ -1,66 +1,127 @@
 <?php
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="productos")
- */
+#[ORM\Entity]
+#[ORM\Table(name: "productos")]
 class Producto
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
-    /** @ORM\Column(type="string") */
-    private $nombre;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $nombre = null;
 
-    /** @ORM\Column(type="decimal", precision=10, scale=2) */
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private $precio;
 
-    /** @ORM\Column(type="string") */
-    private $color;
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $color = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="CategoriaSexo")
-     * @ORM\JoinColumn(name="categoriaId", referencedColumnName="id")
-     */
-    private $categoria;
+    #[ORM\ManyToOne(targetEntity: CategoriaSexo::class)]
+    #[ORM\JoinColumn(name: "categoriaId", referencedColumnName: "id")]
+    private ?CategoriaSexo $categoria = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Marcas")
-     * @ORM\JoinColumn(name="marcaId", referencedColumnName="id")
-     */
-    private $marca;
+    #[ORM\ManyToOne(targetEntity: Marcas::class)]
+    #[ORM\JoinColumn(name: "marcaId", referencedColumnName: "id")]
+    private ?Marcas $marca = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="TipoRopa")
-     * @ORM\JoinColumn(name="tipo_ropaId", referencedColumnName="id")
-     */
-    private $tipoRopa;
+    #[ORM\ManyToOne(targetEntity: TipoRopa::class)]
+    #[ORM\JoinColumn(name: "tipo_ropaId", referencedColumnName: "id")]
+    private ?TipoRopa $tipoRopa = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="TallaRopa")
-     * @ORM\JoinColumn(name="tallaId", referencedColumnName="id")
-     */
-    private $talla;
+    #[ORM\ManyToOne(targetEntity: TallaRopa::class)]
+    #[ORM\JoinColumn(name: "tallaId", referencedColumnName: "id")]
+    private ?TallaRopa $talla = null;
 
-    // Getters necesarios para el HTML
-    public function getId() { return $this->id; }
-    public function getNombre() { return $this->nombre; }
-    public function getPrecio() { return $this->precio; }
-    public function getColor() { return $this->color; }
-    public function getCategoria() { return $this->categoria; }
-    public function getMarca() { return $this->marca; }
-    public function getTipoRopa() { return $this->tipoRopa; }
-    public function getTalla() { return $this->talla; }
+    // --- GETTERS ---
 
-    // Setters para la edición rápida
-    public function setColor($color) { $this->color = $color; }
-    public function setTipoRopa($tipo) { $this->tipoRopa = $tipo; }
-    public function setTalla($talla) { $this->talla = $talla; }
+    public function getId(): ?int 
+    { 
+        return $this->id; 
+    }
+
+    public function getNombre(): ?string 
+    { 
+        return $this->nombre; 
+    }
+
+    public function getPrecio() 
+    { 
+        return $this->precio; 
+    }
+
+    public function getColor(): ?string 
+    { 
+        return $this->color; 
+    }
+
+    public function getCategoria(): ?CategoriaSexo 
+    { 
+        return $this->categoria; 
+    }
+
+    public function getMarca(): ?Marcas 
+    { 
+        return $this->marca; 
+    }
+
+    public function getTipoRopa(): ?TipoRopa 
+    { 
+        return $this->tipoRopa; 
+    }
+
+    public function getTalla(): ?TallaRopa 
+    { 
+        return $this->talla; 
+    }
+
+    // --- SETTERS ---
+
+    public function setNombre(string $nombre): self
+    {
+        $this->nombre = $nombre;
+        return $this;
+    }
+
+    public function setPrecio($precio): self
+    {
+        $this->precio = $precio;
+        return $this;
+    }
+
+    public function setColor(?string $color): self 
+    { 
+        $this->color = $color; 
+        return $this;
+    }
+
+    public function setCategoria(?CategoriaSexo $categoria): self
+    {
+        $this->categoria = $categoria;
+        return $this;
+    }
+
+    public function setMarca(?Marcas $marca): self
+    {
+        $this->marca = $marca;
+        return $this;
+    }
+
+    public function setTipoRopa(?TipoRopa $tipo): self 
+    { 
+        $this->tipoRopa = $tipo; 
+        return $this;
+    }
+
+    public function setTalla(?TallaRopa $talla): self 
+    { 
+        $this->talla = $talla; 
+        return $this;
+    }
 }
