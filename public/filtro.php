@@ -43,8 +43,12 @@ $img_productos = [
     'Llavero'            => 'https://es.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-llavero-lv-dragonne--M62706_PM2_Front%20view.jpg',
     'Camiseta Versace'   => 'https://images.thebestshops.com/product_images/original/SL12044-035_02-f4d863.jpg',
     'Pantalones Dior'    => 'https://cdn-images.farfetch-contents.com/20/50/49/72/20504972_50589018_600.jpg',
-    'Chaqueta Moncler'   => 'https://cdn-images.farfetch-contents.com/24/75/43/29/24754329_54867067_1000.jpgg',
+    'Chaqueta Moncler'   => 'https://holtrenfrew.scene7.com/is/image/HoltRenfrew1/m_5000896451_01',
     'Vestido Verde'      => 'https://images.vestiairecollective.com/images/resized/w=1246,q=75,f=auto,/produit/vestidos-gucci-de-algodon-verde-54802360-1_2.jpg',
+    'Chaqueta moncler'      => 'https://www.mytheresa.com/media/1094/1238/100/17/P01068383.jpg',
+    'Sudadera Dior'      => 'https://cdn1.jolicloset.com/img4/detail4b/2024/05/1324295-1/ropa-punto-christian-dior.jpg',
+    'Bolso gucci'      => 'https://media.gucci.com/style/DarkGray_Center_0_0_1200x1200/1697733137/764960_K9GSG_8367_001_057_0000_Light-minibolso-ophidia.jpg',
+    'Collar Versace'      => 'https://www.versace.com/dw/image/v2/BGWN_PRD/on/demandware.static/-/Sites-ver-master-catalog/default/dw8e7806c5/original/90_1015461-1A00621_4JNF0_22_IconCrystalNecklace-Necklaces-Versace-online-store_0_1.jpg?sw=850&q=85&strip=true',
     'Default'            => 'https://via.placeholder.com/500x600?text=Luxury+Item'
 ];
 
