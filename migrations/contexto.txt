@@ -1,7 +1,0 @@
-
-la pagina migrations se refiere a la hora de pasarlo a la maquina virutal 
-hacer un run.php, que lance todos los scrips a la bdd dentro de la maquina
-
-
-Meter dentro de la carpeta de migrations. El vendor
-
