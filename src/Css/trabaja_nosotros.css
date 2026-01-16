@@ -1,0 +1,70 @@
+:root {
+    --marron-claro: #AAA085;
+    --marron-oscuro: #8C836A;
+}
+
+.hero-section {
+    background: #f8f9fa;
+    padding: 100px 0;
+}
+
+.icon-box {
+    font-size: 2.5rem;
+    color: var(--marron-oscuro);
+}
+
+.beneficio-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px 20px;
+    transition: all 0.35s ease;
+    border: 1px solid #e6e6e6;
+}
+
+.beneficio-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    border-color: var(--marron-oscuro);
+}
+
+.beneficio-card i {
+    transition: transform 0.35s ease;
+}
+
+.beneficio-card:hover i {
+    transform: rotate(8deg) scale(1.15);
+}
+
+.vacante-box {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    transition: 0.3s ease;
+    background: #fff;
+}
+
+.vacante-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.logo-rebelde {
+    width: 120px;
+    margin-bottom: 20px;
+}
+
+.btn-rebelde {
+    background-color: var(--marron-oscuro);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    transition: 0.3s ease;
+}
+
+.btn-rebelde:hover {
+    background-color: var(--marron-claro);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
