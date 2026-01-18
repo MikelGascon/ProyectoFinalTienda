@@ -17,6 +17,11 @@ if (empty($nombre) || empty($email) || empty($usuario) || empty($password)) {
     exit;
 }
 
+if (strlen($password) < 3) {
+    echo json_encode(['status' => 'error', 'mensaje' => 'La contraseña debe tener al menos 6 caracteres']);
+    exit;
+}
+
 if ($password !== $confirm) {
     echo json_encode(['status' => 'error', 'mensaje' => 'Las contraseñas no coinciden']);
     exit;
