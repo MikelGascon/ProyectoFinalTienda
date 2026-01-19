@@ -53,7 +53,7 @@ $basePath = $basePath ?? "../src";
                         <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Tramitar
                                 devolucion</a>
                         </li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Servicios de la
+                        <li class="mb-2"><a href="../public/servicios_tienda.php" class="text-secondary text-decoration-none small">Servicios de la
                                 tienda</a>
                         </li>
                         <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Tarjeta de
