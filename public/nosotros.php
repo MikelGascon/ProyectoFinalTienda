@@ -11,6 +11,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         .hero-section {
             background: #f8f9fa;
@@ -51,7 +54,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="images.unsplash.com" class="img-fluid rounded shadow" alt="Nuestro Equipo">
+                    <img src="" class="img-fluid rounded shadow" alt="Nuestro Equipo">
                 </div>
                 <div class="col-lg-6 ps-lg-5">
                     <h2 class="fw-bold mb-3">Nuestra Historia</h2>
@@ -123,8 +126,7 @@
     <!-- Footer -->
     <?php include "../src/components/footer.php" ?>
 
-    <!-- Bootstrap 5 JS -->
-    <script src="cdn.jsdelivr.net"></script>
+
 </body>
 
 </html>

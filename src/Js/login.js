@@ -9,7 +9,7 @@ document.getElementById('form-login').addEventListener('submit', function (e) {
     btn.innerText = "PROCESANDO...";
     respuestaDiv.style.display = 'none';
 
-    fetch('login.php', {
+    fetch('../src/procesos/procesar_login.php', {
         method: 'POST',
         body: formData
     })

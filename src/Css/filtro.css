@@ -15,6 +15,9 @@
     padding: 20px;
     position: sticky;
     top: 120px;
+    overflow: scroll;
+    overflow-x: auto;
+    height: 46pc;
 }
 
 .filter-group {
