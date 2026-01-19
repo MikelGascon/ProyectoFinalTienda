@@ -12,7 +12,7 @@
 </head>
 
 <body>
-
+ 
     <?php include "../src/components/header.php"; ?>
 
     <section class="hero-section text-center">
