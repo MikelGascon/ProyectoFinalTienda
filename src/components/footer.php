@@ -47,7 +47,7 @@ $basePath = $basePath ?? "../src";
                 <div class="col-6 col-md-4 col-lg-3 mb-4">
                     <h6 class="fw-semibold small mb-3">Ayuda</h6>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Preguntas
+                        <li class="mb-2"><a href="../public/preguntas_frecuentes.php" class="text-secondary text-decoration-none small">Preguntas
                                 frecuentes</a>
                         </li>
                         <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Tramitar
