@@ -1,8 +1,8 @@
 <?php
 
 require_once '../config/config.php';
-// 1. CARGA DE DOCTRINE
-require_once BASE_URL . ENTITY_URL . '/bootstrap.php';
+
+require_once ENTITY_PATH . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 
 require_once '../src/Entity/Producto.php';

@@ -61,13 +61,13 @@ $basePath = $basePath ?? "../src";
                     </ul>
                 </div>
 
-                <!-- Explore -->
+                <!-- Trabaja con nostros -->
                 <div class="col-6 col-md-4 col-lg-3 mb-4">
                     <h6 class="fw-semibold small mb-3">Empresa</h6>
                     <ul class="list-unstyled">
                         <li class="mb-2"><a href="../public/nosotros.php" class="text-secondary text-decoration-none small">Quienes somos</a>
                         </li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Trabaja con
+                        <li class="mb-2"><a href="../public/trabaja_nosotros.php" class="text-secondary text-decoration-none small">Trabaja con
                                 nosotros</a>
                         </li>
                     </ul>
