@@ -2,18 +2,21 @@
 session_start();
 require_once '../config/config.php';
 require_once ENTITY_PATH . DIRECTORY_SEPARATOR . 'bootstrap.php';
+
 use App\Entity\Producto;
 
 $id = $_GET['id'] ?? null;
 
 if ($id) {
+    // Usamos Doctrine para encontrar el producto por su ID
     $producto = $entityManager->find(Producto::class, $id);
+
     if ($producto) {
         if (!isset($_SESSION['carrito'])) {
             $_SESSION['carrito'] = [];
         }
 
-        // Guardamos el ID, nombre (para la imagen) y precio
+        // Si ya existe, aumentamos cantidad, si no, lo creamos
         if (isset($_SESSION['carrito'][$id])) {
             $_SESSION['carrito'][$id]['cantidad']++;
         } else {
@@ -25,5 +28,6 @@ if ($id) {
         }
     }
 }
+
 header('Location: carrito.php');
 exit;
