@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__. "/../procesos/check_session.php";
 
 $pageTitle = $pageTitle ?? "Tienda Online";
 $bannerText = $bannerText ?? "20% OFF EN COLECCIÓN DE INVIERNO";
@@ -73,38 +74,83 @@ $basePath = $basePath ?? "../src";
                 </div>
             </form>
 
-           
+
             <!-- Spacer para móvil -->
             <div class="d-md-none flex-grow-1"></div>
 
             <!-- Icons -->
-              <p> Bienvenido Usuario</p>
-            <div class="d-flex align-items-center gap-3 icons-container">
-            <!-- Panel usuario-->
-            <!-- El CSS es el Styles-->
-            <!--
-            <a href="../public/login.php" class="icon-btn text-decoration-none text-dark fs-5"><i
-                        class="bi bi-person"></i></a>
-            -->            
-                <a onclick="desplegarDatos()" class="icon-btn text-decoration-none text-dark fs-5"><i class="bi bi-person"></i></a>
-                <div class="panelUsuario" id="panelUsuario"> 
-                    <ul class="panelListaUsuario">
-                        <li class="opcionesListaUsuario">Inicio Sesion</li>
-                        <li class="opcionesListaUsuario">Cerar Sesion</li>
-                    </ul>
+            <div class="d-flex align-items-center gap-3 icons-container position-relative">
+                <!-- Panel usuario-->
+                <div class="user-panel-container">
+                    <a href="#" onclick="toggleUserPanel(event)" class="icon-btn text-decoration-none text-dark fs-5">
+                        <i class="bi bi-person<?php echo $usuarioLogueado ? '-fill' : ''; ?>"></i>
+                    </a>
+                    <div class="panelUsuario" id="panelUsuario">
+                        <?php if ($usuarioLogueado): ?>
+                            <!-- Panel para usuario logueado -->
+                            <div class="user-info-panel">
+                                <div class="user-avatar">
+                                    <i class="bi bi-person-circle"></i>
+                                </div>
+                                <div class="user-name"><?php echo htmlspecialchars($nombreUsuario); ?></div>
+                                <div class="user-email"><?php echo htmlspecialchars($usuario); ?></div>
+                            </div>
+                            <ul class="panelListaUsuario">
+                                <li class="opcionesListaUsuario">
+                                    <a href="../public/perfil.php">
+                                        <i class="bi bi-person-circle"></i> Mi Perfil
+                                    </a>
+                                </li>
+                                <li class="opcionesListaUsuario">
+                                    <a href="../public/pedidos.php">
+                                        <i class="bi bi-bag-check"></i> Mis Pedidos
+                                    </a>
+                                </li>
+                                <li class="opcionesListaUsuario">
+                                    <a href="../public/direcciones.php">
+                                        <i class="bi bi-house"></i> Mis Direcciones
+                                    </a>
+                                </li>
+                                <li class="opcionesListaUsuario separator">
+                                    <a href="../src/procesos/logout.php">
+                                        <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                                    </a>
+                                </li>
+                            </ul>
+                        <?php else: ?>
+                            <!-- Panel para usuario no logueado -->
+                            <ul class="panelListaUsuario">
+                                <li class="opcionesListaUsuario">
+                                    <a href="../public/login.php">
+                                        <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                                    </a>
+                                </li>
+                                <li class="opcionesListaUsuario">
+                                    <a href="../public/registro.php">
+                                        <i class="bi bi-person-plus"></i> Registrarse
+                                    </a>
+                                </li>
+                            </ul>
+                        <?php endif; ?>
+                    </div>
                 </div>
-            <!-- **********************-->            
-                <a href="../public/carrito.php" class="icon-btn text-decoration-none text-dark fs-5"><i
-                        class="bi bi-cart2"></i></a>
-                <a href="../public/favoritos.php" class="icon-btn text-decoration-none text-dark fs-6"><i class="bi bi-heart"></i></a>
+
+                <a href="../public/carrito.php" class="icon-btn text-decoration-none text-dark fs-5">
+                    <i class="bi bi-cart2"></i>
+                </a>
+                <a href="../public/favoritos.php" class="icon-btn text-decoration-none text-dark fs-6">
+                    <i class="bi bi-heart"></i>
+                </a>
             </div>
+
         </div>
 
         <!-- Search Bar (Mobile) -->
         <div class="container d-md-none pt-2">
             <form class="search-container w-100">
                 <div class="search-wrapper w-100">
-                    <input class="form-control search-box-mobile px-3 py-2" type="text" placeholder="" aria-label="Buscar">
+                    <input class="form-control search-box-mobile px-3 py-2" type="text" placeholder=""
+                        aria-label="Buscar">
                     <button type="button" class="btn-clear-search" aria-label="Limpiar búsqueda">
                         <i class="bi bi-x"></i>
                     </button>

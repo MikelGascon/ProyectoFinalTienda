@@ -6,8 +6,7 @@ $showBanner = true;
 $basePath = "../src";
 include '../src/components/header.php';
 
-// Incluir header (top banner + navbar)
-//include   COMPONENT_URL .'/header.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

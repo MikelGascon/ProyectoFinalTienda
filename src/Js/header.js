@@ -68,12 +68,23 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-function desplegarDatos() {
-    let viPanelUsuario = document.getElementById("panelUsuario");
-    if (window.getComputedStyle(viPanelUsuario).display === 'none') {
-        viPanelUsuario.style.display = "block";
-    } else {
-        viPanelUsuario.style.display = "none";
-    }
-
+function toggleUserPanel(event) {
+    event.preventDefault();
+    const panel = document.getElementById('panelUsuario');
+    panel.classList.toggle('show');
 }
+
+// Cerrar el panel cuando se hace clic fuera
+document.addEventListener('click', function (event) {
+    const panel = document.getElementById('panelUsuario');
+    const userIcon = event.target.closest('.user-panel-container');
+
+    if (!userIcon && panel.classList.contains('show')) {
+        panel.classList.remove('show');
+    }
+});
+
+// Prevenir que el clic en el panel lo cierre
+document.getElementById('panelUsuario')?.addEventListener('click', function (event) {
+    event.stopPropagation();
+});
