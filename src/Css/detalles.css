@@ -1,0 +1,43 @@
+.detalles-container {
+    display: grid;
+    /* Cambiamos a 0.8fr para que la columna de la foto sea más estrecha que la del texto */
+    grid-template-columns: 0.8fr 1.2fr; 
+    gap: 60px; /* Aumentamos el espacio entre columnas */
+    max-width: 1100px; /* Estrechamos un poco el contenedor general */
+    margin: 40px auto;
+    padding: 30px;
+    background: #fff;
+    align-items: start; /* Alinea el contenido arriba */
+}
+
+.detalles-img {
+    display: flex;
+    justify-content: center; /* Centra la imagen si es más pequeña que el contenedor */
+}
+
+.detalles-img img {
+    width: 100%;
+    max-width: 400px; /* LIMITA el ancho máximo de la foto aquí */
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    object-fit: contain; /* Asegura que no se deforme */
+}
+
+/* El resto se mantiene igual */
+.detalles-info h1 { font-size: 2.5rem; margin-bottom: 10px; text-transform: uppercase; }
+.detalles-precio { font-size: 1.8rem; color: #333; font-weight: bold; margin-bottom: 20px; }
+.detalles-meta { border-top: 1px solid #eee; padding-top: 20px; }
+.meta-item { margin-bottom: 10px; font-size: 1.1rem; }
+.meta-label { font-weight: bold; color: #666; width: 120px; display: inline-block; }
+.btn-comprar {
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    padding: 15px 40px;
+    text-decoration: none;
+    margin-top: 30px;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+.btn-comprar:hover { background: #333; }
