@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Mapeo de imágenes (Asegúrate de que coincida con tus nombres en SQL)
+// Mapeo de imágenes por nombre (coincidiendo con tu DB)
 $img_productos = [
     'Camiseta Logo Gold' => 'https://media.gucci.com/style/DarkGray_Center_0_0_1200x1200/1730222114/784361_XJGTE_1152_001_100_0000_Light-camiseta-de-punto-de-algodon-estampado.jpg',
     'Bolso Saddle Mini' => 'https://assets.christiandior.com/is/image/diorprod/M0455CBAAM66B_SBG_E01?$r2x3_raw$&crop=0,0,4000,5000&wid=1334&hei=2000&scale=1&bfc=on&qlt=85',
@@ -19,7 +19,7 @@ $img_productos = [
     'Sudadera Dior' => 'https://cdn1.jolicloset.com/img4/detail4b/2024/05/1324295-1/ropa-punto-christian-dior.jpg',
     'Bolso gucci' => 'https://media.gucci.com/style/DarkGray_Center_0_0_1200x1200/1697733137/764960_K9GSG_8367_001_057_0000_Light-minibolso-ophidia.jpg',
     'Collar Versace' => 'https://www.versace.com/dw/image/v2/BGWN_PRD/on/demandware.static/-/Sites-ver-master-catalog/default/dw8e7806c5/original/90_1015461-1A00621_4JNF0_22_IconCrystalNecklace-Necklaces-Versace-online-store_0_1.jpg?sw=850&q=85&strip=true',
-    'Default' => 'https://via.placeholder.com/500x600?text=No+Image'
+    'Default' => 'https://via.placeholder.com/500x600?text=Luxury+Item'
 ];
 
 $carrito = $_SESSION['carrito'] ?? [];
@@ -30,21 +30,18 @@ $totalGeneral = 0;
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Carrito de Compras - El Corte Rebelde</title>
+    <title>Carrito - El Corte Rebelde</title>
     <link rel="stylesheet" href="../src/Css/carrito.css">
     <style>
         .tabla-productos { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .tabla-productos th { text-align: left; border-bottom: 2px solid #eee; padding: 10px; }
-        .tabla-productos td { padding: 15px 10px; border-bottom: 1px solid #eee; vertical-align: middle; }
-        .img-carrito { width: 70px; height: 70px; object-fit: cover; border-radius: 4px; }
-        .total-compra { text-align: right; padding: 20px; font-size: 1.5rem; font-weight: bold; }
-        .btn-eliminar { color: #cc0000; text-decoration: none; font-size: 1.4rem; font-weight: bold; padding: 5px 10px; }
-        .btn-eliminar:hover { background: #fee; border-radius: 50%; }
-        .vaciar-link { color: #888; text-decoration: underline; font-size: 0.9rem; }
-        .vaciar-link:hover { color: #cc0000; }
+        .tabla-productos td { padding: 15px; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .img-carrito { width: 80px; height: 80px; object-fit: cover; border-radius: 5px; }
+        .btn-x { color: red; text-decoration: none; font-weight: bold; font-size: 1.5rem; }
+        .total-box { text-align: right; margin-top: 20px; font-size: 1.4rem; font-weight: bold; }
     </style>
 </head>
 <body>
+
     <?php include('../src/components/header.php'); ?>
 
     <div class="carrito-box">
@@ -62,16 +59,6 @@ $totalGeneral = 0;
             </div>
         <?php else: ?>
             <table class="tabla-productos">
-                <thead>
-                    <tr>
-                        <th>Foto</th>
-                        <th>Producto</th>
-                        <th>Cant.</th>
-                        <th>Precio</th>
-                        <th>Subtotal</th>
-                        <th></th>
-                    </tr>
-                </thead>
                 <tbody>
                     <?php foreach ($carrito as $id => $item): 
                         $urlImg = $img_productos[$item['nombre']] ?? $img_productos['Default'];
@@ -80,29 +67,33 @@ $totalGeneral = 0;
                     ?>
                     <tr>
                         <td><img src="<?= $urlImg ?>" class="img-carrito"></td>
-                        <td><strong><?= htmlspecialchars($item['nombre']) ?></strong></td>
-                        <td><?= $item['cantidad'] ?></td>
+                        <td>
+                            <strong><?= htmlspecialchars($item['nombre']) ?></strong><br>
+                            <small>Cantidad: <?= $item['cantidad'] ?></small>
+                        </td>
                         <td><?= number_format($item['precio'], 2) ?> €</td>
                         <td><?= number_format($subtotal, 2) ?> €</td>
                         <td>
-                            <a href="eliminar_item.php?id=<?= $id ?>" class="btn-eliminar" title="Eliminar">&times;</a>
+                            <a href="eliminar_item.php?id=<?= $id ?>" class="btn-x" title="Eliminar producto">&times;</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
 
-            <div class="total-compra">Total: <?= number_format($totalGeneral, 2) ?> €</div>
+            <div class="total-box">Total: <?= number_format($totalGeneral, 2) ?> €</div>
 
-            <div class="acciones" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+            <div class="acciones" style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px;">
+                <a href="vaciar_carrito.php" style="color: #666; text-decoration: underline;">Vaciar carrito</a>
                 <div>
-                    <a href="filtro.php"><button style="background: #eee; color: #000; margin-right: 10px; border: 1px solid #ccc;">Seguir comprando</button></a>
-                    <button style="background: #000; color: #fff;">Finalizar Pedido</button>
+                    <a href="filtro.php"><button style="background:#ccc; color:black; margin-right:10px; border:none; padding:10px 20px; cursor:pointer;">Seguir comprando</button></a>
+                    <button style="padding:10px 20px; cursor:pointer;">Finalizar Pedido</button>
                 </div>
             </div>
         <?php endif; ?>
     </div>
 
     <?php include('../src/components/footer.php'); ?>
+
 </body>
 </html>
