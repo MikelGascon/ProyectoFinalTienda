@@ -385,6 +385,40 @@ body.menu-open {
     object-fit: contain;
 }
 
+/* Panel del Usuario y las Opciones*/
+.panelUsuario {
+    display: none;
+
+    position: absolute;
+    padding: 0px;
+    margin: 0px;
+    height: 5pc;
+    width: 10pc;
+    top: 65px;
+    right: 120px;
+    border: 1px solid black;
+    border-radius: 0 0 12px 12px;
+    z-index: unset;
+    background-color: white;
+}
+
+.panelListaUsuario {
+    list-style: none;
+
+}
+
+
+.opcionesListaUsuario {
+    list-style: none;
+}
+
+.opcionesListaUsuario:hover{
+    list-style: none;
+    background-color: grey;
+}
+
+
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
     .hero-video-container {
