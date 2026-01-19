@@ -1,6 +1,6 @@
 <?php
 // Raiz main del proyecto
-define("BASE_URL", 'http://localhost/CorteRebelde/ProyectoFinalTienda');
+define("BASE_URL", 'C:\xampp\htdocs\ProyectoFinal\ProyectoFinalTienda');
 
 define("PAG_URL", '/public');
 define("CSS_URL", '/src/css');
