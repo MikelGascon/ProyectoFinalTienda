@@ -92,7 +92,9 @@ include '../src/components/header.php';
             </div>
         </div>
 
-        <a href="#" class="btn-comprar">Añadir a la Cesta</a>
+        <a href="agregar_carrito.php?id=<?= $producto->getId() ?>" class="btn-comprar">
+    Añadir a la Cesta
+</a>
         <div style="margin-top: 15px;">
             <a href="filtro.php" style="color: #666; font-size: 0.9rem;">← Volver al catálogo</a>
         </div>
