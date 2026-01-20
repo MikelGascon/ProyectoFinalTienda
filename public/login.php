@@ -14,7 +14,7 @@ require_once __DIR__ . '/../config/config.php';
 
     <div class="login-box">
         <div class="login-header">
-            <img src="<?php echo BASE_URL . IMG_URL?>/logo_rebelde.png" alt="El Corte Rebelde">
+            <img src="<?php echo BASE_URL . IMG_URL ?>/logo_rebelde.png" alt="El Corte Rebelde">
         </div>
 
         <div class="login-body">
@@ -24,8 +24,8 @@ require_once __DIR__ . '/../config/config.php';
                 <input type="text" name="usuario" id="usuario" placeholder="Tu usuario" required>
 
                 <label for="password">Contraseña</label>
-                <input type="password" name="password" id="password" placeholder="Tu contraseña" autocomplete="off" required>
-
+                <input type="password" name="password" id="password" placeholder="Tu contraseña" autocomplete="off"
+                    required>
                 <button type="submit" id="btn-login">Entrar</button>
             </form>
 
@@ -41,4 +41,5 @@ require_once __DIR__ . '/../config/config.php';
     <script src="<?php echo BASE_URL . JS_URL; ?>/login.js"></script>
 
 </body>
+
 </html>

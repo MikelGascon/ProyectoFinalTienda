@@ -11,4 +11,5 @@ define("CSS_URL", "/src/css");
 define("JS_URL", "/src/Js");
 define('ENTITY_URL', "/src/Entity");
 define("PROCESS_URL", "/src/procesos");
+define("COMPONENT_URL","/src/components")
 ?>

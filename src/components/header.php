@@ -1,4 +1,7 @@
 <?php
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__. "/../procesos/check_session.php";
+
 $pageTitle = $pageTitle ?? "Tienda Online";
 $bannerText = $bannerText ?? "20% OFF EN COLECCIÓN DE INVIERNO";
 $showBanner = $showBanner ?? true;
@@ -71,24 +74,83 @@ $basePath = $basePath ?? "../src";
                 </div>
             </form>
 
+
             <!-- Spacer para móvil -->
             <div class="d-md-none flex-grow-1"></div>
 
             <!-- Icons -->
-            <div class="d-flex align-items-center gap-3 icons-container">
-                <a href="../public/login.php" class="icon-btn text-decoration-none text-dark fs-5"><i
-                        class="bi bi-person"></i></a>
-                <a href="../public/carrito.php" class="icon-btn text-decoration-none text-dark fs-5"><i
-                        class="bi bi-cart2"></i></a>
-                <a href="../public/favoritos.php" class="icon-btn text-decoration-none text-dark fs-6"><i class="bi bi-heart"></i></a>
+            <div class="d-flex align-items-center gap-3 icons-container position-relative">
+                <!-- Panel usuario-->
+                <div class="user-panel-container">
+                    <a href="#" onclick="toggleUserPanel(event)" class="icon-btn text-decoration-none text-dark fs-5">
+                        <i class="bi bi-person<?php echo $usuarioLogueado ? '-fill' : ''; ?>"></i>
+                    </a>
+                    <div class="panelUsuario" id="panelUsuario">
+                        <?php if ($usuarioLogueado): ?>
+                            <!-- Panel para usuario logueado -->
+                            <div class="user-info-panel">
+                                <div class="user-avatar">
+                                    <i class="bi bi-person-circle"></i>
+                                </div>
+                                <div class="user-name"><?php echo htmlspecialchars($nombreUsuario); ?></div>
+                                <div class="user-email"><?php echo htmlspecialchars($usuario); ?></div>
+                            </div>
+                            <ul class="panelListaUsuario">
+                                <li class="opcionesListaUsuario">
+                                    <a href="../public/perfil.php">
+                                        <i class="bi bi-person-circle"></i> Mi Perfil
+                                    </a>
+                                </li>
+                                <li class="opcionesListaUsuario">
+                                    <a href="../public/pedidos.php">
+                                        <i class="bi bi-bag-check"></i> Mis Pedidos
+                                    </a>
+                                </li>
+                                <li class="opcionesListaUsuario">
+                                    <a href="../public/direcciones.php">
+                                        <i class="bi bi-house"></i> Mis Direcciones
+                                    </a>
+                                </li>
+                                <li class="opcionesListaUsuario separator">
+                                    <a href="../src/procesos/logout.php">
+                                        <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                                    </a>
+                                </li>
+                            </ul>
+                        <?php else: ?>
+                            <!-- Panel para usuario no logueado -->
+                            <ul class="panelListaUsuario">
+                                <li class="opcionesListaUsuario">
+                                    <a href="../public/login.php">
+                                        <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                                    </a>
+                                </li>
+                                <li class="opcionesListaUsuario">
+                                    <a href="../public/registro.php">
+                                        <i class="bi bi-person-plus"></i> Registrarse
+                                    </a>
+                                </li>
+                            </ul>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <a href="../public/carrito.php" class="icon-btn text-decoration-none text-dark fs-5">
+                    <i class="bi bi-cart2"></i>
+                </a>
+                <a href="../public/favoritos.php" class="icon-btn text-decoration-none text-dark fs-6">
+                    <i class="bi bi-heart"></i>
+                </a>
             </div>
+
         </div>
 
         <!-- Search Bar (Mobile) -->
         <div class="container d-md-none pt-2">
             <form class="search-container w-100">
                 <div class="search-wrapper w-100">
-                    <input class="form-control search-box-mobile px-3 py-2" type="text" placeholder="" aria-label="Buscar">
+                    <input class="form-control search-box-mobile px-3 py-2" type="text" placeholder=""
+                        aria-label="Buscar">
                     <button type="button" class="btn-clear-search" aria-label="Limpiar búsqueda">
                         <i class="bi bi-x"></i>
                     </button>
@@ -120,77 +182,7 @@ $basePath = $basePath ?? "../src";
     </div>
 
     <!-- Script para el buscador -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const searchInput = document.getElementById('searchInput');
-            const clearBtn = document.getElementById('clearSearch');
-
-            if (searchInput && clearBtn) {
-                // Mostrar/ocultar botón X según el contenido del input
-                searchInput.addEventListener('input', function () {
-                    if (this.value.length > 0) {
-                        clearBtn.classList.add('visible');
-                    } else {
-                        clearBtn.classList.remove('visible');
-                    }
-                });
-
-                // Limpiar el input al hacer clic en la X
-                clearBtn.addEventListener('click', function () {
-                    searchInput.value = '';
-                    clearBtn.classList.remove('visible');
-                    searchInput.focus();
-                });
-            }
-
-            // Efecto glassmorphism en navbar al hacer scroll
-            const navbar = document.querySelector('.navbar.opacidad');
-            if (navbar) {
-                window.addEventListener('scroll', function () {
-                    if (window.scrollY > 50) {
-                        navbar.classList.add('scrolled');
-                    } else {
-                        navbar.classList.remove('scrolled');
-                    }
-                });
-            }
-
-            // ====== MENÚ LATERAL ======
-            const menuToggle = document.getElementById('menuToggle');
-            const menuClose = document.getElementById('menuClose');
-            const sideMenu = document.getElementById('sideMenu');
-            const menuBackdrop = document.getElementById('menuBackdrop');
-            const navbarElement = document.querySelector('.navbar');
-            
-            if (menuToggle && menuClose && sideMenu && menuBackdrop && navbarElement) {
-                function updateMenuPosition() {
-                    const navbarRect = navbarElement.getBoundingClientRect();
-                    const topPosition = navbarRect.bottom;
-                    sideMenu.style.top = topPosition + 'px';
-                    sideMenu.style.height = 'calc(100vh - ' + topPosition + 'px)';
-                    menuBackdrop.style.top = topPosition + 'px';
-                }
-                
-                function openMenu() {
-                    updateMenuPosition();
-                    sideMenu.classList.add('open');
-                    menuBackdrop.classList.add('show');
-                    document.body.classList.add('menu-open');
-                }
-                
-                function closeMenu() {
-                    sideMenu.classList.remove('open');
-                    menuBackdrop.classList.remove('show');
-                    document.body.classList.remove('menu-open');
-                }
-                
-                menuToggle.addEventListener('click', openMenu);
-                menuClose.addEventListener('click', closeMenu);
-                menuBackdrop.addEventListener('click', closeMenu);
-            }
-        });
-    </script>
-
+    <script src="..<?php echo JS_URL ?>/header.js"> </script>
 </body>
 
 </html>
