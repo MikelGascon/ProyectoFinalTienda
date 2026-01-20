@@ -1,4 +1,6 @@
 <?php
+namespace Entity;
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -25,17 +27,48 @@ class Usuario
     private string $email;
 
     // --- GETTERS Y SETTERS ---
-    public function getId(): int { return $this->id; }
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
-    public function getUsuario(): string { return $this->usuario; }
-    public function setUsuario(string $usuario): self { $this->usuario = $usuario; return $this; }
+    public function getUsuario(): string
+    {
+        return $this->usuario;
+    }
+    public function setUsuario(string $usuario): self
+    {
+        $this->usuario = $usuario;
+        return $this;
+    }
 
-    public function getNombre(): string { return $this->nombre; }
-    public function setNombre(string $nombre): self { $this->nombre = $nombre; return $this; }
+    public function getNombre(): string
+    {
+        return $this->nombre;
+    }
+    public function setNombre(string $nombre): self
+    {
+        $this->nombre = $nombre;
+        return $this;
+    }
 
-    public function getPassword(): string { return $this->password; }
-    public function setPassword(string $password): self { $this->password = $password; return $this; }
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+        return $this;
+    }
 
-    public function getEmail(): string { return $this->email; }
-    public function setEmail(string $email): self { $this->email = $email; return $this; }
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+        return $this;
+    }
 }
