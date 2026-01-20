@@ -1,32 +1,27 @@
 <?php
 require_once '../config/config.php';
 require_once '../src/Entity/bootstrap.php';
-
 require_once '../src/Entity/Producto.php';
-require_once '../src/Entity/Marcas.php';
-require_once '../src/Entity/TipoRopa.php';
-require_once '../src/Entity/TallaRopa.php';
-require_once '../src/Entity/CategoriaSexo.php';
-// Importamos las entidades necesarias
+
 use App\Entity\Producto;
 
-// 1. OBTENER EL ID DE LA URL
+session_start();
+
 $id = $_GET['id'] ?? null;
+if (!$id) { header('Location: filtro.php'); exit; }
 
-if (!$id) {
-    header('Location: filtro.php');
-    exit;
-}
-
-// 2. BUSCAR EL PRODUCTO EN LA BASE DE DATOS
 $producto = $entityManager->find(Producto::class, $id);
+if (!$producto) { echo "Producto no encontrado."; exit; }
 
-if (!$producto) {
-    echo "Producto no encontrado.";
-    exit;
+// Lógica favoritos
+$esFav = false;
+if (isset($_SESSION['usuario_id'])) {
+    $conn = $entityManager->getConnection();
+    $check = $conn->fetchOne("SELECT id FROM favoritos WHERE usuario_id = :u AND producto_id = :p", ['u' => $_SESSION['usuario_id'], 'p' => $id]);
+    $esFav = (bool)$check;
 }
 
-// 3. MAPEO DE IMÁGENES (Mismo array que usas en filtro.php para mantener coherencia)
+// Mapeo de imágenes completo para que no falle la visualización
 $img_productos = [
     'Camiseta Logo Gold' => 'https://media.gucci.com/style/DarkGray_Center_0_0_1200x1200/1730222114/784361_XJGTE_1152_001_100_0000_Light-camiseta-de-punto-de-algodon-estampado.jpg',
     'Bolso Saddle Mini' => 'https://assets.christiandior.com/is/image/diorprod/M0455CBAAM66B_SBG_E01?$r2x3_raw$&crop=0,0,4000,5000&wid=1334&hei=2000&scale=1&bfc=on&qlt=85',
@@ -48,7 +43,6 @@ $img_productos = [
 ];
 
 $urlImagen = $img_productos[$producto->getNombre()] ?? $img_productos['Default'];
-
 $pageTitle = $producto->getNombre() . " - El Corte Rebelde";
 include '../src/components/header.php';
 ?>
@@ -58,50 +52,34 @@ include '../src/components/header.php';
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../src/CSS/detalles.css"> 
-        
 </head>
 <body>
 
 <div class="detalles-container">
-    <div class="detalles-img">
-        <img src="<?= $urlImagen ?>" alt="<?= htmlspecialchars($producto->getNombre()) ?>">
+    <div class="detalles-img-wrapper">
+        <img src="<?= $urlImagen ?>" alt="<?= htmlspecialchars($producto->getNombre()) ?>" class="img-principal">
+        
+        <a href="toggle_favoritos.php?id=<?= $id ?>" 
+           class="btn-favorito-detalles <?= $esFav ? 'es-favorito' : '' ?>">
+            ♥
+        </a>
     </div>
 
     <div class="detalles-info">
-        <p style="color: #888; text-transform: uppercase; letter-spacing: 1px;">
-            <?= $producto->getMarca() ? $producto->getMarca()->getNombre() : 'Exclusivo' ?>
-        </p>
+        <p class="marca-badge"><?= $producto->getMarca() ? $producto->getMarca()->getNombre() : 'Premium' ?></p>
         <h1><?= htmlspecialchars($producto->getNombre()) ?></h1>
         <div class="detalles-precio"><?= number_format($producto->getPrecio(), 2) ?> €</div>
         
         <div class="detalles-meta">
-            <div class="meta-item">
-                <span class="meta-label">Categoría:</span> 
-                <?= $producto->getCategoria() ? $producto->getCategoria()->getNombre() : 'General' ?>
-            </div>
-            <div class="meta-item">
-                <span class="meta-label">Tipo:</span> 
-                <?= $producto->getTipoRopa() ? $producto->getTipoRopa()->getNombre() : 'N/A' ?>
-            </div>
-            <div class="meta-item">
-                <span class="meta-label">Talla:</span> 
-                <?= $producto->getTalla() ? $producto->getTalla()->getNombre() : 'Única' ?>
-            </div>
-            <div class="meta-item">
-                <span class="meta-label">Color:</span> 
-                <?= htmlspecialchars($producto->getColor()) ?>
-            </div>
-            <div class="meta-item" style="margin-top: 20px; font-style: italic; color: #555;">
-                <span class="meta-label">Descripción:</span><br>
-                Diseño exclusivo de alta gama, fabricado con materiales premium seleccionados para la colección actual de El Corte Rebelde.
-            </div>
+            <p><strong>Categoría:</strong> <?= $producto->getCategoria() ? $producto->getCategoria()->getNombre() : 'General' ?></p>
+            <p><strong>Tipo:</strong> <?= $producto->getTipoRopa() ? $producto->getTipoRopa()->getNombre() : 'N/A' ?></p>
+            <p><strong>Talla:</strong> <?= $producto->getTalla() ? $producto->getTalla()->getNombre() : 'Única' ?></p>
+            <p><strong>Color:</strong> <?= htmlspecialchars($producto->getColor()) ?></p>
         </div>
 
-        <a href="agregar_carrito.php?id=<?= $producto->getId() ?>" class="btn-comprar">
-    Añadir a la Cesta
-</a>
-        <div style="margin-top: 15px;">
-            <a href="filtro.php" style="color: #666; font-size: 0.9rem;">← Volver al catálogo</a>
+        <div class="detalles-btns">
+            <a href="agregar_carrito.php?id=<?= $producto->getId() ?>" class="btn-add-cart">Añadir a la Cesta</a>
+            <a href="filtro.php" class="btn-back">← Volver</a>
         </div>
     </div>
 </div>
