@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Mapeo de imágenes por nombre (coincidiendo con tu DB)
 $img_productos = [
     'Camiseta Logo Gold' => 'https://media.gucci.com/style/DarkGray_Center_0_0_1200x1200/1730222114/784361_XJGTE_1152_001_100_0000_Light-camiseta-de-punto-de-algodon-estampado.jpg',
     'Bolso Saddle Mini' => 'https://assets.christiandior.com/is/image/diorprod/M0455CBAAM66B_SBG_E01?$r2x3_raw$&crop=0,0,4000,5000&wid=1334&hei=2000&scale=1&bfc=on&qlt=85',
@@ -87,7 +86,7 @@ $totalGeneral = 0;
                 <a href="vaciar_carrito.php" style="color: #666; text-decoration: underline;">Vaciar carrito</a>
                 <div>
                     <a href="filtro.php"><button style="background:#ccc; color:black; margin-right:10px; border:none; padding:10px 20px; cursor:pointer;">Seguir comprando</button></a>
-                    <button style="padding:10px 20px; cursor:pointer;">Finalizar Pedido</button>
+                    <a href="metodo_pago.php"><button style="padding:10px 20px; cursor:pointer;">Finalizar Pedido</button>
                 </div>
             </div>
         <?php endif; ?>
