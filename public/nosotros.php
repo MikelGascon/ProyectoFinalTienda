@@ -1,3 +1,44 @@
+
+<?php
+session_start();
+
+require_once "../src/Entity/bootstrap.php";
+require_once "../src/Entity/Comentario.php";
+require_once "../src/Entity/Usuario.php";
+
+use Entity\Comentario;
+
+// Procesar comentario
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $comentarioTexto = trim($_POST['comentario'] ?? '');
+    $rating          = intval($_POST['rating'] ?? 0);
+
+    if (!empty($comentarioTexto) && $rating >= 1 && $rating <= 5) {
+        $comentario = new Comentario();
+        $comentario->setIdUsuario(1); // temporal
+        $comentario->setRating($rating);
+        $comentario->setTexto($comentarioTexto);
+        $comentario->setFecha(new \DateTime());
+
+        $entityManager->persist($comentario);
+        $entityManager->flush();
+    }
+}
+
+// Obtener comentarios
+$query = $entityManager->createQuery("
+    SELECT c
+    FROM Entity\Comentario c
+    WHERE c.fecha = (
+        SELECT MAX(c2.fecha)
+        FROM Entity\Comentario c2
+        WHERE c2.id_usuario = c.id_usuario
+    )
+    ORDER BY c.fecha DESC
+");
+$comentarios = $query->getResult();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -122,10 +163,92 @@
             </div>
         </div>
     </section>
+     <!-- Opiniones de clientes -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="fw-bold text-center mb-4">Opiniones de nuestros clientes</h2>
+            <div class="row g-4">
+                <?php foreach ($comentarios as $c): ?>
+                    <?php
+                    $comentario = $c instanceof Comentario ? $c : $c[0];
+                    $usuario    = is_array($c) && isset($c[1]) ? $c[1] : null;
+                    $texto      = htmlspecialchars($comentario->getTexto());
+                    $recortado  = strlen($texto) > 140 ? substr($texto, 0, 140) . '...' : $texto;
+                    ?>
+                    <div class="col-md-4">
+                        <div class="bg-white p-4 rounded shadow-sm h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="text-warning">
+                                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                                        <span class="<?php echo $i <= $comentario->getRating() ? 'text-warning' : 'text-muted'; ?>">★</span>
+                                    <?php endfor; ?>
+                                </div>
+                                <small class="text-muted"><?php echo $comentario->getFecha()->format('d/m/Y'); ?> · <?php echo rand(0, 1) ? 'Google' : 'Yelp'; ?></small>
+                            </div>
+                            <p class="mb-2"><?php echo $recortado; ?></p>
+                            <p class="fw-bold mb-0"><?php echo $usuario ? $usuario->getNombre() : 'Usuario'; ?></p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- Formulario de comentario -->
+            <div class="mt-5">
+                <h3 class="fw-bold text-center mb-4">Deja tu comentario</h3>
+                <form method="POST" class="mx-auto" style="max-width: 600px;">
+                    <div class="mb-3 text-center">
+                        <div class="rating-stars" data-rating="0">
+                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                <span data-value="<?php echo $i; ?>" style="font-size: 30px; cursor: pointer;" class="text-muted">★</span>
+                            <?php endfor; ?>
+                        </div>
+                        <input type="hidden" name="rating" id="rating-value" value="0">
+                    </div>
+                    <div class="mb-3">
+                        <textarea name="comentario" class="form-control" rows="4" placeholder="Escribe tu opinión..." required></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Enviar comentario</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
 
     <!-- Footer -->
     <?php include "../src/components/footer.php" ?>
 
+      <!-- Bootstrap 5 JS -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const stars = document.querySelectorAll(".rating-stars span");
+            const ratingInput = document.getElementById("rating-value");
+
+            stars.forEach(star => {
+                star.addEventListener("click", () => {
+                    const value = parseInt(star.dataset.value);
+                    ratingInput.value = value;
+                    pintarEstrellas(value);
+                });
+
+                star.addEventListener("mouseover", () => {
+                    pintarEstrellas(star.dataset.value);
+                });
+
+                star.addEventListener("mouseleave", () => {
+                    pintarEstrellas(ratingInput.value);
+                });
+            });
+
+            function pintarEstrellas(value) {
+                stars.forEach(s => {
+                    s.classList.toggle("text-warning", s.dataset.value <= value);
+                    s.classList.toggle("text-muted", s.dataset.value > value);
+                });
+            }
+        });
+    </script>
 
 </body>
 

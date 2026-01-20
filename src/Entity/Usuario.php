@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -24,18 +25,63 @@ class Usuario
     #[ORM\Column(type: 'string', length: 100, unique: true)]
     private string $email;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $comentario = null;
+
     // --- GETTERS Y SETTERS ---
-    public function getId(): int { return $this->id; }
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
-    public function getUsuario(): string { return $this->usuario; }
-    public function setUsuario(string $usuario): self { $this->usuario = $usuario; return $this; }
+    public function getUsuario(): string
+    {
+        return $this->usuario;
+    }
+    public function setUsuario(string $usuario): self
+    {
+        $this->usuario = $usuario;
+        return $this;
+    }
 
-    public function getNombre(): string { return $this->nombre; }
-    public function setNombre(string $nombre): self { $this->nombre = $nombre; return $this; }
+    public function getNombre(): string
+    {
+        return $this->nombre;
+    }
+    public function setNombre(string $nombre): self
+    {
+        $this->nombre = $nombre;
+        return $this;
+    }
 
-    public function getPassword(): string { return $this->password; }
-    public function setPassword(string $password): self { $this->password = $password; return $this; }
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+        return $this;
+    }
 
-    public function getEmail(): string { return $this->email; }
-    public function setEmail(string $email): self { $this->email = $email; return $this; }
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    public function getComentario(): ?int
+    {
+        return $this->comentario;
+    }
+
+    public function setComentario(?int $comentario): self
+    {
+        $this->comentario = $comentario;
+        return $this;
+    }
 }
