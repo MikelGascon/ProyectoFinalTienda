@@ -22,21 +22,6 @@ if (isset($_COOKIE['usuario_id'])) {
     ]);
 }
 
-// SI USAS LA VERSIÓN SEGURA: Eliminar tokens de la base de datos
-if ($usuarioId !== null) {
-    try {
-        $entityManager = require_once __DIR__ . '/../Entity/bootstrap.php';
-        $connection = $entityManager->getConnection();
-        
-        $sql = "DELETE FROM remember_tokens WHERE usuario_id = :usuario_id";
-        $stmt = $connection->prepare($sql);
-        $stmt->executeStatement(['usuario_id' => $usuarioId]);
-        
-    } catch (Exception $e) {
-        error_log("Error al eliminar tokens: " . $e->getMessage());
-    }
-}
-
 // Destruir la sesión
 session_destroy();
 
