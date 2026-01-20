@@ -1,7 +1,11 @@
 <?php 
 session_start(); 
-require "../config/config.php";
+require "../config/config.php"; // NO SE TOCA
 
+// 🔥 Comprobar si está logeado SIN redirigir
+$usuario_logeado = isset($_SESSION['usuario_id']);
+
+// 🔥 Conexión local SOLO para este archivo (no afecta al proyecto)
 $conexion = new mysqli("localhost", "root", "root", "app_tienda");
 
 if ($conexion->connect_error) {
@@ -11,6 +15,7 @@ if ($conexion->connect_error) {
 $mensaje = ''; 
 $erroresCampos = []; 
 
+// Recibir importe de tarjeta regalo
 if (isset($_POST['importe'])) {
     $_SESSION['tarjeta_regalo'] = [
         'importe' => $_POST['importe'],
@@ -31,7 +36,8 @@ $iban = $_POST['iban'] ?? '';
 
 $confirmado = isset($_POST['confirmar']); 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
+// SOLO procesar si está logeado
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado && $usuario_logeado) {
 
     if ($metodo === '') {
         $erroresCampos['metodo'] = "Selecciona un método de pago.";
@@ -94,11 +100,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
 
     if (empty($erroresCampos)) {
 
+        // Guardar tarjeta regalo en BD
         if (isset($_SESSION['tarjeta_regalo'])) {
 
             $importe = $_SESSION['tarjeta_regalo']['importe'];
             $mensaje_tarjeta = $_SESSION['tarjeta_regalo']['mensaje'];
-            $usuario_id = $_SESSION['usuario_id'] ?? null;
+            $usuario_id = $_SESSION['usuario_id'];
 
             $stmt = $conexion->prepare("INSERT INTO tarjetas_regalo (usuario_id, importe, mensaje) VALUES (?, ?, ?)");
             $stmt->bind_param("ids", $usuario_id, $importe, $mensaje_tarjeta);
@@ -130,6 +137,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
 
     <h2>Registrar método de pago</h2>
 
+    <?php if (!$usuario_logeado): ?>
+        <p style="color:red; font-weight:bold; margin-top:20px;">
+            Debes iniciar sesión para acceder al método de pago.
+        </p>
+        <a href="login.php" class="btn-volver">Iniciar sesión</a>
+    <?php else: ?>
+
+    <!-- FORMULARIO SOLO SI ESTÁ LOGEADO -->
     <form method="post">
 
         <label for="metodo">Método de pago</label>
@@ -255,6 +270,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
 
     <?php if ($confirmado && $mensaje): ?>
         <p><?= $mensaje ?></p>
+    <?php endif; ?>
+
     <?php endif; ?>
 
     <a href="carrito.php">Volver</a>
