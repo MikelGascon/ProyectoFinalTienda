@@ -3,6 +3,12 @@ session_start();
 require_once '../config/config.php';
 require_once '../src/Entity/bootstrap.php';
 
+require_once '../src/Entity/Producto.php';
+require_once '../src/Entity/Marcas.php';
+require_once '../src/Entity/TipoRopa.php';
+require_once '../src/Entity/TallaRopa.php';
+require_once '../src/Entity/CategoriaSexo.php';
+
 use App\Entity\Producto;
 
 $id = $_GET['id'] ?? null;

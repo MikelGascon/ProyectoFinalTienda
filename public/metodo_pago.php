@@ -1,8 +1,22 @@
 <?php 
 session_start(); 
+require "../config/config.php";
+
+$conexion = new mysqli("localhost", "root", "root", "app_tienda");
+
+if ($conexion->connect_error) {
+    die("Error de conexión: " . $conexion->connect_error);
+}
 
 $mensaje = ''; 
 $erroresCampos = []; 
+
+if (isset($_POST['importe'])) {
+    $_SESSION['tarjeta_regalo'] = [
+        'importe' => $_POST['importe'],
+        'mensaje' => $_POST['mensaje'] ?? null
+    ];
+}
 
 $metodo = $_POST['metodo'] ?? ''; 
 $titular = $_POST['titular'] ?? ''; 
@@ -79,6 +93,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
     }
 
     if (empty($erroresCampos)) {
+
+        if (isset($_SESSION['tarjeta_regalo'])) {
+
+            $importe = $_SESSION['tarjeta_regalo']['importe'];
+            $mensaje_tarjeta = $_SESSION['tarjeta_regalo']['mensaje'];
+            $usuario_id = $_SESSION['usuario_id'] ?? null;
+
+            $stmt = $conexion->prepare("INSERT INTO tarjetas_regalo (usuario_id, importe, mensaje) VALUES (?, ?, ?)");
+            $stmt->bind_param("ids", $usuario_id, $importe, $mensaje_tarjeta);
+            $stmt->execute();
+            $stmt->close();
+
+            unset($_SESSION['tarjeta_regalo']);
+        }
+
         $mensaje = "Método de pago registrado correctamente.";
     }
 }
@@ -92,7 +121,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- 🔥 CSS EXTERNO -->
     <link rel="stylesheet" href="../src/Css/metodo_pago.css">
 </head>
 
@@ -104,7 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
 
     <form method="post">
 
-        <!-- MÉTODO -->
         <label for="metodo">Método de pago</label>
         <select name="metodo" id="metodo" onchange="this.form.submit()" 
             class="<?= isset($erroresCampos['metodo']) ? 'error-input' : '' ?>">
@@ -118,7 +145,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
             <div class="error-text"><?= $erroresCampos['metodo'] ?></div>
         <?php endif; ?>
 
-        <!-- TARJETA -->
         <?php if ($metodo === 'tarjeta'): ?>
 
             <label for="titular">Titular de la tarjeta</label>
@@ -181,7 +207,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
 
         <?php endif; ?>
 
-        <!-- PAYPAL -->
         <?php if ($metodo === 'paypal'): ?>
 
             <label for="paypal">Correo de PayPal</label>
@@ -206,7 +231,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
 
         <?php endif; ?>
 
-        <!-- TRANSFERENCIA -->
         <?php if ($metodo === 'transferencia'): ?>
 
             <label for="banco">Nombre del banco</label>

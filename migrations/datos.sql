@@ -64,4 +64,14 @@ INSERT INTO productos (nombre, categoriaId, tipo_ropaId, marcaId, precio, color)
 ('Sudadera Dior',1,3,2,280.00,'Azul'),
 ('Bolso gucci',2,5,1,280.00,'Beige'),
 ('Collar Versace',2,5,1,280.00,'Multicolor');
+
+CREATE TABLE tarjetas_regalo (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NULL,
+    importe DECIMAL(10,2) NOT NULL,
+    mensaje VARCHAR(255) NULL,
+    fecha_compra DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+
 */
