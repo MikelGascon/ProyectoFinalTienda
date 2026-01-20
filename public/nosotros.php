@@ -1,7 +1,8 @@
+
 <?php
 session_start();
 
-require_once "../src/BDD/bootstrap.php";
+require_once "../src/Entity/bootstrap.php";
 require_once "../src/Entity/Comentario.php";
 require_once "../src/Entity/Usuario.php";
 
@@ -50,6 +51,9 @@ $comentarios = $query->getResult();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         .hero-section {
             background: #f8f9fa;
@@ -90,7 +94,7 @@ $comentarios = $query->getResult();
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="images.unsplash.com" class="img-fluid rounded shadow" alt="Nuestro Equipo">
+                    <img src="" class="img-fluid rounded shadow" alt="Nuestro Equipo">
                 </div>
                 <div class="col-lg-6 ps-lg-5">
                     <h2 class="fw-bold mb-3">Nuestra Historia</h2>
@@ -158,7 +162,7 @@ $comentarios = $query->getResult();
             </div>
         </div>
     </section>
-    <!-- Opiniones de clientes -->
+     <!-- Opiniones de clientes -->
     <section class="py-5 bg-light">
         <div class="container">
             <h2 class="fw-bold text-center mb-4">Opiniones de nuestros clientes</h2>
@@ -213,7 +217,7 @@ $comentarios = $query->getResult();
     <!-- Footer -->
     <?php include "../src/components/footer.php" ?>
 
-    <!-- Bootstrap 5 JS -->
+      <!-- Bootstrap 5 JS -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const stars = document.querySelectorAll(".rating-stars span");
@@ -243,7 +247,6 @@ $comentarios = $query->getResult();
             }
         });
     </script>
-
 
 </body>
 

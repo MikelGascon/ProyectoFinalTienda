@@ -1,6 +1,8 @@
 <?php
 namespace Entity;
 
+namespace App\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -37,7 +39,6 @@ class Usuario
     {
         return $this->usuario;
     }
-
     public function setUsuario(string $usuario): self
     {
         $this->usuario = $usuario;
@@ -48,21 +49,18 @@ class Usuario
     {
         return $this->nombre;
     }
-
     public function setNombre(string $nombre): self
     {
         $this->nombre = $nombre;
         return $this;
     }
 
-    public function getPass(): string
+    public function getPassword(): string
     {
         return $this->password;
     }
-
-    public function setPass(string $password): self
+    public function setPassword(string $password): self
     {
-        // Recuerda siempre hashear la contraseña antes de usar este setter
         $this->password = $password;
         return $this;
     }
@@ -71,7 +69,6 @@ class Usuario
     {
         return $this->email;
     }
-
     public function setEmail(string $email): self
     {
         $this->email = $email;

@@ -1,18 +1,12 @@
 <?php
-session_start();
-
+require_once __DIR__ . '/../config/config.php';
 $pageTitle = "El Corte Rebelde";
 $bannerText = "20% OFF EN COLECCIÓN DE INVIERNO";
 $showBanner = true;
 $basePath = "../src";
-
-$conexion = new mysqli("localhost", "root", "root", "app_tienda");
-
-if ($conexion->connect_error) {
-    echo json_encode(['status' => 'error', 'mensaje' => 'Fallo de conexión']);
-    exit;
-}
 include '../src/components/header.php';
+
+
 ?>
 
 <!DOCTYPE html>
@@ -43,33 +37,15 @@ include '../src/components/header.php';
 
 <body>
 
-    <!-- Hero Slider -->
-    <section class="hero-slider bg-dark">
-        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
-            </div>
-            <div class="carousel-inner">
-                <div class="carousel-item active"
-                    style="background-image: url('https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg'); background-size: cover; background-position: center;">
-                    <div class="d-flex align-items-end justify-content-center h-100 pb-5">
-                        <a href="filtro.php" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Comprar</a>
-                    </div>
-                </div>
-                <div class="carousel-item"
-                    style="background-image: url('https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg'); background-size: cover; background-position: center;">
-                    <div class="d-flex align-items-end justify-content-center h-100 pb-5">
-                        <a href="filtro.php" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Comprar</a>
-                    </div>
-                </div>
-                <div class="carousel-item"
-                    style="background-image: url('https://images.pexels.com/photos/1488463/pexels-photo-1488463.jpeg'); background-size: cover; background-position: center;">
-                    <div class="d-flex align-items-end justify-content-center h-100 pb-5">
-                        <a href="filtro.php" class="btn btn-comprar py-2 px-4 fw-medium text-uppercase mb-2">Comprar</a>
-                    </div>
-                </div>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-video-container">
+            <video class="hero-video" autoplay muted loop playsinline>
+                <source src="<?php echo $basePath; ?>/img/video_hero_dior.mp4" type="video/mp4">
+            </video>
+            <div class="hero-content">
+                <h1 class="hero-title">Nueva colección 2026</h1>
+                <a href="filtro.php" class="hero-link">Descubre más</a>
             </div>
         </div>
     </section>
