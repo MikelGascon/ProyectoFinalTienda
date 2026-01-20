@@ -1,11 +1,12 @@
 <?php
+require_once __DIR__ . '/../config/config.php';
 $pageTitle = "El Corte Rebelde";
 $bannerText = "20% OFF EN COLECCIÓN DE INVIERNO";
 $showBanner = true;
 $basePath = "../src";
-
-// Incluir header (top banner + navbar)
 include '../src/components/header.php';
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

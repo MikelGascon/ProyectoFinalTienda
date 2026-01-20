@@ -1,13 +1,5 @@
 <?php
-/**
- * Footer Component
- * Incluye: Footer completo y scripts de Bootstrap
- * 
- * Variables opcionales:
- * - $basePath: Ruta base para recursos (default: "../src")
- */
-
-$basePath = $basePath ?? "../src";
+require_once __DIR__ . '/../../config/config.php';
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +20,7 @@ $basePath = $basePath ?? "../src";
                 <!-- Logo & Social -->
                 <div class="col-12 col-lg-3 mb-4">
                     <div class="mb-3">
-                        <img src="<?php echo $basePath; ?>/img/logo_rebelde.png" alt="Logo Rebelde" height="40"
+                        <img src="..<?php echo IMG_URL;?>/logo_rebelde.png" alt="Logo Rebelde" height="40"
                             class="d-inline-block">
                     </div>
                     <div class="social-icons">
@@ -104,12 +96,7 @@ $basePath = $basePath ?? "../src";
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        // Close top banner
-        document.querySelector('.top-banner .btn-close')?.addEventListener('click', function () {
-            document.querySelector('.top-banner').style.display = 'none';
-        });
-    </script>
+     <script src="..<?php echo JS_URL ?>/footer.js"> </script>
 </body>
 
 </html>
