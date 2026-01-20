@@ -233,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado) {
         <p><?= $mensaje ?></p>
     <?php endif; ?>
 
-    <a href="#">Volver</a>
+    <a href="carrito.php">Volver</a>
 
 </div>
 

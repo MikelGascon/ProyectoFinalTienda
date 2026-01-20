@@ -42,7 +42,7 @@ require_once __DIR__ . '/../../config/config.php';
                         <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Preguntas
                                 frecuentes</a>
                         </li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Tramitar
+                        <li class="mb-2"><a href="../public/tramitar_devolucion.php" class="text-secondary text-decoration-none small">Tramitar
                                 devolucion</a>
                         </li>
                         <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Servicios de la

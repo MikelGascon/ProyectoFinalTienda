@@ -44,7 +44,7 @@ $optCats = $entityManager->getRepository(CategoriaSexo::class)->findAll();
 $optTipos = $entityManager->getRepository(TipoRopa::class)->findAll();
 $optTallas = $entityManager->getRepository(TallaRopa::class)->findAll();
 
-// 4. MAPEO DE IMÁGENES POR NOMBRE DE PRODUCTO (Basado en tu captura de MySQL)
+// 4. MAPEO DE IMÁGENES
 $img_productos = [
     'Camiseta Logo Gold' => 'https://media.gucci.com/style/DarkGray_Center_0_0_1200x1200/1730222114/784361_XJGTE_1152_001_100_0000_Light-camiseta-de-punto-de-algodon-estampado.jpg',
     'Bolso Saddle Mini' => 'https://assets.christiandior.com/is/image/diorprod/M0455CBAAM66B_SBG_E01?$r2x3_raw$&crop=0,0,4000,5000&wid=1334&hei=2000&scale=1&bfc=on&qlt=85',
@@ -148,19 +148,16 @@ include '../src/components/header.php';
                 </div>
 
                 <div class="filter-group">
-
                     <label>Precio Máximo: <span id="p-val"><?= $_GET['precio'] ?? '2000' ?></span>€</label>
                     <input type="range" name="precio" min="0" max="5000" step="50"
                         value="<?= $_GET['precio'] ?? '2000' ?>" id="p-range">
                     <div class="filter-group">
-
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                             <input type="number" id="p-number" name="precio" min="0" max="5000" step="50"
                                 value="<?= $_GET['precio'] ?? '2000' ?>"
                                 style="width: 70px; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-family: sans-serif; font-size: 0.8rem;">
                             <span style="font-size: 0.8rem; font-weight: 600;">€</span>
                         </div>
-
                     </div>
                 </div>
 
@@ -174,7 +171,6 @@ include '../src/components/header.php';
                 <?php if (count($productos) > 0): ?>
                     <?php foreach ($productos as $p): ?>
                         <?php
-                        // Buscamos la imagen por el nombre exacto del producto en la BDD
                         $nombreProd = $p->getNombre();
                         $urlImagen = $img_productos[$nombreProd] ?? $img_productos['Default'];
                         ?>
@@ -192,7 +188,7 @@ include '../src/components/header.php';
 
                             <div class="prod-actions">
                                 <a href="detalles.php?id=<?= $p->getId() ?>" class="btn-link btn-outline">Ver Detalles</a>
-                                <a href="#" class="btn-link btn-dark">Añadir</a>
+                                <a href="agregar_carrito.php?id=<?= $p->getId() ?>" class="btn-link btn-dark">Añadir</a>
                             </div>
                         </div>
                     <?php endforeach; ?>
