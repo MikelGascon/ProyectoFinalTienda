@@ -1,6 +1,6 @@
 <?php
 require_once '../config/config.php';
-require_once ENTITY_PATH . DIRECTORY_SEPARATOR . 'bootstrap.php';
+require_once '../src/Entity/bootstrap.php';
 
 // Importamos las entidades necesarias
 use App\Entity\Producto;
