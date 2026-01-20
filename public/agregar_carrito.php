@@ -2,6 +2,7 @@
 session_start();
 require_once '../config/config.php';
 require_once '../src/Entity/bootstrap.php';
+
 use App\Entity\Producto;
 
 $id = $_GET['id'] ?? null;
