@@ -38,7 +38,6 @@ $query = $entityManager->createQuery("
 ");
 $comentarios = $query->getResult();
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -214,7 +213,6 @@ $comentarios = $query->getResult();
             </div>
         </div>
     </section>
-
 
     <!-- Footer -->
     <?php include "../src/components/footer.php" ?>

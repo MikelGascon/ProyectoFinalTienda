@@ -1,5 +1,4 @@
 <?php
-
 require_once '../config/config.php';
 require_once '../src/Entity/bootstrap.php';
 
@@ -15,7 +14,16 @@ use App\Entity\TipoRopa;
 use App\Entity\TallaRopa;
 use App\Entity\CategoriaSexo;
 
-// 2. LÓGICA DE FILTRADO (QueryBuilder)
+session_start();
+
+// 1. LÓGICA DE FAVORITOS
+$idsFavoritos = [];
+if (isset($_SESSION['usuario_id'])) {
+    $conn = $entityManager->getConnection();
+    $idsFavoritos = $conn->fetchFirstColumn("SELECT producto_id FROM favoritos WHERE usuario_id = ?", [$_SESSION['usuario_id']]);
+}
+
+// 2. LÓGICA DE FILTRADO
 $repo = $entityManager->getRepository(Producto::class);
 $qb = $repo->createQueryBuilder('p')
     ->leftJoin('p.categoria', 'c')
@@ -23,22 +31,16 @@ $qb = $repo->createQueryBuilder('p')
     ->leftJoin('p.tipoRopa', 'tr')
     ->leftJoin('p.talla', 't');
 
-if (!empty($_GET['marca']))
-    $qb->andWhere('m.nombre = :m')->setParameter('m', $_GET['marca']);
-if (!empty($_GET['categoria']))
-    $qb->andWhere('c.nombre = :cat')->setParameter('cat', $_GET['categoria']);
-if (!empty($_GET['tipo']))
-    $qb->andWhere('tr.nombre = :tipo')->setParameter('tipo', $_GET['tipo']);
-if (!empty($_GET['talla']))
-    $qb->andWhere('t.nombre = :talla')->setParameter('talla', $_GET['talla']);
-if (!empty($_GET['color']))
-    $qb->andWhere('p.color = :col')->setParameter('col', $_GET['color']);
-if (!empty($_GET['precio']))
-    $qb->andWhere('p.precio <= :pre')->setParameter('pre', (float) $_GET['precio']);
+if (!empty($_GET['marca'])) $qb->andWhere('m.nombre = :m')->setParameter('m', $_GET['marca']);
+if (!empty($_GET['categoria'])) $qb->andWhere('c.nombre = :cat')->setParameter('cat', $_GET['categoria']);
+if (!empty($_GET['tipo'])) $qb->andWhere('tr.nombre = :tipo')->setParameter('tipo', $_GET['tipo']);
+if (!empty($_GET['talla'])) $qb->andWhere('t.nombre = :talla')->setParameter('talla', $_GET['talla']);
+if (!empty($_GET['color'])) $qb->andWhere('p.color = :col')->setParameter('col', $_GET['color']);
+if (!empty($_GET['precio'])) $qb->andWhere('p.precio <= :pre')->setParameter('pre', (float) $_GET['precio']);
 
 $productos = $qb->getQuery()->getResult();
 
-// 3. DATOS PARA SELECTORES
+// 3. DATOS PARA LOS SELECTORES
 $optMarcas = $entityManager->getRepository(Marcas::class)->findAll();
 $optCats = $entityManager->getRepository(CategoriaSexo::class)->findAll();
 $optTipos = $entityManager->getRepository(TipoRopa::class)->findAll();
@@ -65,17 +67,7 @@ $img_productos = [
     'Default' => 'https://via.placeholder.com/500x600?text=Luxury+Item'
 ];
 
-$colores_map = [
-    'Blanco' => '#FFFFFF',
-    'Negro' => '#000000',
-    'Gris' => '#808080',
-    'Beige' => '#F5F5DC',
-    'Azul' => '#000080',
-    'Rojo' => '#FF0000',
-    'Verde' => '#556B2F',
-    'Marrón' => '#8B4513',
-    'Multicolor' => 'linear-gradient(45deg, red, blue, yellow)'
-];
+$colores_map = ['Blanco' => '#FFFFFF', 'Negro' => '#000000', 'Gris' => '#808080', 'Beige' => '#F5F5DC', 'Azul' => '#000080', 'Rojo' => '#FF0000', 'Verde' => '#556B2F', 'Marrón' => '#8B4513', 'Multicolor' => 'linear-gradient(45deg, red, blue, yellow)'];
 
 $pageTitle = "Tienda - El Corte Rebelde";
 include '../src/components/header.php';
@@ -83,15 +75,21 @@ include '../src/components/header.php';
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <title><?= $pageTitle ?></title>
     <link rel="stylesheet" href="../src/CSS/filtro.css">
+    <style>
+        .prod-img { position: relative; }
+        .btn-favorito-flotante {
+            position: absolute; bottom: 12px; right: 12px;
+            background: rgba(255, 255, 255, 0.9); width: 36px; height: 36px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            text-decoration: none; font-size: 1.3rem; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: 0.3s; z-index: 5;
+        }
+    </style>
 </head>
-
 <body>
-
     <div class="layout">
         <aside class="sidebar">
             <form method="GET">
@@ -148,64 +146,43 @@ include '../src/components/header.php';
                 </div>
 
                 <div class="filter-group">
-                    <label>Precio Máximo: <span id="p-val"><?= $_GET['precio'] ?? '2000' ?></span>€</label>
-                    <input type="range" name="precio" min="0" max="5000" step="50"
-                        value="<?= $_GET['precio'] ?? '2000' ?>" id="p-range">
-                    <div class="filter-group">
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
-                            <input type="number" id="p-number" name="precio" min="0" max="5000" step="50"
-                                value="<?= $_GET['precio'] ?? '2000' ?>"
-                                style="width: 70px; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-family: sans-serif; font-size: 0.8rem;">
-                            <span style="font-size: 0.8rem; font-weight: 600;">€</span>
-                        </div>
-                    </div>
+                    <label>Precio Máximo (0 - 5000€)</label>
+                    <input type="number" name="precio" min="0" max="5000" step="50" 
+                           value="<?= $_GET['precio'] ?? '2000' ?>" 
+                           style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                 </div>
 
                 <button type="submit" class="btn-apply">Aplicar Filtros</button>
-                <a href="filtro.php" class="btn-limpiar">Limpiar Filtros</a>
+                <a href="filtro.php" class="btn-limpiar" style="display:block; text-align:center; margin-top:10px; text-decoration:none; color:#666; font-size:0.8rem;">Limpiar Filtros</a>
             </form>
         </aside>
 
         <main class="main-container">
             <div class="grid-productos">
-                <?php if (count($productos) > 0): ?>
-                    <?php foreach ($productos as $p): ?>
-                        <?php
-                        $nombreProd = $p->getNombre();
-                        $urlImagen = $img_productos[$nombreProd] ?? $img_productos['Default'];
-                        ?>
-                        <div class="producto-card">
-                            <div class="prod-img">
-                                <img src="<?= $urlImagen ?>" alt="<?= $nombreProd ?>" class="img-fit">
-                            </div>
-
-                            <div class="prod-name"><?= htmlspecialchars($nombreProd) ?></div>
-                            <div class="prod-price"><?= number_format($p->getPrecio(), 2) ?> €</div>
-                            <div class="prod-info">
-                                <?= $p->getMarca() ? $p->getMarca()->getNombre() : 'Original' ?> |
-                                <?= $p->getTalla() ? $p->getTalla()->getNombre() : 'U' ?>
-                            </div>
-
-                            <div class="prod-actions">
-                                <a href="detalles.php?id=<?= $p->getId() ?>" class="btn-link btn-outline">Ver Detalles</a>
-                                <a href="agregar_carrito.php?id=<?= $p->getId() ?>" class="btn-link btn-dark">Añadir</a>
-                            </div>
+                <?php foreach ($productos as $p): 
+                    $idProd = $p->getId();
+                    $esFav = in_array($idProd, $idsFavoritos);
+                ?>
+                    <div class="producto-card">
+                        <div class="prod-img">
+                            <img src="<?= $img_productos[$p->getNombre()] ?? $img_productos['Default'] ?>" class="img-fit">
+                            <a href="toggle_favoritos.php?id=<?= $idProd ?>" class="btn-favorito-flotante" 
+                               style="color: <?= $esFav ? '#e74c3c' : '#ccc' ?>;">
+                                ♥
+                            </a>
                         </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="no-results">No se han encontrado productos con esos filtros.</p>
-                <?php endif; ?>
+                        <div class="prod-name"><?= htmlspecialchars($p->getNombre()) ?></div>
+                        <div class="prod-price"><?= number_format($p->getPrecio(), 2) ?> €</div>
+                        <div class="prod-actions">
+                            <a href="detalles.php?id=<?= $idProd ?>" class="btn-link btn-outline">Ver Detalles</a>
+                            <a href="agregar_carrito.php?id=<?= $idProd ?>" class="btn-link btn-dark">Añadir</a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </main>
     </div>
 
-    <script>
-        const range = document.getElementById('p-range');
-        const label = document.getElementById('p-val');
-        range.oninput = () => { label.innerText = range.value; };
-    </script>
-
     <?php include "../src/components/footer.php" ?>
 </body>
-
 </html>

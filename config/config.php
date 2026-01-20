@@ -3,7 +3,7 @@
 define("ROOT_PATH", dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
 // --- RUTA URL (Para HTML: href, src, action) ---
-define("BASE_URL", "http://localhost/ProyectoFinal/ProyectoFinalTienda");
+define("BASE_URL", "http://localhost/proyectoFinal/ProyectoFinalTienda");
 
 // --- SUB-RUTAS PARA HTML (Usan BASE_URL) ---
 define("IMG_URL", "/src/img");

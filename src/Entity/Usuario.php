@@ -1,4 +1,5 @@
 <?php
+namespace Entity;
 
 namespace App\Entity;
 
@@ -70,5 +71,4 @@ class Usuario
         $this->email = $email;
         return $this;
     }
-
 }
