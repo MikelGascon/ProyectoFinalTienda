@@ -1,8 +1,7 @@
 -- Nombre de la tabla
-/* CREATE DATABASE app_tienda; */
+/* CREATE DATABASE app_tienda; 
+USE app_tienda;
 
--- Tabla de los usuarios
-/*
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario VARCHAR(50) NOT NULL UNIQUE,
@@ -38,6 +37,15 @@ CREATE TABLE tipoRopa (
 CREATE TABLE tallaRopa (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE favoritos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    producto_id INT NOT NULL,
+    fecha_agregado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    -- Evita que un usuario guarde el mismo producto dos veces
+    UNIQUE KEY usuario_producto (usuario_id, producto_id) 
 );
 INSERT INTO categoriaSexo (nombre) VALUES ('Hombre'), ('Mujer'), ('Unisex');
 
