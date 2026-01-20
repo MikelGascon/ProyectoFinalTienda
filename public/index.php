@@ -1,12 +1,20 @@
 <?php
+session_start();
+
 $pageTitle = "El Corte Rebelde";
 $bannerText = "20% OFF EN COLECCIÓN DE INVIERNO";
 $showBanner = true;
 $basePath = "../src";
 
-// Incluir header (top banner + navbar)
+$conexion = new mysqli("localhost", "root", "root", "app_tienda");
+
+if ($conexion->connect_error) {
+    echo json_encode(['status' => 'error', 'mensaje' => 'Fallo de conexión']);
+    exit;
+}
 include '../src/components/header.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -239,16 +247,7 @@ include '../src/components/header.php';
         </div>
     </section>
 
-    <!-- Comentarios-->
-
-    <!--
-    Crear un div, mas que muestre un panel de poder poner comentarios de los usuarios, Se mostraran los detalles de las  
-    valoraciones, en una pagina diferente
-    
-    -->
-
-
- <?php include "../src/components/footer.php"?>
+<?php include "../src/components/footer.php" ?>
 </body>
 
 </html>

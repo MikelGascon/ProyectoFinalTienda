@@ -78,12 +78,6 @@ $basePath = $basePath ?? "../src";
                         <a class="nav-link fw-medium mx-2" href="index.php">Inicio</a>
                     </li>
                     <li class="nav-item">
-<<<<<<< HEAD
-                        <a class="nav-link fw-medium mx-2" href="#">Rebajas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link fw-medium mx-2" href="index.php">Filtros</a>
-=======
                         <a class="nav-link fw-medium mx-2" href="#">Mujer</a>
                     </li>
                     <li class="nav-item">
@@ -94,7 +88,6 @@ $basePath = $basePath ?? "../src";
                     </li>
                     <li class="nav-item">
                         <a class="nav-link fw-medium mx-2" href="nosotros.php">Sobre nosotros</a>
->>>>>>> 61dec55cc807bf45949011e4890bbe718cc41928
                     </li>
                 </ul>
             </div>

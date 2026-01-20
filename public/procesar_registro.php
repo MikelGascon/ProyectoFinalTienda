@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 
 // 1. CONEXIÓN
-$conexion = new mysqli("localhost", "root", "", "app_tienda");
+$conexion = new mysqli("localhost", "root", "root", "app_tienda");
 
 if ($conexion->connect_error) {
     echo json_encode(['status' => 'error', 'mensaje' => 'Fallo de conexión']);

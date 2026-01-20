@@ -1,4 +1,5 @@
 <?php
+namespace Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,10 +19,13 @@ class Usuario
     private string $nombre;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private string $pass;
+    private string $password;
 
     #[ORM\Column(type: 'string', length: 100, unique: true)]
     private string $email;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $comentario = null;
 
     // --- GETTERS Y SETTERS ---
     public function getId(): int
@@ -53,13 +57,13 @@ class Usuario
 
     public function getPass(): string
     {
-        return $this->pass;
+        return $this->password;
     }
 
-    public function setPass(string $pass): self
+    public function setPass(string $password): self
     {
         // Recuerda siempre hashear la contraseña antes de usar este setter
-        $this->pass = $pass;
+        $this->password = $password;
         return $this;
     }
 
@@ -71,6 +75,17 @@ class Usuario
     public function setEmail(string $email): self
     {
         $this->email = $email;
+        return $this;
+    }
+
+    public function getComentario(): ?int
+    {
+        return $this->comentario;
+    }
+
+    public function setComentario(?int $comentario): self
+    {
+        $this->comentario = $comentario;
         return $this;
     }
 }

@@ -25,5 +25,5 @@ $dbParams = array(
     'charset'  => 'utf8mb4' 
 );
 
-$config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, null, null, false);
+$config = Setup::createAttributeMetadataConfiguration($paths, $isDevMode);
 $entityManager = EntityManager::create($dbParams, $config);
