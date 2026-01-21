@@ -18,7 +18,13 @@ if ($usuario_id) {
 }
 
 // Obtener estadísticas (aquí puedes hacer queries reales)
-$totalPedidos = 12; // Ejemplo
+$totalPedidos = 0;
+if ($usuario_id) {
+    $conn = $entityManager->getConnection();
+    $totalPedidos = $conn->fetchOne("SELECT COUNT(*) FROM pedido WHERE usuario_id = ?", [$usuario_id]);
+}
+
+
 $pedidosEnProceso = 2; // Ejemplo
 ?>
 
@@ -33,9 +39,9 @@ $pedidosEnProceso = 2; // Ejemplo
         <div class="stat-label">Pedidos Totales</div>
     </div>
     <div class="stat-card">
-        <div class="stat-icon"><i class="bi bi-clock-history"></i></div>
+        <div class="stat-icon"><i class="bi bi-gift-fill"></i></div>
         <div class="stat-number"><?php echo $pedidosEnProceso; ?></div>
-        <div class="stat-label">En Proceso</div>
+        <div class="stat-label">Tarjetas Regalo</div>
     </div>
     <div class="stat-card">
         <div class="stat-icon"><i class="bi bi-heart-fill"></i></div>
@@ -79,7 +85,7 @@ $pedidosEnProceso = 2; // Ejemplo
 
 <div class="recent-orders">
     <div class="section-title">
-        <i class="bi bi-clock-history"></i> Pedidos Recientes
+        <i class="bi bi-gift-fill"></i> Tarjetas Regalo
     </div>
 
     <div class="order-card">
@@ -95,20 +101,20 @@ $pedidosEnProceso = 2; // Ejemplo
 
     <div class="text-center mt-3">
         <a href="#" class="text-decoration-none view-all-link" data-section="pedidos">
-            Ver todos los pedidos <i class="bi bi-arrow-right"></i>
+            Ver todos las Tarjeta Regalo <i class="bi bi-arrow-right"></i>
         </a>
     </div>
 </div>
 
 <script>
-function enableEdit() {
-    alert('Función de edición - Aquí puedes implementar un modal o formulario de edición');
-}
+    function enableEdit() {
+        alert('Función de edición - Aquí puedes implementar un modal o formulario de edición');
+    }
 
-// Event listener para el link "Ver todos los pedidos"
-document.querySelector('.view-all-link')?.addEventListener('click', function(e) {
-    e.preventDefault();
-    const section = this.getAttribute('data-section');
-    document.querySelector(`[data-section="${section}"]`).click();
-});
+    // Event listener para el link "Ver todos los pedidos"
+    document.querySelector('.view-all-link')?.addEventListener('click', function (e) {
+        e.preventDefault();
+        const section = this.getAttribute('data-section');
+        document.querySelector(`[data-section="${section}"]`).click();
+    });
 </script>
