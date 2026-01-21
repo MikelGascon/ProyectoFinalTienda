@@ -1,13 +1,13 @@
 -- Nombre de la tabla
-/* CREATE DATABASE app_tienda; 
+/* CREATE DATABASE app_tienda; */
 USE app_tienda;
-
+/*
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario VARCHAR(50) NOT NULL UNIQUE,
     nombre VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL
 );
 CREATE TABLE productos (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -34,11 +34,20 @@ CREATE TABLE tipoRopa (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL
 );
+CREATE TABLE comentarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    rating TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    texto TEXT NOT NULL,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
+);
 
 CREATE TABLE tallaRopa (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL
 );
+
 CREATE TABLE comentarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL,
@@ -59,8 +68,8 @@ CREATE TABLE favoritos (
 CREATE TABLE pedido (
     id INT AUTO_INCREMENT,
     usuario_id INT NOT NULL,
-    nombre VARCHAR(255) NOT NULL,
-    precio DECIMAL(10, 2) NOT NULL, 
+    nombre varchar(255) NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL, -- Soporta hasta 8 enteros y 2 decimales
     cantidadProductos INT NOT NULL,
     fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
@@ -81,12 +90,21 @@ CREATE TABLE direcciones (
 CREATE TABLE tarjetas_regalo (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT NULL,
+    codigo VARCHAR(255) NOT NULL,
     importe DECIMAL(10,2) NOT NULL,
     mensaje VARCHAR(255) NULL,
     fecha_compra DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
+-- Insertar direcciones
+INSERT INTO direcciones (usuario_id,direccion,pais,provincia,tel) VALUES (1,'Calle inventada','España','Bizkaia',123456789);
+
+-- Insertar datos a la tarjeta Regalo
+INSERT INTO tarjetas_regalo (usuario_id,codigo,importe,mensaje) VALUES (1,'AGD-851',100,'Tarjeta de regalo'), (1,'KGL-624',50,'Cumpleaños');
+
+-- Insertar pedido
+INSERT INTO pedido (usuario_id, nombre ,precio, cantidadProductos) VALUES (1,'PEDIDO',45.50, 2), (1,'PEDIDO2',120.00, 5);
 
 INSERT INTO categoriaSexo (nombre) VALUES ('Hombre'), ('Mujer'), ('Unisex');
 
@@ -113,9 +131,4 @@ INSERT INTO productos (nombre, categoriaId, tipo_ropaId, marcaId, precio, color)
 ('Sudadera Dior',1,3,2,280.00,'Azul'),
 ('Bolso gucci',2,5,1,280.00,'Beige'),
 ('Collar Versace',2,5,1,280.00,'Multicolor');
-
-
-
-
-
 */
