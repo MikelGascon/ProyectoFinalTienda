@@ -4,6 +4,7 @@ namespace Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Usuario;
 
+
 #[ORM\Entity]
 #[ORM\Table(name: 'tarjetas_regalo')]
 
