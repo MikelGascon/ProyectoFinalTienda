@@ -12,6 +12,7 @@ class Comentario
     private int $id;
 
     #[ORM\Column(type: 'integer')]
+    
     private int $id_usuario;
 
     #[ORM\Column(type: 'integer')]

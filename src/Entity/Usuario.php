@@ -1,4 +1,5 @@
 <?php
+namespace Entity;
 
 namespace App\Entity;
 
@@ -24,9 +25,6 @@ class Usuario
 
     #[ORM\Column(type: 'string', length: 100, unique: true)]
     private string $email;
-
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $comentario = null;
 
     // --- GETTERS Y SETTERS ---
     public function getId(): int
@@ -71,17 +69,6 @@ class Usuario
     public function setEmail(string $email): self
     {
         $this->email = $email;
-        return $this;
-    }
-
-    public function getComentario(): ?int
-    {
-        return $this->comentario;
-    }
-
-    public function setComentario(?int $comentario): self
-    {
-        $this->comentario = $comentario;
         return $this;
     }
 }
