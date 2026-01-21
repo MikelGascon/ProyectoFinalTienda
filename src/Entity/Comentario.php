@@ -1,6 +1,8 @@
 <?php
 namespace Entity;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Usuario;
+
 
 #[ORM\Entity]
 #[ORM\Table(name: 'comentarios')]
@@ -11,9 +13,9 @@ class Comentario
     #[ORM\Column(type: 'integer')]
     private int $id;
 
-    #[ORM\Column(type: 'integer')]
-    
-    private int $id_usuario;
+    #[ORM\ManyToOne(targetEntity: Usuario::class)]
+    #[ORM\JoinColumn(name: "id_usuario", referencedColumnName: "id", nullable: false)]
+    private Usuario $usuario;
 
     #[ORM\Column(type: 'integer')]
     private int $rating;
@@ -31,14 +33,14 @@ class Comentario
         return $this->id;
     }
 
-    public function getIdUsuario(): int
+    public function getUsuario(): Usuario
     {
-        return $this->id_usuario;
+        return $this->usuario;
     }
 
-    public function setIdUsuario(int $idUsuario): self
+    public function setUsuario(Usuario $usuario): self
     {
-        $this->id_usuario = $idUsuario;
+        $this->usuario = $usuario;
         return $this;
     }
 
