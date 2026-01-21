@@ -398,7 +398,7 @@ $tipoMsg = $_GET['tipo'] ?? '';
                                         </span>
                                     </td>
                                     <td><?= htmlspecialchars($producto->getColor() ?? '-') ?></td>
-                                    <td><strong>€<?= number_format($producto->getPrecio(), 2) ?></strong></td>
+                                    <td><strong><?= number_format($producto->getPrecio(), 2) ?> €</strong></td>
                                     <td>
                                         <a href="editar_producto.php?id=<?= $producto->getId() ?>" class="btn btn-edit btn-sm">
                                             <i class="bi bi-pencil"></i> Editar
