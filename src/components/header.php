@@ -96,6 +96,13 @@ $basePath = $basePath ?? "../src";
                                 <div class="user-email"><?php echo htmlspecialchars($usuario); ?></div>
                             </div>
                             <ul class="panelListaUsuario">
+                                <?php if (isset($_SESSION['admin_logueado']) && $_SESSION['admin_logueado'] === true): ?>
+                                <li class="opcionesListaUsuario">
+                                    <a href="../public/admin/index.php">
+                                        <i class="bi bi-speedometer2"></i> Dashboard
+                                    </a>
+                                </li>
+                                <?php endif; ?>
                                 <li class="opcionesListaUsuario">
                                     <a href="../public/perfil.php">
                                         <i class="bi bi-person-circle"></i> Mi Perfil
@@ -173,9 +180,8 @@ $basePath = $basePath ?? "../src";
         </div>
         <div class="side-menu-body">
             <ul class="menu-nav">
-                <li><a href="#">Mujer</a></li>
-                <li><a href="#">Hombre</a></li>
-                <li><a href="#">Niños</a></li>
+                <li><a href="filtro.php?categoria=Mujer">Mujer</a></li>
+                <li><a href="filtro.php?categoria=Hombre">Hombre</a></li>
                 <li><a href="nosotros.php">Sobre Nosotros</a></li>
             </ul>
         </div>

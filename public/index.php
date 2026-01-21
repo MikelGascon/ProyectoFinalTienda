@@ -50,7 +50,7 @@ include '../src/components/header.php';
         </div>
     </section>
 
-    <!-- New Products Section -->
+    <!-- Nuevos Productos -->
     <section class="py-5">
         <div class="container">
             <h2 class="fw-bold text-uppercase mb-4">NUEVO</h2>

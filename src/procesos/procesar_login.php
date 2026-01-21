@@ -15,6 +15,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //Recordar datos
     $recordar = isset($_POST['recordar']) && $_POST['recordar'] === 'on';
 
+    // Verificar si es admin (credenciales hardcodeadas)
+    if ($usuario === 'admin' && $password === 'admin') {
+        $_SESSION['admin_logueado'] = true;
+        $_SESSION['admin_usuario'] = 'admin';
+        $_SESSION['logueado'] = true;
+        
+        echo json_encode([
+            'status' => 'success',
+            'mensaje' => "Bienvenido, Administrador",
+            'redirect' => 'admin/index.php'
+        ]);
+        exit;
+    }
+
     $repo = $entityManager->getRepository(Usuario::class);
     $user = $repo->findOneBy(['usuario' => $usuario]);
 
@@ -34,7 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         echo json_encode([
             'status' => 'success',
-            'mensaje' => "Bienvenido, " . $user->getNombre()
+            'mensaje' => "Bienvenido, " . $user->getNombre(),
+            'redirect' => 'index.php'
         ]);
         exit;
     } else {
