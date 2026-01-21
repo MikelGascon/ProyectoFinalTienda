@@ -32,26 +32,6 @@ $email = $_SESSION['email'] ?? 'email@example.com';
             </button>
         </div>
         
-        <div class="config-item">
-            <div class="config-info">
-                <strong>Autenticación de dos factores</strong>
-                <p class="text-muted">Añade una capa extra de seguridad</p>
-            </div>
-            <label class="switch">
-                <input type="checkbox" id="twoFactor">
-                <span class="slider"></span>
-            </label>
-        </div>
-        
-        <div class="config-item">
-            <div class="config-info">
-                <strong>Sesiones activas</strong>
-                <p class="text-muted">Administra los dispositivos con sesión iniciada</p>
-            </div>
-            <button class="btn btn-outline-primary" id="viewSessions">
-                <i class="bi bi-devices"></i> Ver Sesiones
-            </button>
-        </div>
     </div>
 </div>
 
@@ -83,27 +63,6 @@ $email = $_SESSION['email'] ?? 'email@example.com';
             </label>
         </div>
         
-        <div class="config-item">
-            <div class="config-info">
-                <strong>Newsletter semanal</strong>
-                <p class="text-muted">Novedades y tendencias cada semana</p>
-            </div>
-            <label class="switch">
-                <input type="checkbox" id="newsletter">
-                <span class="slider"></span>
-            </label>
-        </div>
-        
-        <div class="config-item">
-            <div class="config-info">
-                <strong>Notificaciones push</strong>
-                <p class="text-muted">Recibe notificaciones en el navegador</p>
-            </div>
-            <label class="switch">
-                <input type="checkbox" id="pushNotif">
-                <span class="slider"></span>
-            </label>
-        </div>
     </div>
 </div>
 
@@ -124,27 +83,6 @@ $email = $_SESSION['email'] ?? 'email@example.com';
             </label>
         </div>
         
-        <div class="config-item">
-            <div class="config-info">
-                <strong>Compartir datos de compra</strong>
-                <p class="text-muted">Para mejorar recomendaciones personalizadas</p>
-            </div>
-            <label class="switch">
-                <input type="checkbox" id="compartirDatos" checked>
-                <span class="slider"></span>
-            </label>
-        </div>
-        
-        <div class="config-item">
-            <div class="config-info">
-                <strong>Cookies de marketing</strong>
-                <p class="text-muted">Permitir cookies de terceros para publicidad</p>
-            </div>
-            <label class="switch">
-                <input type="checkbox" id="cookiesMarketing">
-                <span class="slider"></span>
-            </label>
-        </div>
     </div>
 </div>
 
@@ -179,16 +117,6 @@ $email = $_SESSION['email'] ?? 'email@example.com';
             </select>
         </div>
         
-        <div class="config-item">
-            <div class="config-info">
-                <strong>Guardar carrito</strong>
-                <p class="text-muted">Mantener productos en el carrito entre sesiones</p>
-            </div>
-            <label class="switch">
-                <input type="checkbox" id="guardarCarrito" checked>
-                <span class="slider"></span>
-            </label>
-        </div>
     </div>
 </div>
 
@@ -198,15 +126,6 @@ $email = $_SESSION['email'] ?? 'email@example.com';
         <h5><i class="bi bi-exclamation-triangle"></i> Zona de Peligro</h5>
     </div>
     <div class="config-body">
-        <div class="config-item">
-            <div class="config-info">
-                <strong>Descargar mis datos</strong>
-                <p class="text-muted">Solicita una copia de toda tu información</p>
-            </div>
-            <button class="btn btn-outline-secondary" id="downloadData">
-                <i class="bi bi-download"></i> Descargar
-            </button>
-        </div>
         
         <div class="config-item">
             <div class="config-info">

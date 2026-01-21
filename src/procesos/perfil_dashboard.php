@@ -17,9 +17,29 @@ if ($usuario_id) {
     $totalFavoritos = $conn->fetchOne("SELECT COUNT(*) FROM favoritos WHERE usuario_id = ?", [$usuario_id]);
 }
 
-// Obtener estadísticas (aquí puedes hacer queries reales)
-$totalPedidos = 12; // Ejemplo
-$pedidosEnProceso = 2; // Ejemplo
+// Obtener total de pedido
+$totalPedidos = 0;
+if ($usuario_id) {
+    $conn = $entityManager->getConnection();
+    $totalPedidos = $conn->fetchOne("SELECT COUNT(*) FROM pedido WHERE usuario_id = ?", [$usuario_id]);
+}
+
+//Obtener total de tarjetas de regalo
+$tarjetaRegalo = 0;
+if ($usuario_id) {
+    $conn = $entityManager->getConnection();
+    $tarjetaRegalo = $conn->fetchOne("SELECT COUNT(*) FROM tarjetas_regalo WHERE usuario_id = ?", [$usuario_id]);
+}
+
+//Sacar todos los datos de la tarjeta Regalo para usarlo en el div
+
+
+$nombreTarjeta = "nombre";
+$descripcionTarjeta = "Descripcion";
+$fechaTarjeta = "10/02/2026";
+$importeTarjeta = "100$";
+
+
 ?>
 
 <div class="section-title">
@@ -33,9 +53,9 @@ $pedidosEnProceso = 2; // Ejemplo
         <div class="stat-label">Pedidos Totales</div>
     </div>
     <div class="stat-card">
-        <div class="stat-icon"><i class="bi bi-clock-history"></i></div>
-        <div class="stat-number"><?php echo $pedidosEnProceso; ?></div>
-        <div class="stat-label">En Proceso</div>
+        <div class="stat-icon"><i class="bi bi-gift-fill"></i></div>
+        <div class="stat-number"><?php echo $tarjetaRegalo; ?></div>
+        <div class="stat-label">Tarjetas Regalo</div>
     </div>
     <div class="stat-card">
         <div class="stat-icon"><i class="bi bi-heart-fill"></i></div>
@@ -62,10 +82,6 @@ $pedidosEnProceso = 2; // Ejemplo
         <span class="info-value"><?php echo htmlspecialchars($email); ?></span>
     </div>
     <div class="info-row">
-        <span class="info-label">Teléfono</span>
-        <span class="info-value"><?php echo htmlspecialchars($telefono); ?></span>
-    </div>
-    <div class="info-row">
         <span class="info-label">Fecha de Registro</span>
         <span class="info-value"><?php echo date('d/m/Y'); ?></span>
     </div>
@@ -79,36 +95,38 @@ $pedidosEnProceso = 2; // Ejemplo
 
 <div class="recent-orders">
     <div class="section-title">
-        <i class="bi bi-clock-history"></i> Pedidos Recientes
+        <i class="bi bi-gift-fill"></i> Tarjetas Regalo
     </div>
 
     <div class="order-card">
+
         <div class="order-header">
-            <span class="order-id">#PEDIDO-2026-001</span>
-            <span class="order-status status-shipped">En Camino</span>
+            <span class="order-id"> <strong>#<?php echo $nombreTarjeta ?></strong></span>
         </div>
         <div class="text-muted small">
-            <div>Fecha: 15/01/2026</div>
-            <div>Total: €89.99</div>
+            <div>Fecha: <strong><?php echo $fechaTarjeta ?></strong>
+                <div>
+                    <div>Total Importe: <strong><?php echo $importeTarjeta ?></strong></div>
+                    <div>Descripcion: <strong><?php echo $descripcionTarjeta ?></strong></div>
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <a href="#" class="text-decoration-none view-all-link" data-section="pedidos">
+                    Ver todos las Tarjeta Regalo <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
         </div>
-    </div>
 
-    <div class="text-center mt-3">
-        <a href="#" class="text-decoration-none view-all-link" data-section="pedidos">
-            Ver todos los pedidos <i class="bi bi-arrow-right"></i>
-        </a>
-    </div>
-</div>
+        <script>
+            function enableEdit() {
+                alert('Función de edición - Aquí puedes implementar un modal o formulario de edición');
+            }
 
-<script>
-function enableEdit() {
-    alert('Función de edición - Aquí puedes implementar un modal o formulario de edición');
-}
-
-// Event listener para el link "Ver todos los pedidos"
-document.querySelector('.view-all-link')?.addEventListener('click', function(e) {
-    e.preventDefault();
-    const section = this.getAttribute('data-section');
-    document.querySelector(`[data-section="${section}"]`).click();
-});
-</script>
+            // Event listener para el link "Ver todos los pedidos"
+            document.querySelector('.view-all-link')?.addEventListener('click', function (e) {
+                e.preventDefault();
+                const section = this.getAttribute('data-section');
+                document.querySelector(`[data-section="${section}"]`).click();
+            });
+        </script>
