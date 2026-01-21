@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode([
             'status' => 'success',
             'mensaje' => "Bienvenido, Administrador",
-            'redirect' => 'admin/index.php'
+            'redirect' => 'admin/dashboard.php'
         ]);
         exit;
     }
