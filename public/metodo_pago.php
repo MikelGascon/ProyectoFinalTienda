@@ -14,33 +14,39 @@ if ($conexion->connect_error) {
 $mensaje = '';
 $erroresCampos = [];
 
-// 🛒 Calcular total del carrito
+// 🛒 Calcular total del carrito (productos)
 $carrito = $_SESSION['carrito'] ?? [];
 $totalCarrito = 0;
 foreach ($carrito as $item) {
     $totalCarrito += $item['precio'] * $item['cantidad'];
 }
 
-// 🧧 Recibir importe de tarjeta regalo (compra de tarjeta desde Tarjeta_regalo.php)
+// 🧧 Recibir compra de tarjeta regalo desde Tarjeta_regalo.php
+// Solo guardar en sesión cuando viene directamente de esa página
 if (isset($_POST['importe']) && !isset($_POST['metodo']) && !isset($_POST['aplicar_tarjeta']) && !isset($_POST['confirmar'])) {
     $_SESSION['tarjeta_regalo'] = [
-        'importe' => $_POST['importe'],
+        'importe' => (float)$_POST['importe'],
         'mensaje' => $_POST['mensaje'] ?? null
     ];
 }
 
+// Si hay una tarjeta regalo que se está comprando, sumarla al total
+if (isset($_SESSION['tarjeta_regalo'])) {
+    $totalCarrito += (float)$_SESSION['tarjeta_regalo']['importe'];
+}
+
 // 🔐 Campos de método de pago
-$metodo = $_POST['metodo'] ?? '';
-$titular = $_POST['titular'] ?? '';
-$numero = $_POST['numero'] ?? '';
-$mes = $_POST['mes'] ?? '';
-$anio = $_POST['anio'] ?? '';
-$cvv = $_POST['cvv'] ?? '';
-$paypal = $_POST['paypal'] ?? '';
+$metodo      = $_POST['metodo']      ?? '';
+$titular     = $_POST['titular']     ?? '';
+$numero      = $_POST['numero']      ?? '';
+$mes         = $_POST['mes']         ?? '';
+$anio        = $_POST['anio']        ?? '';
+$cvv         = $_POST['cvv']         ?? '';
+$paypal      = $_POST['paypal']      ?? '';
 $pass_paypal = $_POST['pass_paypal'] ?? '';
-$banco = $_POST['banco'] ?? '';
-$iban = $_POST['iban'] ?? '';
-$confirmado = isset($_POST['confirmar']);
+$banco       = $_POST['banco']       ?? '';
+$iban        = $_POST['iban']        ?? '';
+$confirmado  = isset($_POST['confirmar']);
 
 // 🎁 Aplicar tarjeta regalo existente
 $descuentoTarjeta = 0;
@@ -58,7 +64,7 @@ if ($usuario_logeado && isset($_POST['aplicar_tarjeta']) && !empty($_POST['usar_
     if ($resultado) {
         $descuentoTarjeta = (float)$resultado['importe'];
         $_SESSION['tarjeta_usada'] = [
-            'id' => $idTarjeta,
+            'id'      => $idTarjeta,
             'importe' => $descuentoTarjeta
         ];
     }
@@ -75,6 +81,7 @@ $totalFinal = max(0, $totalCarrito - $descuentoTarjeta);
 // 🧾 SOLO procesar pago si está logeado y pulsa Confirmar
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado && $usuario_logeado) {
 
+    // Validaciones método de pago
     if ($metodo === '') {
         $erroresCampos['metodo'] = "Selecciona un método de pago.";
     }
@@ -94,9 +101,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado && $usuario_logeado) {
         }
         if (empty($erroresCampos['mes']) && empty($erroresCampos['anio'])) {
             $fechaIngresada = "20$anio-$mes";
-            $fechaActual = date("Y-m");
+            $fechaActual    = date("Y-m");
             if ($fechaIngresada < $fechaActual) {
-                $erroresCampos['mes'] = "Fecha inválida.";
+                $erroresCampos['mes']  = "Fecha inválida.";
                 $erroresCampos['anio'] = "Fecha inválida.";
             }
         }
@@ -127,9 +134,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado && $usuario_logeado) {
 
         // 💳 Guardar tarjeta regalo comprada (desde Tarjeta_regalo.php)
         if (isset($_SESSION['tarjeta_regalo'])) {
-            $importe = $_SESSION['tarjeta_regalo']['importe'];
+            $importe        = (float)$_SESSION['tarjeta_regalo']['importe'];
             $mensaje_tarjeta = $_SESSION['tarjeta_regalo']['mensaje'];
-            $usuario_id = $_SESSION['usuario_id'];
+            $usuario_id     = $_SESSION['usuario_id'];
 
             $stmt = $conexion->prepare("INSERT INTO tarjetas_regalo (usuario_id, importe, mensaje) VALUES (?, ?, ?)");
             $stmt->bind_param("ids", $usuario_id, $importe, $mensaje_tarjeta);
@@ -139,22 +146,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado && $usuario_logeado) {
             unset($_SESSION['tarjeta_regalo']);
         }
 
-        // 🎁 Si se usó una tarjeta regalo, eliminarla de la BD
+        // 🎁 Si se usó una tarjeta regalo, actualizar su saldo o eliminarla
         if (isset($_SESSION['tarjeta_usada'])) {
-            $idTarjeta = $_SESSION['tarjeta_usada']['id'];
+            $idTarjeta    = $_SESSION['tarjeta_usada']['id'];
+            $saldoTarjeta = (float)$_SESSION['tarjeta_usada']['importe'];
 
-            $stmt = $conexion->prepare("DELETE FROM tarjetas_regalo WHERE id = ?");
-            $stmt->bind_param("i", $idTarjeta);
-            $stmt->execute();
-            $stmt->close();
+            // Lo que queda en la tarjeta después de pagar este pedido
+            $restante = $saldoTarjeta - $totalCarrito;
+
+            if ($restante > 0) {
+                // Aún queda saldo en la tarjeta → actualizar importe
+                $stmt = $conexion->prepare("UPDATE tarjetas_regalo SET importe = ? WHERE id = ?");
+                $stmt->bind_param("di", $restante, $idTarjeta);
+                $stmt->execute();
+                $stmt->close();
+            } else {
+                // No queda saldo → eliminar tarjeta
+                $stmt = $conexion->prepare("DELETE FROM tarjetas_regalo WHERE id = ?");
+                $stmt->bind_param("i", $idTarjeta);
+                $stmt->execute();
+                $stmt->close();
+            }
 
             unset($_SESSION['tarjeta_usada']);
         }
 
-        // (Opcional) aquí podrías vaciar el carrito tras el pago
-        // unset($_SESSION['carrito']);
+        // (Opcional) vaciar carrito tras el pago
+        unset($_SESSION['carrito']);
 
         $mensaje = "Método de pago registrado correctamente.";
+
+        // Redirigir al inicio tras completar el pago
+        header("Location: index.php");
+        exit;
     }
 }
 
@@ -209,7 +233,8 @@ if ($usuario_logeado) {
                     <select name="usar_tarjeta" class="select-tarjeta">
                         <option value="">No usar tarjeta regalo</option>
                         <?php foreach ($tarjetas as $t): ?>
-                            <option value="<?= $t['id'] ?>" <?= (isset($_SESSION['tarjeta_usada']['id']) && $_SESSION['tarjeta_usada']['id'] == $t['id']) ? 'selected' : '' ?>>
+                            <option value="<?= $t['id'] ?>"
+                                <?= (isset($_SESSION['tarjeta_usada']['id']) && $_SESSION['tarjeta_usada']['id'] == $t['id']) ? 'selected' : '' ?>>
                                 Tarjeta #<?= $t['id'] ?> - <?= number_format($t['importe'], 2) ?> €
                                 <?= $t['mensaje'] ? " - {$t['mensaje']}" : "" ?>
                             </option>
