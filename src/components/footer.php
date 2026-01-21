@@ -87,9 +87,12 @@ require_once __DIR__ . '/../../config/config.php';
             </div>
 
             <!-- Añadir el eslogan de CopyRight-->
-            <div>
-                CopyRight - Todos los derechos reservador a CorteRebelde
-            </div>
+<!-- Añadir el eslogan de CopyRight-->
+<!-- Añadir el eslogan de CopyRight-->
+<div style="width: 100%; background-color: black; color: white; text-align: center; font-weight: bold; padding: 10px;">
+    CopyRight - Todos los derechos reservados a CorteRebelde
+</div>
+
         </div>
     </footer>
 
