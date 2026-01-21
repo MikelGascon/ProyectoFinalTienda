@@ -1,62 +1,72 @@
 <?php
 require_once __DIR__ . '/../config/config.php';
+require_once '../src/Entity/bootstrap.php';
+
+session_start();
+
+// Variables de sesión
+$usuario_id = $_SESSION['usuario_id'] ?? null;
+$nombreUsuario = $_SESSION['nombre'] ?? 'Usuario';
+$usuario = $_SESSION['usuario'] ?? 'Invitado';
+$email = $_SESSION['email'] ?? 'email@example.com';
+
+// Configuración del header
 $pageTitle = "El Corte Rebelde";
 $bannerText = "20% OFF EN COLECCIÓN DE INVIERNO";
 $showBanner = true;
 $basePath = "../src";
 include '../src/components/header.php';
-
-
 ?>
 
 <link href="<?php echo $basePath; ?>/Css/perfil.css" rel="stylesheet">
+<!-- Estilos dinámicos se cargarán según la sección -->
+<link id="dynamic-styles" rel="stylesheet">
 
 <div class="profile-container">
     <div class="row g-4">
-        <!-- Sidebar -->
+        <!-- SIDEBAR -->
         <div class="col-lg-3">
             <div class="profile-sidebar">
                 <div class="profile-avatar">
                     <i class="bi bi-person-fill"></i>
                 </div>
                 <div class="profile-name"><?php echo htmlspecialchars($nombreUsuario); ?></div>
-                <div class="profile-email"><?php echo htmlspecialchars($_SESSION['email'] ?? 'email@example.com'); ?>
-                </div>
+                <div class="profile-email"><?php echo htmlspecialchars($email); ?></div>
 
                 <ul class="profile-nav">
                     <li>
-                        <a href="perfil.php" class="active">
-                            <i class="bi bi-person-circle"></i>
+                        <a href="#" class="nav-link active" data-section="dashboard">
+                            <i class="bi bi-person-circle"></i> 
                             <span>Mi Perfil</span>
                         </a>
                     </li>
                     <li>
-                        <a href="pedidos.php">
-                            <i class="bi bi-bag-check"></i>
+                        <a href="#" class="nav-link" data-section="pedidos">
+                            <i class="bi bi-bag-check"></i> 
                             <span>Mis Pedidos</span>
                         </a>
                     </li>
                     <li>
-                        <a href="direcciones.php">
-                            <i class="bi bi-house"></i>
+                        <a href="#" class="nav-link" data-section="direcciones">
+                            <i class="bi bi-house"></i> 
                             <span>Mis Direcciones</span>
                         </a>
                     </li>
                     <li>
-                        <a href="favoritos.php">
-                            <i class="bi bi-heart"></i>
+                        <a href="#" class="nav-link" data-section="favoritos">
+                            <i class="bi bi-heart"></i> 
                             <span>Favoritos</span>
                         </a>
                     </li>
                     <li>
-                        <a href="configuracion.php">
-                            <i class="bi bi-gear"></i>
+                        <a href="#" class="nav-link" data-section="configuracion">
+                            <i class="bi bi-gear"></i> 
                             <span>Configuración</span>
                         </a>
                     </li>
                     <li>
                         <a href="../src/procesos/logout.php" style="color: #dc3545;">
-                            <i class="bi bi-box-arrow-right"></i>
+                            <i class="bi bi-box-arrow-right"></i> 
                             <span>Cerrar Sesión</span>
                         </a>
                     </li>
@@ -64,121 +74,19 @@ include '../src/components/header.php';
             </div>
         </div>
 
-        <!-- Content -->
+        <!-- CONTENIDO DINÁMICO -->
         <div class="col-lg-9">
             <div class="profile-content">
-                <div class="section-title">
-                    <i class="bi bi-speedometer2"></i>
-                    Panel de Control
-                </div>
-
-                <!-- Estadísticas -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="bi bi-bag-check-fill"></i>
-                        </div>
-                        <div class="stat-number">12</div>
-                        <div class="stat-label">Pedidos Totales</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="bi bi-clock-history"></i>
-                        </div>
-                        <div class="stat-number">2</div>
-                        <div class="stat-label">En Proceso</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="bi bi-heart-fill"></i>
-                        </div>
-                        <div class="stat-number">8</div>
-                        <div class="stat-label">Favoritos</div>
+                <!-- Loading spinner -->
+                <div id="loading-spinner" style="display: none; text-align: center; padding: 50px;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
                     </div>
                 </div>
-
-                <!-- Información Personal -->
-                <div class="section-title mt-4">
-                    <i class="bi bi-person-vcard"></i>
-                    Información Personal
-                </div>
-
-                <div class="info-card">
-                    <div class="info-row">
-                        <span class="info-label">Nombre Completo</span>
-                        <span class="info-value"><?php echo htmlspecialchars($nombreUsuario); ?></span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Usuario</span>
-                        <span class="info-value"><?php echo htmlspecialchars($usuario); ?></span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Email</span>
-                        <span
-                            class="info-value"><?php echo htmlspecialchars($_SESSION['email'] ?? 'email@example.com'); ?></span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Teléfono</span>
-                        <span
-                            class="info-value"><?php echo htmlspecialchars($_SESSION['telefono'] ?? 'No especificado'); ?></span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Fecha de Registro</span>
-                        <span class="info-value"><?php echo date('d/m/Y'); ?></span>
-                    </div>
-                </div>
-
-                <div class="text-end mt-3">
-                    <button class="btn btn-edit">
-                        <i class="bi bi-pencil-square me-2"></i>Editar Información
-                    </button>
-                </div>
-
-                <!-- Pedidos Recientes -->
-                <div class="recent-orders">
-                    <div class="section-title">
-                        <i class="bi bi-clock-history"></i>
-                        Pedidos Recientes
-                    </div>
-
-                    <div class="order-card">
-                        <div class="order-header">
-                            <span class="order-id">#PEDIDO-2026-001</span>
-                            <span class="order-status status-shipped">En Camino</span>
-                        </div>
-                        <div class="text-muted small">
-                            <div>Fecha: 15/01/2026</div>
-                            <div>Total: €89.99</div>
-                        </div>
-                    </div>
-
-                    <div class="order-card">
-                        <div class="order-header">
-                            <span class="order-id">#PEDIDO-2025-045</span>
-                            <span class="order-status status-completed">Entregado</span>
-                        </div>
-                        <div class="text-muted small">
-                            <div>Fecha: 28/12/2025</div>
-                            <div>Total: €124.50</div>
-                        </div>
-                    </div>
-
-                    <div class="order-card">
-                        <div class="order-header">
-                            <span class="order-id">#PEDIDO-2025-038</span>
-                            <span class="order-status status-completed">Entregado</span>
-                        </div>
-                        <div class="text-muted small">
-                            <div>Fecha: 15/12/2025</div>
-                            <div>Total: €67.00</div>
-                        </div>
-                    </div>
-
-                    <div class="text-center mt-3">
-                        <a href="pedidos.php" class="text-decoration-none" style="color: var(--color-primary);">
-                            Ver todos los pedidos <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
+                
+                <!-- Contenido dinámico -->
+                <div id="dynamic-content">
+                    <!-- Aquí se cargará el contenido -->
                 </div>
             </div>
         </div>
@@ -186,3 +94,114 @@ include '../src/components/header.php';
 </div>
 
 <?php include "../src/components/footer.php" ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.nav-link');
+    const dynamicContent = document.getElementById('dynamic-content');
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const dynamicStyles = document.getElementById('dynamic-styles');
+    
+    // Cargar sección inicial
+    loadSection('dashboard');
+    
+    // Event listeners para los links
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const section = this.getAttribute('data-section');
+            if (section) {
+                e.preventDefault();
+                
+                // Actualizar clase active
+                navLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Cargar sección
+                loadSection(section);
+            }
+        });
+    });
+    
+    function loadSection(section) {
+        // Mostrar loading
+        loadingSpinner.style.display = 'block';
+        dynamicContent.style.opacity = '0.5';
+        
+        // Fetch del contenido
+        fetch(`../src/procesos/perfil_${section}.php`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al cargar la sección');
+                }
+                return response.text();
+            })
+            .then(html => {
+                dynamicContent.innerHTML = html;
+                
+                // Cargar estilos específicos de la sección si existen
+                const cssPath = `../src/Css/perfil_${section}.css`;
+                dynamicStyles.href = cssPath;
+                
+                // Ocultar loading
+                loadingSpinner.style.display = 'none';
+                dynamicContent.style.opacity = '1';
+                
+                // Scroll suave al inicio del contenido
+                dynamicContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // Ejecutar scripts específicos si existen
+                executePageScripts(section);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                dynamicContent.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        Error al cargar la sección. Por favor, inténtalo de nuevo.
+                    </div>
+                `;
+                loadingSpinner.style.display = 'none';
+                dynamicContent.style.opacity = '1';
+            });
+    }
+    
+    function executePageScripts(section) {
+        // Aquí puedes ejecutar scripts específicos para cada sección
+        switch(section) {
+            case 'favoritos':
+                initFavoritos();
+                break;
+            case 'pedidos':
+                initPedidos();
+                break;
+            case 'direcciones':
+                initDirecciones();
+                break;
+            case 'configuracion':
+                initConfiguracion();
+                break;
+        }
+    }
+    
+    // Funciones de inicialización para cada sección
+    function initFavoritos() {
+        // Código específico para favoritos
+        console.log('Favoritos inicializado');
+    }
+    
+    function initPedidos() {
+        // Código específico para pedidos
+        console.log('Pedidos inicializado');
+    }
+    
+    function initDirecciones() {
+        // Código específico para direcciones
+        console.log('Direcciones inicializado');
+    }
+    
+    function initConfiguracion() {
+        // Código específico para configuración
+        console.log('Configuración inicializado');
+    }
+});
+</script>

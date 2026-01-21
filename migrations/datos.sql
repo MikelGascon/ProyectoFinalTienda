@@ -1,8 +1,7 @@
 -- Nombre de la tabla
-/* CREATE DATABASE app_tienda; */
+/* CREATE DATABASE app_tienda; 
+USE app_tienda;
 
--- Tabla de los usuarios
-/*
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario VARCHAR(50) NOT NULL UNIQUE,
@@ -35,6 +34,11 @@ CREATE TABLE tipoRopa (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL
 );
+
+CREATE TABLE tallaRopa (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
+);
 CREATE TABLE comentarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL,
@@ -43,12 +47,38 @@ CREATE TABLE comentarios (
     fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
-
-
-CREATE TABLE tallaRopa (
+CREATE TABLE favoritos (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL
+    usuario_id INT NOT NULL,
+    producto_id INT NOT NULL,
+    fecha_agregado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    -- Evita que un usuario guarde el mismo producto dos veces
+    UNIQUE KEY usuario_producto (usuario_id, producto_id) 
 );
+
+CREATE TABLE pedido (
+    id INT AUTO_INCREMENT,
+    usuario_id INT NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL, -- Soporta hasta 8 enteros y 2 decimales
+    cantidadProductos INT NOT NULL,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+
+CREATE TABLE direcciones (
+    id INT AUTO_INCREMENT,
+    usuario_id INT NOT NULL,
+    direccion VARCHAR(255) NOT NULL,
+    pais VARCHAR(100) NOT NULL,
+    provincia VARCHAR(100) NOT NULL,
+    tel VARCHAR(20),
+    PRIMARY KEY (id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+
+
+
 INSERT INTO categoriaSexo (nombre) VALUES ('Hombre'), ('Mujer'), ('Unisex');
 
 INSERT INTO tipoRopa (nombre) VALUES ('Camisetas'), ('Pantalones'), ('Chaquetas'), ('Accesorios'), ('Vestidos');
@@ -74,4 +104,9 @@ INSERT INTO productos (nombre, categoriaId, tipo_ropaId, marcaId, precio, color)
 ('Sudadera Dior',1,3,2,280.00,'Azul'),
 ('Bolso gucci',2,5,1,280.00,'Beige'),
 ('Collar Versace',2,5,1,280.00,'Multicolor');
+
+
+
+
+
 */

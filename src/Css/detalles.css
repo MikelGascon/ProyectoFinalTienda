@@ -1,43 +1,58 @@
 .detalles-container {
-    display: grid;
-    /* Cambiamos a 0.8fr para que la columna de la foto sea más estrecha que la del texto */
-    grid-template-columns: 0.8fr 1.2fr; 
-    gap: 60px; /* Aumentamos el espacio entre columnas */
-    max-width: 1100px; /* Estrechamos un poco el contenedor general */
-    margin: 40px auto;
-    padding: 30px;
-    background: #fff;
-    align-items: start; /* Alinea el contenido arriba */
-}
-
-.detalles-img {
     display: flex;
-    justify-content: center; /* Centra la imagen si es más pequeña que el contenedor */
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    gap: 50px;
+    align-items: flex-start;
 }
 
-.detalles-img img {
+/* CONTENEDOR DE IMAGEN */
+.detalles-img-wrapper {
+    position: relative; /* Clave para el botón */
+    flex: 1;
+    max-width: 500px;
+}
+
+.img-principal {
     width: 100%;
-    max-width: 400px; /* LIMITA el ancho máximo de la foto aquí */
     height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    object-fit: contain; /* Asegura que no se deforme */
+    display: block; /* Asegura que la imagen tenga su espacio */
+    border-radius: 4px;
 }
 
-/* El resto se mantiene igual */
-.detalles-info h1 { font-size: 2.5rem; margin-bottom: 10px; text-transform: uppercase; }
-.detalles-precio { font-size: 1.8rem; color: #333; font-weight: bold; margin-bottom: 20px; }
-.detalles-meta { border-top: 1px solid #eee; padding-top: 20px; }
-.meta-item { margin-bottom: 10px; font-size: 1.1rem; }
-.meta-label { font-weight: bold; color: #666; width: 120px; display: inline-block; }
-.btn-comprar {
-    display: inline-block;
-    background: #000;
-    color: #fff;
-    padding: 15px 40px;
+/* BOTÓN CORAZÓN */
+.btn-favorito-detalles {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
-    margin-top: 30px;
-    border-radius: 4px;
+    font-size: 1.5rem;
+    color: #ccc;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 10;
     transition: 0.3s;
 }
-.btn-comprar:hover { background: #333; }
+
+.btn-favorito-detalles.es-favorito {
+    color: #e74c3c;
+}
+
+.btn-favorito-detalles:hover {
+    transform: scale(1.1);
+}
+
+/* INFO Y TEXTOS */
+.detalles-info { flex: 1; }
+.marca-badge { color: #888; text-transform: uppercase; font-size: 0.9rem; }
+.detalles-precio { font-size: 2rem; font-weight: bold; margin: 15px 0; }
+.detalles-btns { margin-top: 30px; display: flex; flex-direction: column; gap: 15px; }
+.btn-add-cart { background: #000; color: #fff; padding: 15px; text-align: center; text-decoration: none; font-weight: bold; }
+.btn-back { text-align: center; color: #666; text-decoration: none; }
