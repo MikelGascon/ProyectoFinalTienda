@@ -1,42 +1,78 @@
-<?php 
-session_start(); 
-require "../config/config.php"; // NO SE TOCA
+<?php
+session_start();
+require "../config/config.php";
 
 // 🔥 Comprobar si está logeado SIN redirigir
 $usuario_logeado = isset($_SESSION['usuario_id']);
 
 // 🔥 Conexión local SOLO para este archivo (no afecta al proyecto)
 $conexion = new mysqli("localhost", "root", "root", "app_tienda");
-
 if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
 }
 
-$mensaje = ''; 
-$erroresCampos = []; 
+$mensaje = '';
+$erroresCampos = [];
 
-// Recibir importe de tarjeta regalo
-if (isset($_POST['importe'])) {
+// 🛒 Calcular total del carrito
+$carrito = $_SESSION['carrito'] ?? [];
+$totalCarrito = 0;
+foreach ($carrito as $item) {
+    $totalCarrito += $item['precio'] * $item['cantidad'];
+}
+
+// 🧧 Recibir importe de tarjeta regalo (compra de tarjeta desde Tarjeta_regalo.php)
+if (isset($_POST['importe']) && !isset($_POST['metodo']) && !isset($_POST['aplicar_tarjeta']) && !isset($_POST['confirmar'])) {
     $_SESSION['tarjeta_regalo'] = [
         'importe' => $_POST['importe'],
         'mensaje' => $_POST['mensaje'] ?? null
     ];
 }
 
-$metodo = $_POST['metodo'] ?? ''; 
-$titular = $_POST['titular'] ?? ''; 
-$numero = $_POST['numero'] ?? ''; 
-$mes = $_POST['mes'] ?? ''; 
-$anio = $_POST['anio'] ?? ''; 
-$cvv = $_POST['cvv'] ?? ''; 
-$paypal = $_POST['paypal'] ?? ''; 
-$pass_paypal = $_POST['pass_paypal'] ?? ''; 
-$banco = $_POST['banco'] ?? ''; 
-$iban = $_POST['iban'] ?? ''; 
+// 🔐 Campos de método de pago
+$metodo = $_POST['metodo'] ?? '';
+$titular = $_POST['titular'] ?? '';
+$numero = $_POST['numero'] ?? '';
+$mes = $_POST['mes'] ?? '';
+$anio = $_POST['anio'] ?? '';
+$cvv = $_POST['cvv'] ?? '';
+$paypal = $_POST['paypal'] ?? '';
+$pass_paypal = $_POST['pass_paypal'] ?? '';
+$banco = $_POST['banco'] ?? '';
+$iban = $_POST['iban'] ?? '';
+$confirmado = isset($_POST['confirmar']);
 
-$confirmado = isset($_POST['confirmar']); 
+// 🎁 Aplicar tarjeta regalo existente
+$descuentoTarjeta = 0;
 
-// SOLO procesar si está logeado
+// Si el usuario pulsa "Aplicar tarjeta"
+if ($usuario_logeado && isset($_POST['aplicar_tarjeta']) && !empty($_POST['usar_tarjeta'])) {
+    $idTarjeta = (int)$_POST['usar_tarjeta'];
+
+    $stmt = $conexion->prepare("SELECT importe FROM tarjetas_regalo WHERE id = ? AND usuario_id = ?");
+    $stmt->bind_param("ii", $idTarjeta, $_SESSION['usuario_id']);
+    $stmt->execute();
+    $resultado = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    if ($resultado) {
+        $descuentoTarjeta = (float)$resultado['importe'];
+        $_SESSION['tarjeta_usada'] = [
+            'id' => $idTarjeta,
+            'importe' => $descuentoTarjeta
+        ];
+    }
+}
+
+// Si ya hay una tarjeta aplicada en sesión, usarla
+if (isset($_SESSION['tarjeta_usada'])) {
+    $descuentoTarjeta = (float)$_SESSION['tarjeta_usada']['importe'];
+}
+
+// Total final con descuento (sin bajar de 0)
+$totalFinal = max(0, $totalCarrito - $descuentoTarjeta);
+
+// 🧾 SOLO procesar pago si está logeado y pulsa Confirmar
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado && $usuario_logeado) {
 
     if ($metodo === '') {
@@ -44,55 +80,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado && $usuario_logeado) {
     }
 
     if ($metodo === 'tarjeta') {
-
         if ($titular === '') {
             $erroresCampos['titular'] = "El titular es obligatorio.";
         }
-
         if (!preg_match('/^[0-9]{12}$/', $numero)) {
             $erroresCampos['numero'] = "El número de tarjeta debe tener exactamente 12 dígitos.";
         }
-
         if ($mes === '' || !preg_match('/^[0-9]{2}$/', $mes) || (int)$mes < 1 || (int)$mes > 12) {
             $erroresCampos['mes'] = "Introduce un mes válido (01-12).";
         }
-
         if ($anio === '' || !preg_match('/^[0-9]{2}$/', $anio)) {
             $erroresCampos['anio'] = "Introduce un año válido (dos dígitos).";
         }
-
         if (empty($erroresCampos['mes']) && empty($erroresCampos['anio'])) {
             $fechaIngresada = "20$anio-$mes";
             $fechaActual = date("Y-m");
-
             if ($fechaIngresada < $fechaActual) {
                 $erroresCampos['mes'] = "Fecha inválida.";
                 $erroresCampos['anio'] = "Fecha inválida.";
             }
         }
-
         if (!preg_match('/^[0-9]{3}$/', $cvv)) {
             $erroresCampos['cvv'] = "El CVV debe tener exactamente 3 dígitos.";
         }
     }
 
     if ($metodo === 'paypal') {
-
         if (!filter_var($paypal, FILTER_VALIDATE_EMAIL)) {
             $erroresCampos['paypal'] = "Introduce un correo válido.";
         }
-
         if ($pass_paypal === '') {
             $erroresCampos['pass_paypal'] = "La contraseña es obligatoria.";
         }
     }
 
     if ($metodo === 'transferencia') {
-
         if ($banco === '') {
             $erroresCampos['banco'] = "El nombre del banco es obligatorio.";
         }
-
         if (!preg_match('/^[A-Z0-9]{10,20}$/', $iban)) {
             $erroresCampos['iban'] = "IBAN inválido.";
         }
@@ -100,9 +125,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado && $usuario_logeado) {
 
     if (empty($erroresCampos)) {
 
-        // Guardar tarjeta regalo en BD
+        // 💳 Guardar tarjeta regalo comprada (desde Tarjeta_regalo.php)
         if (isset($_SESSION['tarjeta_regalo'])) {
-
             $importe = $_SESSION['tarjeta_regalo']['importe'];
             $mensaje_tarjeta = $_SESSION['tarjeta_regalo']['mensaje'];
             $usuario_id = $_SESSION['usuario_id'];
@@ -115,26 +139,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado && $usuario_logeado) {
             unset($_SESSION['tarjeta_regalo']);
         }
 
+        // 🎁 Si se usó una tarjeta regalo, eliminarla de la BD
+        if (isset($_SESSION['tarjeta_usada'])) {
+            $idTarjeta = $_SESSION['tarjeta_usada']['id'];
+
+            $stmt = $conexion->prepare("DELETE FROM tarjetas_regalo WHERE id = ?");
+            $stmt->bind_param("i", $idTarjeta);
+            $stmt->execute();
+            $stmt->close();
+
+            unset($_SESSION['tarjeta_usada']);
+        }
+
+        // (Opcional) aquí podrías vaciar el carrito tras el pago
+        // unset($_SESSION['carrito']);
+
         $mensaje = "Método de pago registrado correctamente.";
     }
+}
+
+// 🎁 Obtener tarjetas regalo disponibles del usuario
+$tarjetas = [];
+if ($usuario_logeado) {
+    $stmt = $conexion->prepare("SELECT id, importe, mensaje FROM tarjetas_regalo WHERE usuario_id = ?");
+    $stmt->bind_param("i", $_SESSION['usuario_id']);
+    $stmt->execute();
+    $tarjetas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
 }
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <title>Método de Pago</title>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
     <link rel="stylesheet" href="../src/Css/metodo_pago.css">
 </head>
-
 <body>
-
 <div class="contenedor">
-
     <h2>Registrar método de pago</h2>
 
     <?php if (!$usuario_logeado): ?>
@@ -142,141 +185,143 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado && $usuario_logeado) {
             Debes iniciar sesión para acceder al método de pago.
         </p>
         <a href="login.php" class="btn-volver">Iniciar sesión</a>
+
     <?php else: ?>
 
-    <!-- FORMULARIO SOLO SI ESTÁ LOGEADO -->
-    <form method="post">
+        <!-- 🧾 Resumen de importe -->
+        <div class="resumen-pago">
+            <h3>Total carrito: <?= number_format($totalCarrito, 2) ?> €</h3>
 
-        <label for="metodo">Método de pago</label>
-        <select name="metodo" id="metodo" onchange="this.form.submit()" 
-            class="<?= isset($erroresCampos['metodo']) ? 'error-input' : '' ?>">
-            <option value="">Selecciona uno</option>
-            <option value="tarjeta" <?= $metodo === 'tarjeta' ? 'selected' : '' ?>>Tarjeta de crédito / débito</option>
-            <option value="paypal" <?= $metodo === 'paypal' ? 'selected' : '' ?>>PayPal</option>
-            <option value="transferencia" <?= $metodo === 'transferencia' ? 'selected' : '' ?>>Transferencia bancaria</option>
-        </select>
+            <?php if ($descuentoTarjeta > 0): ?>
+                <p>Tarjeta regalo aplicada: -<?= number_format($descuentoTarjeta, 2) ?> €</p>
+                <h3>Total final: <?= number_format($totalFinal, 2) ?> €</h3>
+            <?php else: ?>
+                <h3>Total final: <?= number_format($totalFinal, 2) ?> €</h3>
+            <?php endif; ?>
+        </div>
 
-        <?php if (isset($erroresCampos['metodo'])): ?>
-            <div class="error-text"><?= $erroresCampos['metodo'] ?></div>
+        <!-- 🎁 Tarjetas regalo disponibles -->
+        <?php if (!empty($tarjetas)): ?>
+            <div class="tarjetas-regalo-box">
+                <h4>Tarjetas regalo disponibles</h4>
+
+                <form method="post">
+                    <select name="usar_tarjeta" class="select-tarjeta">
+                        <option value="">No usar tarjeta regalo</option>
+                        <?php foreach ($tarjetas as $t): ?>
+                            <option value="<?= $t['id'] ?>" <?= (isset($_SESSION['tarjeta_usada']['id']) && $_SESSION['tarjeta_usada']['id'] == $t['id']) ? 'selected' : '' ?>>
+                                Tarjeta #<?= $t['id'] ?> - <?= number_format($t['importe'], 2) ?> €
+                                <?= $t['mensaje'] ? " - {$t['mensaje']}" : "" ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <button type="submit" name="aplicar_tarjeta" value="1">Aplicar tarjeta</button>
+                </form>
+            </div>
         <?php endif; ?>
 
-        <?php if ($metodo === 'tarjeta'): ?>
-
-            <label for="titular">Titular de la tarjeta</label>
-            <div class="input-icono">
-                <i class="fa-solid fa-user"></i>
-                <input type="text" name="titular" value="<?= htmlspecialchars($titular) ?>" 
-                    class="<?= isset($erroresCampos['titular']) ? 'error-input' : '' ?>">
-            </div>
-            <?php if (isset($erroresCampos['titular'])): ?>
-                <div class="error-text"><?= $erroresCampos['titular'] ?></div>
+        <!-- FORMULARIO MÉTODO DE PAGO -->
+        <form method="post">
+            <label for="metodo">Método de pago</label>
+            <select name="metodo" id="metodo" onchange="this.form.submit()" class="<?= isset($erroresCampos['metodo']) ? 'error-input' : '' ?>">
+                <option value="">Selecciona uno</option>
+                <option value="tarjeta" <?= $metodo === 'tarjeta' ? 'selected' : '' ?>>Tarjeta de crédito / débito</option>
+                <option value="paypal" <?= $metodo === 'paypal' ? 'selected' : '' ?>>PayPal</option>
+                <option value="transferencia" <?= $metodo === 'transferencia' ? 'selected' : '' ?>>Transferencia bancaria</option>
+            </select>
+            <?php if (isset($erroresCampos['metodo'])): ?>
+                <div class="error-text"><?= $erroresCampos['metodo'] ?></div>
             <?php endif; ?>
 
-            <label for="numero">Número de tarjeta</label>
-            <div class="input-icono">
-                <i class="fa-solid fa-credit-card"></i>
-                <input type="text" name="numero" maxlength="12" value="<?= htmlspecialchars($numero) ?>" 
-                    class="<?= isset($erroresCampos['numero']) ? 'error-input' : '' ?>">
-            </div>
-            <?php if (isset($erroresCampos['numero'])): ?>
-                <div class="error-text"><?= $erroresCampos['numero'] ?></div>
-            <?php endif; ?>
-
-            <label>Fecha de expiración y CVV</label>
-            <div class="fila">
-
-                <div class="input-icono campo-fecha">
-                    <i class="fa-solid fa-calendar"></i>
-                    <input list="meses" name="mes" maxlength="2" placeholder="MM" 
-                        value="<?= htmlspecialchars($mes) ?>" 
-                        class="<?= isset($erroresCampos['mes']) ? 'error-input' : '' ?>">
+            <?php if ($metodo === 'tarjeta'): ?>
+                <label for="titular">Titular de la tarjeta</label>
+                <div class="input-icono">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" name="titular" value="<?= htmlspecialchars($titular) ?>" class="<?= isset($erroresCampos['titular']) ? 'error-input' : '' ?>">
                 </div>
+                <?php if (isset($erroresCampos['titular'])): ?>
+                    <div class="error-text"><?= $erroresCampos['titular'] ?></div>
+                <?php endif; ?>
 
-                <div class="input-icono campo-fecha">
-                    <i class="fa-solid fa-calendar-days"></i>
-                    <input list="anios" name="anio" maxlength="2" placeholder="YY" 
-                        value="<?= htmlspecialchars($anio) ?>" 
-                        class="<?= isset($erroresCampos['anio']) ? 'error-input' : '' ?>">
+                <label for="numero">Número de tarjeta</label>
+                <div class="input-icono">
+                    <i class="fa-solid fa-credit-card"></i>
+                    <input type="text" name="numero" maxlength="12" value="<?= htmlspecialchars($numero) ?>" class="<?= isset($erroresCampos['numero']) ? 'error-input' : '' ?>">
                 </div>
+                <?php if (isset($erroresCampos['numero'])): ?>
+                    <div class="error-text"><?= $erroresCampos['numero'] ?></div>
+                <?php endif; ?>
 
-                <div class="input-icono campo-mini">
-                    <i class="fa-solid fa-lock"></i>
-                    <input type="password" name="cvv" maxlength="3" placeholder="CVV" 
-                        value="<?= htmlspecialchars($cvv) ?>" 
-                        class="<?= isset($erroresCampos['cvv']) ? 'error-input' : '' ?>">
+                <label>Fecha de expiración y CVV</label>
+                <div class="fila">
+                    <div class="input-icono campo-fecha">
+                        <i class="fa-solid fa-calendar"></i>
+                        <input list="meses" name="mes" maxlength="2" placeholder="MM" value="<?= htmlspecialchars($mes) ?>" class="<?= isset($erroresCampos['mes']) ? 'error-input' : '' ?>">
+                    </div>
+                    <div class="input-icono campo-fecha">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <input list="anios" name="anio" maxlength="2" placeholder="YY" value="<?= htmlspecialchars($anio) ?>" class="<?= isset($erroresCampos['anio']) ? 'error-input' : '' ?>">
+                    </div>
+                    <div class="input-icono campo-mini">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" name="cvv" maxlength="3" placeholder="CVV" value="<?= htmlspecialchars($cvv) ?>" class="<?= isset($erroresCampos['cvv']) ? 'error-input' : '' ?>">
+                    </div>
                 </div>
-
-            </div>
-
-            <?php if (isset($erroresCampos['mes'])): ?>
-                <div class="error-text"><?= $erroresCampos['mes'] ?></div>
+                <?php if (isset($erroresCampos['mes'])): ?>
+                    <div class="error-text"><?= $erroresCampos['mes'] ?></div>
+                <?php endif; ?>
+                <?php if (isset($erroresCampos['anio'])): ?>
+                    <div class="error-text"><?= $erroresCampos['anio'] ?></div>
+                <?php endif; ?>
+                <?php if (isset($erroresCampos['cvv'])): ?>
+                    <div class="error-text"><?= $erroresCampos['cvv'] ?></div>
+                <?php endif; ?>
             <?php endif; ?>
 
-            <?php if (isset($erroresCampos['anio'])): ?>
-                <div class="error-text"><?= $erroresCampos['anio'] ?></div>
+            <?php if ($metodo === 'paypal'): ?>
+                <label for="paypal">Correo de PayPal</label>
+                <div class="input-icono">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" name="paypal" value="<?= htmlspecialchars($paypal) ?>" class="<?= isset($erroresCampos['paypal']) ? 'error-input' : '' ?>">
+                </div>
+                <?php if (isset($erroresCampos['paypal'])): ?>
+                    <div class="error-text"><?= $erroresCampos['paypal'] ?></div>
+                <?php endif; ?>
+
+                <label for="pass_paypal">Contraseña de PayPal</label>
+                <div class="input-icono">
+                    <i class="fa-solid fa-key"></i>
+                    <input type="password" name="pass_paypal" class="<?= isset($erroresCampos['pass_paypal']) ? 'error-input' : '' ?>">
+                </div>
+                <?php if (isset($erroresCampos['pass_paypal'])): ?>
+                    <div class="error-text"><?= $erroresCampos['pass_paypal'] ?></div>
+                <?php endif; ?>
             <?php endif; ?>
 
-            <?php if (isset($erroresCampos['cvv'])): ?>
-                <div class="error-text"><?= $erroresCampos['cvv'] ?></div>
+            <?php if ($metodo === 'transferencia'): ?>
+                <label for="banco">Nombre del banco</label>
+                <input type="text" name="banco" value="<?= htmlspecialchars($banco) ?>" class="<?= isset($erroresCampos['banco']) ? 'error-input' : '' ?>">
+                <?php if (isset($erroresCampos['banco'])): ?>
+                    <div class="error-text"><?= $erroresCampos['banco'] ?></div>
+                <?php endif; ?>
+
+                <label for="iban">IBAN</label>
+                <input type="text" name="iban" maxlength="20" value="<?= htmlspecialchars($iban) ?>" class="<?= isset($erroresCampos['iban']) ? 'error-input' : '' ?>">
+                <?php if (isset($erroresCampos['iban'])): ?>
+                    <div class="error-text"><?= $erroresCampos['iban'] ?></div>
+                <?php endif; ?>
             <?php endif; ?>
 
+            <button type="submit" name="confirmar" value="1">Confirmar pago</button>
+        </form>
+
+        <?php if ($confirmado && $mensaje): ?>
+            <p><?= $mensaje ?></p>
         <?php endif; ?>
-
-        <?php if ($metodo === 'paypal'): ?>
-
-            <label for="paypal">Correo de PayPal</label>
-            <div class="input-icono">
-                <i class="fa-solid fa-envelope"></i>
-                <input type="email" name="paypal" value="<?= htmlspecialchars($paypal) ?>" 
-                    class="<?= isset($erroresCampos['paypal']) ? 'error-input' : '' ?>">
-            </div>
-            <?php if (isset($erroresCampos['paypal'])): ?>
-                <div class="error-text"><?= $erroresCampos['paypal'] ?></div>
-            <?php endif; ?>
-
-            <label for="pass_paypal">Contraseña de PayPal</label>
-            <div class="input-icono">
-                <i class="fa-solid fa-key"></i>
-                <input type="password" name="pass_paypal" 
-                    class="<?= isset($erroresCampos['pass_paypal']) ? 'error-input' : '' ?>">
-            </div>
-            <?php if (isset($erroresCampos['pass_paypal'])): ?>
-                <div class="error-text"><?= $erroresCampos['pass_paypal'] ?></div>
-            <?php endif; ?>
-
-        <?php endif; ?>
-
-        <?php if ($metodo === 'transferencia'): ?>
-
-            <label for="banco">Nombre del banco</label>
-            <input type="text" name="banco" value="<?= htmlspecialchars($banco) ?>" 
-                class="<?= isset($erroresCampos['banco']) ? 'error-input' : '' ?>">
-            <?php if (isset($erroresCampos['banco'])): ?>
-                <div class="error-text"><?= $erroresCampos['banco'] ?></div>
-            <?php endif; ?>
-
-            <label for="iban">IBAN</label>
-            <input type="text" name="iban" maxlength="20" value="<?= htmlspecialchars($iban) ?>" 
-                class="<?= isset($erroresCampos['iban']) ? 'error-input' : '' ?>">
-            <?php if (isset($erroresCampos['iban'])): ?>
-                <div class="error-text"><?= $erroresCampos['iban'] ?></div>
-            <?php endif; ?>
-
-        <?php endif; ?>
-
-        <button type="submit" name="confirmar" value="1">Confirmar pago</button>
-
-    </form>
-
-    <?php if ($confirmado && $mensaje): ?>
-        <p><?= $mensaje ?></p>
-    <?php endif; ?>
 
     <?php endif; ?>
 
     <a href="carrito.php">Volver</a>
-
 </div>
-
 </body>
 </html>
