@@ -79,13 +79,19 @@ CREATE TABLE pedido (
 CREATE TABLE direcciones (
     id INT AUTO_INCREMENT,
     usuario_id INT NOT NULL,
+    nombre VARCHAR(100) NOT NULL COMMENT 'Ej: Casa, Trabajo',
     direccion VARCHAR(255) NOT NULL,
-    pais VARCHAR(100) NOT NULL,
+    codigo_postal VARCHAR(15) NOT NULL,
+    ciudad VARCHAR(100) NOT NULL,
     provincia VARCHAR(100) NOT NULL,
+    pais VARCHAR(100) NOT NULL DEFAULT 'España',
     tel VARCHAR(20),
+    predeterminada TINYINT(1) DEFAULT 0 COMMENT '1 si es la dirección principal',
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+    CONSTRAINT fk_usuario_direccion FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
+
 
 CREATE TABLE tarjetas_regalo (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -98,7 +104,10 @@ CREATE TABLE tarjetas_regalo (
 );
 
 -- Insertar direcciones
-INSERT INTO direcciones (usuario_id,direccion,pais,provincia,tel) VALUES (1,'Calle inventada','España','Bizkaia',123456789);
+INSERT INTO direcciones (usuario_id, nombre, direccion, codigo_postal, ciudad, provincia, pais, tel, predeterminada) 
+VALUES 
+(1, 'Casa', 'Calle Gran Vía 12, 4ºB', '48001', 'Bilbao', 'Bizkaia', 'España', '600112233', 1),
+(1, 'Trabajo', 'Avenida de la Libertad 55', '48991', 'Getxo', 'Bizkaia', 'España', '944123456', 0);
 
 -- Insertar datos a la tarjeta Regalo
 INSERT INTO tarjetas_regalo (usuario_id,codigo,importe,mensaje) VALUES (1,'AGD-851',100,'Tarjeta de regalo'), (1,'KGL-624',50,'Cumpleaños');
