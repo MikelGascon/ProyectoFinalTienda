@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 // Evitar caché del navegador
@@ -12,7 +13,7 @@ if (!isset($_SESSION['admin_logueado']) || $_SESSION['admin_logueado'] !== true)
 }
 
 require_once '../../config/config.php';
-require_once '../../src/Entity/bootstrap.php';
+$entityManager = require '../../src/Entity/bootstrap.php';
 require_once '../../src/Entity/Producto.php';
 require_once '../../src/Entity/Marcas.php';
 require_once '../../src/Entity/TipoRopa.php';
@@ -30,6 +31,7 @@ $filtroTipo = $_GET['tipo'] ?? '';
 $filtroCategoria = $_GET['categoria'] ?? '';
 
 // Datos para los selectores de filtro
+$entityManager->clear();
 $marcas = $entityManager->getRepository(Marcas::class)->findAll();
 $tipos = $entityManager->getRepository(TipoRopa::class)->findAll();
 $categorias = $entityManager->getRepository(CategoriaSexo::class)->findAll();
@@ -37,19 +39,23 @@ $categorias = $entityManager->getRepository(CategoriaSexo::class)->findAll();
 // Obtener todos los productos primero
 $todosProductos = $entityManager->getRepository(Producto::class)->findAll();
 
-// Filtrar en PHP si hay filtros aplicados
-$productos = array_filter($todosProductos, function($p) use ($filtroMarca, $filtroTipo, $filtroCategoria) {
-    if (!empty($filtroMarca) && ($p->getMarca() === null || $p->getMarca()->getNombre() !== $filtroMarca)) {
-        return false;
-    }
-    if (!empty($filtroTipo) && ($p->getTipoRopa() === null || $p->getTipoRopa()->getNombre() !== $filtroTipo)) {
-        return false;
-    }
-    if (!empty($filtroCategoria) && ($p->getCategoria() === null || $p->getCategoria()->getNombre() !== $filtroCategoria)) {
-        return false;
-    }
-    return true;
-});
+// Mostrar todos los productos si no hay filtros activos
+if (empty($filtroMarca) && empty($filtroTipo) && empty($filtroCategoria)) {
+    $productos = $todosProductos;
+} else {
+    $productos = array_filter($todosProductos, function($p) use ($filtroMarca, $filtroTipo, $filtroCategoria) {
+        if (!empty($filtroMarca) && ($p->getMarca() === null || $p->getMarca()->getNombre() !== $filtroMarca)) {
+            return false;
+        }
+        if (!empty($filtroTipo) && ($p->getTipoRopa() === null || $p->getTipoRopa()->getNombre() !== $filtroTipo)) {
+            return false;
+        }
+        if (!empty($filtroCategoria) && ($p->getCategoria() === null || $p->getCategoria()->getNombre() !== $filtroCategoria)) {
+            return false;
+        }
+        return true;
+    });
+}
 
 // Calcular stock total (cantidad de productos)
 $totalProductos = count($productos);
@@ -227,7 +233,7 @@ $tipoMsg = $_GET['tipo'] ?? '';
             <small>El Corte Rebelde</small>
         </div>
         <nav>
-            <a href="index.php" class="nav-link active">
+            <a href="dashboard.php" class="nav-link active">
                 <i class="bi bi-grid-1x2"></i> Dashboard
             </a>
             <a href="../index.php" class="nav-link">
@@ -333,7 +339,7 @@ $tipoMsg = $_GET['tipo'] ?? '';
                     <button type="submit" class="btn btn-filter">
                         <i class="bi bi-funnel"></i> Filtrar
                     </button>
-                    <a href="index.php" class="btn btn-clear">
+                    <a href="dashboard.php" class="btn btn-clear">
                         <i class="bi bi-x-circle"></i> Limpiar
                     </a>
                 </div>

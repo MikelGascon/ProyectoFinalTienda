@@ -8,7 +8,7 @@ if (!isset($_SESSION['admin_logueado']) || $_SESSION['admin_logueado'] !== true)
 }
 
 require_once '../../config/config.php';
-require_once '../../src/Entity/bootstrap.php';
+$entityManager = require '../../src/Entity/bootstrap.php';
 require_once '../../src/Entity/Producto.php';
 require_once '../../src/Entity/Marcas.php';
 require_once '../../src/Entity/TipoRopa.php';
@@ -20,7 +20,7 @@ use App\Entity\Producto;
 $id = $_GET['id'] ?? null;
 
 if (!$id) {
-    header('Location: index.php?msg=ID de producto no válido&tipo=error');
+    header('Location: dashboard.php?msg=ID de producto no válido&tipo=error');
     exit;
 }
 
@@ -28,7 +28,7 @@ try {
     $producto = $entityManager->find(Producto::class, $id);
     
     if (!$producto) {
-        header('Location: index.php?msg=Producto no encontrado&tipo=error');
+        header('Location: dashboard.php?msg=Producto no encontrado&tipo=error');
         exit;
     }
     
@@ -36,10 +36,10 @@ try {
     $entityManager->remove($producto);
     $entityManager->flush();
     
-    header('Location: index.php?msg=Producto eliminado correctamente&tipo=success');
+    header('Location: dashboard.php?msg=Producto eliminado correctamente&tipo=success');
     exit;
     
 } catch (Exception $e) {
-    header('Location: index.php?msg=Error al eliminar el producto: ' . urlencode($e->getMessage()) . '&tipo=error');
+    header('Location: dashboard.php?msg=Error al eliminar el producto: ' . urlencode($e->getMessage()) . '&tipo=error');
     exit;
 }

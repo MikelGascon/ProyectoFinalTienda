@@ -98,7 +98,7 @@ $basePath = $basePath ?? "../src";
                             <ul class="panelListaUsuario">
                                 <?php if (isset($_SESSION['admin_logueado']) && $_SESSION['admin_logueado'] === true): ?>
                                 <li class="opcionesListaUsuario">
-                                    <a href="../public/admin/index.php">
+                                    <a href="../public/admin/dashboard.php">
                                         <i class="bi bi-speedometer2"></i> Dashboard
                                     </a>
                                 </li>

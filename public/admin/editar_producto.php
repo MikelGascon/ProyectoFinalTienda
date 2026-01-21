@@ -8,7 +8,7 @@ if (!isset($_SESSION['admin_logueado']) || $_SESSION['admin_logueado'] !== true)
 }
 
 require_once '../../config/config.php';
-require_once '../../src/Entity/bootstrap.php';
+$entityManager = require '../../src/Entity/bootstrap.php';
 require_once '../../src/Entity/Producto.php';
 require_once '../../src/Entity/Marcas.php';
 require_once '../../src/Entity/TipoRopa.php';
@@ -26,7 +26,7 @@ $error = '';
 $success = '';
 
 if (!$id) {
-    header('Location: index.php?msg=Producto no encontrado&tipo=error');
+    header('Location: dashboard.php?msg=Producto no encontrado&tipo=error');
     exit;
 }
 
@@ -34,7 +34,7 @@ if (!$id) {
 $producto = $entityManager->find(Producto::class, $id);
 
 if (!$producto) {
-    header('Location: index.php?msg=Producto no encontrado&tipo=error');
+    header('Location: dashboard.php?msg=Producto no encontrado&tipo=error');
     exit;
 }
 
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $entityManager->flush();
         
         // Redirigir con timestamp para evitar caché
-        header('Location: index.php?msg=Producto actualizado correctamente&tipo=success&t=' . time());
+        header('Location: dashboard.php');
         exit;
         
     } catch (Exception $e) {
@@ -159,8 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <small>El Corte Rebelde</small>
         </div>
         <nav>
-            <a href="index.php" class="nav-link"><i class="bi bi-grid-1x2"></i> Dashboard</a>
-            <a href="index.php" class="nav-link active"><i class="bi bi-box-seam"></i> Productos</a>
+            <a href="dashboard.php" class="nav-link"><i class="bi bi-grid-1x2"></i> Dashboard</a>
             <a href="../index.php" class="nav-link"><i class="bi bi-house"></i> Ver Tienda</a>
             <a href="logout.php" class="nav-link"><i class="bi bi-box-arrow-left"></i> Cerrar Sesión</a>
         </nav>
@@ -169,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Main Content -->
     <div class="main-content">
         <div class="d-flex align-items-center gap-3 mb-4">
-            <a href="index.php" class="btn btn-outline-secondary">
+            <a href="dashboard.php" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left"></i>
             </a>
             <div>
@@ -262,7 +261,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <button type="submit" class="btn btn-save">
                         <i class="bi bi-check-lg"></i> Guardar Cambios
                     </button>
-                    <a href="index.php" class="btn btn-cancel">
+                    <a href="dashboard.php" class="btn btn-cancel">
                         <i class="bi bi-x-lg"></i> Cancelar
                     </a>
                 </div>
