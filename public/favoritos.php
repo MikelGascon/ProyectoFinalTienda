@@ -54,23 +54,8 @@ include '../src/components/header.php';
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../src/CSS/filtro.css">
-    <style>
-        /* Estilos específicos para que el corazón se vea igual que en la tienda */
-        .prod-img { position: relative; }
-        .btn-favorito-eliminar {
-            position: absolute; bottom: 12px; right: 12px;
-            background: rgba(255, 255, 255, 0.9); width: 36px; height: 36px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            text-decoration: none; font-size: 1.3rem; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            transition: 0.3s; z-index: 5;
-            color: #e74c3c; /* Siempre rojo porque estamos en la lista de favoritos */
-        }
-        .btn-favorito-eliminar:hover {
-            transform: scale(1.1);
-            background: #fff;
-        }
-    </style>
+    <link rel="stylesheet" href="../src/CSS/favoritos.css">
+   
 </head>
 <body>
 
