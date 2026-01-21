@@ -59,7 +59,8 @@ CREATE TABLE favoritos (
 CREATE TABLE pedido (
     id INT AUTO_INCREMENT,
     usuario_id INT NOT NULL,
-    precio DECIMAL(10, 2) NOT NULL, -- Soporta hasta 8 enteros y 2 decimales
+    nombre VARCHAR(255) NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL, 
     cantidadProductos INT NOT NULL,
     fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
@@ -77,6 +78,14 @@ CREATE TABLE direcciones (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
+CREATE TABLE tarjetas_regalo (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NULL,
+    importe DECIMAL(10,2) NOT NULL,
+    mensaje VARCHAR(255) NULL,
+    fecha_compra DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
 
 
 INSERT INTO categoriaSexo (nombre) VALUES ('Hombre'), ('Mujer'), ('Unisex');
