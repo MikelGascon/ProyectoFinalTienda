@@ -28,22 +28,13 @@ if ($usuario_id) {
     <i class="bi bi-house"></i> Mis Direcciones
 </div>
 
-<div class="direcciones-actions mb-4">
+<div class="direcciones-grid">
+    <?php if (empty($misDirecccion)): ?>
+       <div class="direcciones-actions mb-4">
     <button class="btn btn-primary" onclick="nuevaDireccion()">
         <i class="bi bi-plus-circle"></i> Añadir Nueva Dirección
     </button>
 </div>
-
-<div class="direcciones-grid">
-    <?php if (empty($misDirecccion)): ?>
-        <div class="empty-state">
-            <i class="bi bi-house-x"></i>
-            <h3>No tienes direcciones guardadas</h3>
-            <p>Añade una dirección para hacer tus compras más rápidas</p>
-            <button class="btn btn-primary" onclick="nuevaDireccion()">
-                <i class="bi bi-plus-circle"></i> Añadir Dirección
-            </button>
-        </div>
     <?php else: ?>
         <?php foreach ($misDirecccion as $dir): ?>
             <!-- Usa el getter para comprobar si es predeterminada -->
