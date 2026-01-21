@@ -55,6 +55,30 @@ CREATE TABLE favoritos (
     -- Evita que un usuario guarde el mismo producto dos veces
     UNIQUE KEY usuario_producto (usuario_id, producto_id) 
 );
+
+CREATE TABLE pedido (
+    id INT AUTO_INCREMENT,
+    usuario_id INT NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL, -- Soporta hasta 8 enteros y 2 decimales
+    cantidadProductos INT NOT NULL,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+
+CREATE TABLE direcciones (
+    id INT AUTO_INCREMENT,
+    usuario_id INT NOT NULL,
+    direccion VARCHAR(255) NOT NULL,
+    pais VARCHAR(100) NOT NULL,
+    provincia VARCHAR(100) NOT NULL,
+    tel VARCHAR(20),
+    PRIMARY KEY (id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+
+
+
 INSERT INTO categoriaSexo (nombre) VALUES ('Hombre'), ('Mujer'), ('Unisex');
 
 INSERT INTO tipoRopa (nombre) VALUES ('Camisetas'), ('Pantalones'), ('Chaquetas'), ('Accesorios'), ('Vestidos');
