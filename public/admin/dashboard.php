@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__ . '/../../config/config.php';
 session_start();
 
 // Evitar caché del navegador
@@ -43,7 +43,7 @@ $todosProductos = $entityManager->getRepository(Producto::class)->findAll();
 if (empty($filtroMarca) && empty($filtroTipo) && empty($filtroCategoria)) {
     $productos = $todosProductos;
 } else {
-    $productos = array_filter($todosProductos, function($p) use ($filtroMarca, $filtroTipo, $filtroCategoria) {
+    $productos = array_filter($todosProductos, function ($p) use ($filtroMarca, $filtroTipo, $filtroCategoria) {
         if (!empty($filtroMarca) && ($p->getMarca() === null || $p->getMarca()->getNombre() !== $filtroMarca)) {
             return false;
         }
@@ -67,164 +67,18 @@ $tipoMsg = $_GET['tipo'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Admin | El Corte Rebelde</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            font-family: 'Poppins', sans-serif;
-        }
-        body {
-            background-color: #f5f6fa;
-        }
-        .sidebar {
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            color: white;
-            padding: 20px 0;
-            position: fixed;
-            width: 250px;
-        }
-        .sidebar .logo {
-            text-align: center;
-            padding: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 20px;
-        }
-        .sidebar .logo h4 {
-            margin: 0;
-            font-weight: 600;
-        }
-        .sidebar .nav-link {
-            color: rgba(255,255,255,0.7);
-            padding: 12px 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s;
-        }
-        .sidebar .nav-link:hover, .sidebar .nav-link.active {
-            color: white;
-            background: rgba(255,255,255,0.1);
-        }
-        .main-content {
-            margin-left: 250px;
-            padding: 30px;
-        }
-        .top-bar {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .stat-card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .stat-card .icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-        .stat-card.products .icon { background: #e3f2fd; color: #1976d2; }
-        .stat-card.brands .icon { background: #f3e5f5; color: #7b1fa2; }
-        .stat-card.categories .icon { background: #e8f5e9; color: #388e3c; }
-        
-        .table-container {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .filter-section {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .filter-section select {
-            border-radius: 8px;
-            border: 2px solid #e0e0e0;
-            padding: 8px 15px;
-        }
-        .btn-filter {
-            background: #1a1a2e;
-            color: white;
-            border-radius: 8px;
-            padding: 8px 20px;
-        }
-        .btn-filter:hover {
-            background: #16213e;
-            color: white;
-        }
-        .btn-clear {
-            background: #6c757d;
-            color: white;
-            border-radius: 8px;
-            padding: 8px 20px;
-        }
-        .table {
-            margin-bottom: 0;
-        }
-        .table th {
-            background: #f8f9fa;
-            font-weight: 600;
-            border-bottom: 2px solid #dee2e6;
-        }
-        .btn-edit {
-            background: #ffc107;
-            color: #000;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 5px;
-            font-size: 0.85rem;
-        }
-        .btn-delete {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 5px;
-            font-size: 0.85rem;
-        }
-        .badge-marca {
-            background: #e3f2fd;
-            color: #1976d2;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-        .badge-tipo {
-            background: #fff3e0;
-            color: #f57c00;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-        .badge-categoria {
-            background: #f3e5f5;
-            color: #7b1fa2;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo BASE_URL . CSS_URL; ?>/dashboard.css">
 </head>
+
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
@@ -254,7 +108,8 @@ $tipoMsg = $_GET['tipo'] ?? '';
                 <small class="text-muted">Gestión de productos</small>
             </div>
             <div class="d-flex align-items-center gap-3">
-                <span class="text-muted">Hola, <strong><?php echo htmlspecialchars($_SESSION['admin_usuario']); ?></strong></span>
+                <span class="text-muted">Hola,
+                    <strong><?php echo htmlspecialchars($_SESSION['admin_usuario']); ?></strong></span>
                 <a href="logout.php" class="btn btn-outline-danger btn-sm">
                     <i class="bi bi-box-arrow-right"></i> Salir
                 </a>
@@ -262,7 +117,8 @@ $tipoMsg = $_GET['tipo'] ?? '';
         </div>
 
         <?php if ($mensaje): ?>
-            <div class="alert alert-<?php echo $tipoMsg === 'success' ? 'success' : 'danger'; ?> alert-dismissible fade show">
+            <div
+                class="alert alert-<?php echo $tipoMsg === 'success' ? 'success' : 'danger'; ?> alert-dismissible fade show">
                 <?php echo htmlspecialchars($mensaje); ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
@@ -350,7 +206,7 @@ $tipoMsg = $_GET['tipo'] ?? '';
         <div class="table-container">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="mb-0">
-                    <i class="bi bi-box-seam"></i> Productos 
+                    <i class="bi bi-box-seam"></i> Productos
                     <span class="badge bg-secondary"><?php echo $totalProductos; ?> resultados</span>
                 </h5>
             </div>
@@ -403,7 +259,8 @@ $tipoMsg = $_GET['tipo'] ?? '';
                                         <a href="editar_producto.php?id=<?= $producto->getId() ?>" class="btn btn-edit btn-sm">
                                             <i class="bi bi-pencil"></i> Editar
                                         </a>
-                                        <button class="btn btn-delete btn-sm" onclick="confirmarEliminar(<?= $producto->getId() ?>, '<?= htmlspecialchars($producto->getNombre()) ?>')">
+                                        <button class="btn btn-delete btn-sm"
+                                            onclick="confirmarEliminar(<?= $producto->getId() ?>, '<?= htmlspecialchars($producto->getNombre()) ?>')">
                                             <i class="bi bi-trash"></i> Eliminar
                                         </button>
                                     </td>
@@ -421,7 +278,8 @@ $tipoMsg = $_GET['tipo'] ?? '';
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="bi bi-exclamation-triangle text-danger"></i> Confirmar eliminación</h5>
+                    <h5 class="modal-title"><i class="bi bi-exclamation-triangle text-danger"></i> Confirmar eliminación
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -447,4 +305,5 @@ $tipoMsg = $_GET['tipo'] ?? '';
         }
     </script>
 </body>
+
 </html>
