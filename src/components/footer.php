@@ -45,10 +45,10 @@ require_once __DIR__ . '/../../config/config.php';
                         <li class="mb-2"><a href="../public/tramitar_devolucion.php" class="text-secondary text-decoration-none small">Tramitar
                                 devolucion</a>
                         </li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Servicios de la
+                        <li class="mb-2"><a href="../public/servicios_tienda.php" class="text-secondary text-decoration-none small">Servicios de la
                                 tienda</a>
                         </li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Tarjeta de
+                        <li class="mb-2"><a href="../public/tarjeta_regalo.php" class="text-secondary text-decoration-none small">Tarjeta de
                                 regalo</a>
                     </ul>
                 </div>

@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 
@@ -15,7 +14,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($comentarioTexto) && $rating >= 1 && $rating <= 5) {
         $comentario = new Comentario();
-        $comentario->setIdUsuario(1); // temporal
+        if (!isset($_SESSION['usuario_id'])) {
+            header("Location: login.php");
+            exit;
+        }
+        $usuario = $entityManager->find(
+            \App\Entity\Usuario::class,
+            $_SESSION['usuario_id']
+        );
+
+        $comentario->setUsuario($usuario);
         $comentario->setRating($rating);
         $comentario->setTexto($comentarioTexto);
         $comentario->setFecha(new \DateTime());
@@ -27,14 +35,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Obtener comentarios
 $query = $entityManager->createQuery("
-    SELECT c
+SELECT c
     FROM Entity\Comentario c
     WHERE c.fecha = (
         SELECT MAX(c2.fecha)
         FROM Entity\Comentario c2
-        WHERE c2.id_usuario = c.id_usuario
+        WHERE c2.usuario = c.usuario
     )
     ORDER BY c.fecha DESC
+
 ");
 $comentarios = $query->getResult();
 ?>
@@ -54,24 +63,6 @@ $comentarios = $query->getResult();
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
-        .hero-section {
-            background: #f8f9fa;
-            padding: 100px 0;
-        }
-
-        .team-img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-
-        .icon-box {
-            font-size: 2.5rem;
-            color: #0d6efd;
-        }
-    </style>
 </head>
 
 <body>
@@ -162,7 +153,7 @@ $comentarios = $query->getResult();
             </div>
         </div>
     </section>
-     <!-- Opiniones de clientes -->
+    <!-- Opiniones de clientes -->
     <section class="py-5 bg-light">
         <div class="container">
             <h2 class="fw-bold text-center mb-4">Opiniones de nuestros clientes</h2>
@@ -182,10 +173,12 @@ $comentarios = $query->getResult();
                                         <span class="<?php echo $i <= $comentario->getRating() ? 'text-warning' : 'text-muted'; ?>">★</span>
                                     <?php endfor; ?>
                                 </div>
-                                <small class="text-muted"><?php echo $comentario->getFecha()->format('d/m/Y'); ?> · <?php echo rand(0, 1) ? 'Google' : 'Yelp'; ?></small>
+                                <small class="text-muted"><?php echo $comentario->getFecha()->format('d/m/Y'); ?></small>
                             </div>
                             <p class="mb-2"><?php echo $recortado; ?></p>
-                            <p class="fw-bold mb-0"><?php echo $usuario ? $usuario->getNombre() : 'Usuario'; ?></p>
+                            <p class="fw-bold mb-0">
+                                <?php echo htmlspecialchars($comentario->getUsuario()->getNombre()); ?>
+                            </p>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -194,60 +187,45 @@ $comentarios = $query->getResult();
             <!-- Formulario de comentario -->
             <div class="mt-5">
                 <h3 class="fw-bold text-center mb-4">Deja tu comentario</h3>
-                <form method="POST" class="mx-auto" style="max-width: 600px;">
-                    <div class="mb-3 text-center">
-                        <div class="rating-stars" data-rating="0">
-                            <?php for ($i = 1; $i <= 5; $i++): ?>
-                                <span data-value="<?php echo $i; ?>" style="font-size: 30px; cursor: pointer;" class="text-muted">★</span>
-                            <?php endfor; ?>
+
+                <?php if (isset($_SESSION['usuario_id'])): ?>
+
+                    <form method="POST" class="mx-auto" style="max-width: 600px;">
+                        <div class="mb-3 text-center">
+                            <div class="rating-stars" data-rating="0">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <span data-value="<?php echo $i; ?>" style="font-size: 30px; cursor: pointer;" class="text-muted">★</span>
+                                <?php endfor; ?>
+                            </div>
+                            <input type="hidden" name="rating" id="rating-value" value="0">
                         </div>
-                        <input type="hidden" name="rating" id="rating-value" value="0">
+
+                        <div class="mb-3">
+                            <textarea name="comentario" class="form-control" rows="4"
+                                placeholder="Escribe tu opinión..." required></textarea>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Enviar comentario</button>
+                        </div>
+                    </form>
+
+                <?php else: ?>
+
+                    <div class="alert alert-warning text-center">
+                        Debes <a href="login.php">iniciar sesión</a> para dejar un comentario.
                     </div>
-                    <div class="mb-3">
-                        <textarea name="comentario" class="form-control" rows="4" placeholder="Escribe tu opinión..." required></textarea>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Enviar comentario</button>
-                    </div>
-                </form>
+
+                <?php endif; ?>
             </div>
+
         </div>
     </section>
 
     <!-- Footer -->
     <?php include "../src/components/footer.php" ?>
 
-      <!-- Bootstrap 5 JS -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const stars = document.querySelectorAll(".rating-stars span");
-            const ratingInput = document.getElementById("rating-value");
-
-            stars.forEach(star => {
-                star.addEventListener("click", () => {
-                    const value = parseInt(star.dataset.value);
-                    ratingInput.value = value;
-                    pintarEstrellas(value);
-                });
-
-                star.addEventListener("mouseover", () => {
-                    pintarEstrellas(star.dataset.value);
-                });
-
-                star.addEventListener("mouseleave", () => {
-                    pintarEstrellas(ratingInput.value);
-                });
-            });
-
-            function pintarEstrellas(value) {
-                stars.forEach(s => {
-                    s.classList.toggle("text-warning", s.dataset.value <= value);
-                    s.classList.toggle("text-muted", s.dataset.value > value);
-                });
-            }
-        });
-    </script>
-
+    <script src="../src/Js/nosotros.js"></script>
 </body>
 
 </html>

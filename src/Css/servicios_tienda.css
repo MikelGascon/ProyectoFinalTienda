@@ -1,0 +1,50 @@
+:root {
+    --marron-claro: #AAA085;
+    --marron-oscuro: #8C836A;
+}
+
+.hero-section {
+    background: #f8f9fa;
+    padding: 80px 0;
+}
+
+.logo-rebelde {
+    width: 120px;
+    margin-bottom: 20px;
+}
+
+/* Tarjetas de servicio */
+.servicio-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px 25px;
+    border: 1px solid #ddd;
+    transition: all 0.35s ease;
+    text-align: center;
+}
+
+.servicio-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    border-color: var(--marron-oscuro);
+}
+
+.icono-servicio {
+    font-size: 3rem;
+    color: var(--marron-oscuro);
+    margin-bottom: 15px;
+    transition: transform 0.35s ease;
+}
+
+.servicio-card:hover .icono-servicio {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.servicio-card h4 {
+    margin-bottom: 10px;
+}
+
+.servicio-card p {
+    font-size: 0.95rem;
+    color: #666;
+}

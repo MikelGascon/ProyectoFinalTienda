@@ -8,20 +8,24 @@ require_once '../src/Entity/Marcas.php';
 require_once '../src/Entity/TipoRopa.php';
 require_once '../src/Entity/TallaRopa.php';
 require_once '../src/Entity/CategoriaSexo.php';
+
+require_once '../src/Entity/Producto.php';
+require_once '../src/Entity/Marcas.php';
+require_once '../src/Entity/TipoRopa.php';
+require_once '../src/Entity/TallaRopa.php';
+require_once '../src/Entity/CategoriaSexo.php';
 use App\Entity\Producto;
 
 $id = $_GET['id'] ?? null;
 
 if ($id) {
-    // Usamos Doctrine para encontrar el producto por su ID
     $producto = $entityManager->find(Producto::class, $id);
-
     if ($producto) {
         if (!isset($_SESSION['carrito'])) {
             $_SESSION['carrito'] = [];
         }
 
-        // Si ya existe, aumentamos cantidad, si no, lo creamos
+        // Guardamos el ID, nombre (para la imagen) y precio
         if (isset($_SESSION['carrito'][$id])) {
             $_SESSION['carrito'][$id]['cantidad']++;
         } else {
@@ -33,6 +37,5 @@ if ($id) {
         }
     }
 }
-
 header('Location: carrito.php');
 exit;

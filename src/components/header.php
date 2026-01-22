@@ -102,12 +102,12 @@ $basePath = $basePath ?? "../src";
                                     </a>
                                 </li>
                                 <li class="opcionesListaUsuario">
-                                    <a href="../public/pedidos.php">
+                                    <a href="../public/perfil.php">
                                         <i class="bi bi-bag-check"></i> Mis Pedidos
                                     </a>
                                 </li>
                                 <li class="opcionesListaUsuario">
-                                    <a href="../public/direcciones.php">
+                                    <a href="../public/perfil.php">
                                         <i class="bi bi-house"></i> Mis Direcciones
                                     </a>
                                 </li>
