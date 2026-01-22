@@ -1,4 +1,4 @@
-     :root {
+:root {
     --marron-claro: #AAA085;
     --marron-oscuro: #8C836A;
     --negro: #000000;
@@ -7,7 +7,6 @@
     --rojo-error: #b00020;
 }
 
-/* FONDO CON LOGO */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -35,7 +34,6 @@ body::before {
     z-index: -1;
 }
 
-/* CONTENEDOR */
 .contenedor {
     width: 650px;
     max-width: 95%;
@@ -45,7 +43,6 @@ body::before {
     box-shadow: 0 8px 25px rgba(0,0,0,0.18);
 }
 
-/* TEXTOS */
 h2 {
     text-align: center;
     margin-bottom: 25px;
@@ -69,7 +66,6 @@ label {
     font-size: 1rem;
 }
 
-/* INPUTS */
 input, select {
     width: 100%;
     padding: 12px;
@@ -81,7 +77,6 @@ input, select {
     box-sizing: border-box;
 }
 
-/* FILAS */
 .fila {
     display: flex;
     gap: 12px;
@@ -91,12 +86,10 @@ input, select {
     width: 50%;
 }
 
-.campo-fecha,
 .campo-mini {
     width: 33%;
 }
 
-/* ICONOS EN INPUTS */
 .input-icono {
     position: relative;
     display: flex;
@@ -106,7 +99,7 @@ input, select {
 .input-icono i {
     position: absolute;
     left: 12px;
-    top: 38%;
+    top: 36%;
     transform: translateY(-50%);
     font-size: 1.1rem;
     color: var(--gris-medio);
@@ -115,15 +108,13 @@ input, select {
 
 .input-icono input {
     width: 100%;
-    padding-left: 45px; /* espacio para el icono */
+    padding-left: 45px;
     height: 48px;
     line-height: 48px;
     display: flex;
     align-items: center;
 }
 
-
-/* BOTÓN */
 button {
     width: 100%;
     padding: 12px;
@@ -140,7 +131,6 @@ button:hover {
     background-color: var(--marron-oscuro);
 }
 
-/* ENLACE VOLVER */
 a {
     display: block;
     text-align: center;
@@ -152,4 +142,16 @@ a {
 a:hover {
     text-decoration: underline;
     font-weight: bold;
+}
+
+.error-input {
+    border-color: var(--rojo-error) !important;
+    box-shadow: 0 0 0 2px rgba(176, 0, 32, 0.25);
+}
+
+.error-text {
+    color: var(--rojo-error);
+    font-size: 0.85rem;
+    margin: 0;
+    margin-top: -4px;
 }
