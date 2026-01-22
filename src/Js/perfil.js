@@ -79,9 +79,13 @@ document.addEventListener('DOMContentLoaded', function () {
             case 'direcciones':
                 initDirecciones();
                 break;
+            case 'tarjetaRegalo':
+                initConfiguracion();
+                break;
             case 'configuracion':
                 initConfiguracion();
                 break;
+
         }
     }
 
@@ -104,5 +108,9 @@ document.addEventListener('DOMContentLoaded', function () {
     function initConfiguracion() {
         // Código específico para configuración
         console.log('Configuración inicializado');
+    }
+
+    function initConfiguracion() {
+        console.log('Tarjeta Regalo');
     }
 });

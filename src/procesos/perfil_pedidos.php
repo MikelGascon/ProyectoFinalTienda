@@ -55,8 +55,8 @@ if ($usuario_id) {
                         </div>
                         <div class="info-item">
                             <i class="bi bi-cash"></i>
-                            <!-- CORRECCIÓN: Usar getPrecio() y formatear moneda -->
-                            <span><?php echo number_format((float) $pedido->getPrecio(), 2); ?>€</span>
+                            
+                            <span>Importe: <?php echo number_format((float) $pedido->getPrecio(), 2); ?>€</span>
                         </div>
                     </div>
                 </div>

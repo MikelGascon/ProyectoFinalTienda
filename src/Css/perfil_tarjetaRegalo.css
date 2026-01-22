@@ -1,0 +1,211 @@
+/* Estilos específicos para tarjetaRegalo */
+
+.tarjetaRegalo-filter {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    border: 2px solid #e0e0e0;
+    background: white;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.filter-btn:hover {
+    border-color: var(--color-primary);
+    background-color: #f8f9fa;
+}
+
+.filter-btn.active {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+}
+
+.tarjetasRegalo-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tarjetaRegalo-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 25px;
+    transition: all 0.3s ease;
+}
+
+.tarjetaRegalo-card:hover {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.tarjetaRegalo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.tarjetaRegalo-id {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-dark);
+    margin: 0;
+}
+
+.tarjetaRegalo-date {
+    color: #666;
+    font-size: 0.85rem;
+    margin: 5px 0 0 0;
+}
+
+.tarjetaRegalo-date i {
+    margin-right: 5px;
+}
+
+.order-status {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-shipped {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.tarjetaRegalo-body {
+    margin-bottom: 20px;
+}
+
+.tarjetaRegalo-info {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.info-item i {
+    color: var(--color-primary);
+    font-size: 1.1rem;
+}
+
+.info-item span {
+    font-weight: 500;
+    color: var(--color-dark);
+}
+
+.tarjetaRegalo-footer {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-secondary-action,
+.btn-primary-action {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-secondary-action {
+    background-color: #f8f9fa;
+    color: var(--color-dark);
+    border: 1px solid #e0e0e0;
+}
+
+.btn-secondary-action:hover {
+    background-color: #e9ecef;
+    border-color: #ccc;
+}
+
+.btn-primary-action {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.btn-primary-action:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-state i {
+    font-size: 5rem;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.empty-state h3 {
+    color: var(--color-dark);
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    color: #666;
+    margin-bottom: 25px;
+}
+
+@media (max-width: 768px) {
+    .tarjetaRegalo-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .tarjetaRegalo-info {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .tarjetaRegalo-footer {
+        flex-direction: column;
+    }
+    
+    .btn-secondary-action,
+    .btn-primary-action {
+        width: 100%;
+        justify-content: center;
+    }
+}
