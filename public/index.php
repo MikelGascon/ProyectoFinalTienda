@@ -125,19 +125,19 @@ include '../src/components/header.php';
                 <div class="category-col">
                     <div class="category-card d-flex align-items-end p-3 text-white position-relative overflow-hidden"
                         style="background-image: url('https://images.pexels.com/photos/1187777/pexels-photo-1187777.jpeg'); background-size: cover; background-position: center;">
-                        <h5 class="fw-normal small lh-base">Lorem ipsum<br>dolor sit amet</h5>
+                        <h5 class="fw-normal small lh-base">Riñonera roja<br>Gucci</h5>
                     </div>
                 </div>
                 <div class="category-col">
                     <div class="category-card d-flex align-items-end p-3 text-white position-relative overflow-hidden"
                         style="background-image: url('https://images.pexels.com/photos/29391506/pexels-photo-29391506.jpeg'); background-size: cover; background-position: center;">
-                        <h5 class="fw-normal small lh-base">Lorem ipsum<br>dolor sit amet</h5>
+                        <h5 class="fw-normal small lh-base">Colonia Vainilla<br>Dior</h5>
                     </div>
                 </div>
                 <div class="category-col">
                     <div class="category-card d-flex align-items-end p-3 text-white position-relative overflow-hidden"
                         style="background-image: url('https://images.pexels.com/photos/5898472/pexels-photo-5898472.jpeg'); background-size: cover; background-position: center;">
-                        <h5 class="fw-normal small lh-base">Lorem ipsum<br>dolor sit amet</h5>
+                        <h5 class="fw-normal small lh-base">Riñonera Hombre<br>Louis Vuitton</h5>
                     </div>
                 </div>
             </div>
@@ -148,13 +148,13 @@ include '../src/components/header.php';
     <section class="py-4">
         <div class="container">
             <div class="d-flex justify-content-center align-items-center gap-3 gap-md-4 flex-wrap">
-                <span class="fw-semibold text-uppercase" role="button">TEXTO</span>
+                <span class="fw-semibold text-uppercase" role="button">NEW</span>
                 <div class="dot rounded-circle"></div>
-                <span class="fw-semibold text-uppercase" role="button">TEXTO</span>
+                <span class="fw-semibold text-uppercase" role="button">NEW</span>
                 <div class="dot rounded-circle"></div>
-                <span class="fw-semibold text-uppercase" role="button">TEXTO</span>
+                <span class="fw-semibold text-uppercase" role="button">NEW</span>
                 <div class="dot rounded-circle"></div>
-                <span class="fw-semibold text-uppercase" role="button">TEXTO</span>
+                <span class="fw-semibold text-uppercase" role="button">NEW</span>
             </div>
         </div>
     </section>
@@ -170,8 +170,8 @@ include '../src/components/header.php';
                                 <div class="img-default" style="background-image: url('https://images.pexels.com/photos/15462793/pexels-photo-15462793.jpeg');"></div>
                                 <div class="img-hover" style="background-image: url('https://images.vestiairecollective.com/images/resized/w=1024,q=75,f=auto,/produit/bolsos-clutch-gucci-de-terciopelo-caqui-30611847-1_3.jpg');"></div>
                             </div>
-                            <h6 class="fw-normal mb-1">Nombre producto</h6>
-                            <p class="fw-bold mb-0">PRECIO</p>
+                            <h6 class="fw-normal mb-1">Gafas Gucci</h6>
+                            <p class="fw-bold mb-0">890.00€</p>
                         </div>
                     </a>
                 </div>
@@ -182,8 +182,8 @@ include '../src/components/header.php';
                                 <div class="img-default" style="background-image: url('https://assets.christiandior.com/is/image/diorprod/LOOK_H_26_2_LOOK_002_E01-1?$r9x10_raw$&crop=0,0,4000,5000&wid=1536&hei=1661&scale=0.8303&bfc=on&qlt=85');"></div>
                                 <div class="img-hover" style="background-image: url('https://assets.christiandior.com/is/image/diorprod/683M629A4002C889_SBG_E01-5?$r9x10_raw$&crop=0,0,4000,5000&wid=1536&hei=1661&scale=0.8303&bfc=on&qlt=85');"></div>
                             </div>
-                            <h6 class="fw-normal mb-1">Nombre producto</h6>
-                            <p class="fw-bold mb-0">PRECIO</p>
+                            <h6 class="fw-normal mb-1">Sudadera Dior</h6>
+                            <p class="fw-bold mb-0">350.00€</p>
                         </div>
                     </a>
                 </div>
@@ -194,8 +194,8 @@ include '../src/components/header.php';
                                 <div class="img-default" style="background-image: url('https://assets.christiandior.com/is/image/diorprod/LOOK_F_26_2_LOOK_007_E07?$r9x10_raw$&crop=0,0,4000,5000&wid=1024&hei=1107&scale=0.5535&bfc=on&qlt=85');"></div>
                                 <div class="img-hover" style="background-image: url('https://assets.christiandior.com/is/image/diorprod/E4464WOMLQD309_SBG_E03?$r9x10_raw$&crop=0,0,4000,5000&wid=1024&hei=1107&scale=0.5535&bfc=on&qlt=85');"></div>
                             </div>
-                            <h6 class="fw-normal mb-1">Nombre producto</h6>
-                            <p class="fw-bold mb-0">PRECIO</p>
+                            <h6 class="fw-normal mb-1">Pendientes Moncler</h6>
+                            <p class="fw-bold mb-0">1320.00€</p>
                         </div>
                     </a>
                 </div>
