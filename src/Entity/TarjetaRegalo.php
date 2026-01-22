@@ -1,5 +1,5 @@
 <?php
-namespace Entity;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Usuario;
@@ -18,6 +18,9 @@ class TarjetaRegalo
     #[ORM\ManyToOne(targetEntity: Usuario::class)]
     #[ORM\JoinColumn(name: 'usuario_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private Usuario $usuario;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $codigo = null;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
     private float $importe;
@@ -49,6 +52,17 @@ class TarjetaRegalo
     public function setUsuario(Usuario $usuario): self
     {
         $this->usuario = $usuario;
+        return $this;
+    }
+
+     public function getCodigo(): ?string
+    {
+        return $this->codigo;
+    }
+
+    public function setCodigo(?string $codigo): self
+    {
+        $this->codigo = $codigo;
         return $this;
     }
 

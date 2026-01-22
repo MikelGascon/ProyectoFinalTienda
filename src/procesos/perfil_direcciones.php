@@ -1,98 +1,84 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../Entity/bootstrap.php';
+require_once __DIR__ . '/../Entity/Direcciones.php';
+
+use App\Entity\Direccion;
 
 session_start();
 
 $usuario_id = $_SESSION['usuario_id'] ?? null;
 
-// Datos de ejemplo - Aquí harías la query real
-$direcciones = [
-    [
-        'id' => 1,
-        'nombre' => 'Casa',
-        'destinatario' => 'Juan Pérez',
-        'telefono' => '+34 612 345 678',
-        'direccion' => 'Calle Mayor, 123',
-        'ciudad' => 'Madrid',
-        'codigo_postal' => '28001',
-        'provincia' => 'Madrid',
-        'pais' => 'España',
-        'predeterminada' => true
-    ],
-    [
-        'id' => 2,
-        'nombre' => 'Trabajo',
-        'destinatario' => 'Juan Pérez',
-        'telefono' => '+34 612 345 678',
-        'direccion' => 'Avenida de la Castellana, 456',
-        'ciudad' => 'Madrid',
-        'codigo_postal' => '28046',
-        'provincia' => 'Madrid',
-        'pais' => 'España',
-        'predeterminada' => false
-    ],
-];
+$nombreUsuario = $_SESSION['nombre'] ?? 'Usuario';
+$codigoPostal = "48991";
+$ciudad = "Getxo";
+
+if ($usuario_id) {
+    $conn = $entityManager->getConnection();
+
+    $repoDireccion = $entityManager->getRepository(Direccion::class);
+    $misDirecccion = $repoDireccion->findBy(['usuario' => $usuario_id]);
+
+
+}
+
 ?>
 
 <div class="section-title">
     <i class="bi bi-house"></i> Mis Direcciones
 </div>
 
-<div class="direcciones-actions mb-4">
+<div class="direcciones-grid">
+    <?php if (empty($misDirecccion)): ?>
+       <div class="direcciones-actions mb-4">
     <button class="btn btn-primary" onclick="nuevaDireccion()">
         <i class="bi bi-plus-circle"></i> Añadir Nueva Dirección
     </button>
 </div>
-
-<div class="direcciones-grid">
-    <?php if (empty($direcciones)): ?>
-        <div class="empty-state">
-            <i class="bi bi-house-x"></i>
-            <h3>No tienes direcciones guardadas</h3>
-            <p>Añade una dirección para hacer tus compras más rápidas</p>
-            <button class="btn btn-primary" onclick="nuevaDireccion()">
-                <i class="bi bi-plus-circle"></i> Añadir Dirección
-            </button>
-        </div>
     <?php else: ?>
-        <?php foreach ($direcciones as $dir): ?>
-            <div class="direccion-card <?php echo $dir['predeterminada'] ? 'predeterminada' : ''; ?>">
-                <?php if ($dir['predeterminada']): ?>
+        <?php foreach ($misDirecccion as $dir): ?>
+            <!-- Usa el getter para comprobar si es predeterminada -->
+            <div class="direccion-card <?php echo $dir->isPredeterminada() ? 'predeterminada' : ''; ?>">
+                <?php if ($dir->isPredeterminada()): ?>
                     <div class="badge-predeterminada">
                         <i class="bi bi-star-fill"></i> Predeterminada
                     </div>
                 <?php endif; ?>
-                
+
                 <div class="direccion-header">
-                    <h5><i class="bi bi-geo-alt-fill"></i> <?php echo htmlspecialchars($dir['nombre']); ?></h5>
+                    <h5><i class="bi bi-geo-alt-fill"></i> <?php echo htmlspecialchars($dir->getNombre()); ?></h5>
                 </div>
-                
+
                 <div class="direccion-body">
-                    <p class="destinatario"><strong><?php echo htmlspecialchars($dir['destinatario']); ?></strong></p>
-                    <p class="direccion-line"><?php echo htmlspecialchars($dir['direccion']); ?></p>
+                    <!-- Usamos el nombre de sesión como destinatario -->
+                    <p class="destinatario"><strong><?php echo htmlspecialchars($nombreUsuario); ?></strong></p>
+                    <p class="direccion-line"><?php echo htmlspecialchars($dir->getDireccion()); ?></p>
                     <p class="direccion-line">
-                        <?php echo htmlspecialchars($dir['codigo_postal']); ?> - 
-                        <?php echo htmlspecialchars($dir['ciudad']); ?>, 
-                        <?php echo htmlspecialchars($dir['provincia']); ?>
+                        <!-- Usamos los getters para ciudad y CP -->
+                        <?php echo htmlspecialchars($dir->getCodigoPostal()); ?> -
+                        <?php echo htmlspecialchars($dir->getCiudad()); ?>,
+                        <?php echo htmlspecialchars($dir->getProvincia()); ?>
                     </p>
-                    <p class="direccion-line"><?php echo htmlspecialchars($dir['pais']); ?></p>
-                    <p class="telefono"><i class="bi bi-telephone"></i> <?php echo htmlspecialchars($dir['telefono']); ?></p>
+                    <p class="direccion-line"><?php echo htmlspecialchars($dir->getPais()); ?></p>
+                    <p class="telefono"><i class="bi bi-telephone"></i> <?php echo htmlspecialchars($dir->getTelefono()); ?></p>
                 </div>
-                
-                <div class="direccion-footer">
-                    <button class="btn-action" onclick="editarDireccion(<?php echo $dir['id']; ?>)">
-                        <i class="bi bi-pencil"></i> Editar
+
+                <!-- Añadir acciones -->
+                <div class="direccion-actions">
+                    <button class="btn btn-sm btn-outline-secondary" onclick="editarDireccion(<?php echo $dir->getId(); ?>)">
+                        <i class="bi bi-pencil"></i>
                     </button>
-                    <?php if (!$dir['predeterminada']): ?>
-                        <button class="btn-action" onclick="setPredeterminada(<?php echo $dir['id']; ?>)">
-                            <i class="bi bi-star"></i> Predeterminada
+                    <?php if (!$dir->isPredeterminada()): ?>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="setPredeterminada(<?php echo $dir->getId(); ?>)"
+                            title="Establecer como predeterminada">
+                            <i class="bi bi-star"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="eliminarDireccion(<?php echo $dir->getId(); ?>)">
+                            <i class="bi bi-trash"></i>
                         </button>
                     <?php endif; ?>
-                    <button class="btn-action text-danger" onclick="eliminarDireccion(<?php echo $dir['id']; ?>)">
-                        <i class="bi bi-trash"></i> Eliminar
-                    </button>
                 </div>
+
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
@@ -159,53 +145,53 @@ $direcciones = [
 </div>
 
 <script>
-function nuevaDireccion() {
-    document.getElementById('modalTitle').textContent = 'Nueva Dirección';
-    document.getElementById('direccionForm').reset();
-    document.getElementById('direccionModal').style.display = 'flex';
-}
-
-function editarDireccion(id) {
-    document.getElementById('modalTitle').textContent = 'Editar Dirección';
-    // Aquí cargarías los datos de la dirección con AJAX
-    document.getElementById('direccionModal').style.display = 'flex';
-    alert('Editar dirección ID: ' + id);
-}
-
-function cerrarModal() {
-    document.getElementById('direccionModal').style.display = 'none';
-}
-
-function guardarDireccion() {
-    const form = document.getElementById('direccionForm');
-    if (form.checkValidity()) {
-        // Aquí enviarías los datos con AJAX
-        alert('Guardando dirección...');
-        cerrarModal();
-    } else {
-        form.reportValidity();
+    function nuevaDireccion() {
+        document.getElementById('modalTitle').textContent = 'Nueva Dirección';
+        document.getElementById('direccionForm').reset();
+        document.getElementById('direccionModal').style.display = 'flex';
     }
-}
 
-function setPredeterminada(id) {
-    if (confirm('¿Establecer esta dirección como predeterminada?')) {
-        // Aquí harías la petición AJAX
-        alert('Dirección establecida como predeterminada: ' + id);
-        location.reload(); // Temporal - usa AJAX en producción
+    function editarDireccion(id) {
+        document.getElementById('modalTitle').textContent = 'Editar Dirección';
+        // Aquí cargarías los datos de la dirección con AJAX
+        document.getElementById('direccionModal').style.display = 'flex';
+        alert('Editar dirección ID: ' + id);
     }
-}
 
-function eliminarDireccion(id) {
-    if (confirm('¿Estás seguro de que quieres eliminar esta dirección?')) {
-        // Aquí harías la petición AJAX
-        alert('Eliminando dirección: ' + id);
+    function cerrarModal() {
+        document.getElementById('direccionModal').style.display = 'none';
     }
-}
 
-// Cerrar modal al hacer clic fuera
-document.getElementById('direccionModal')?.addEventListener('click', function(e) {
-    if (e.target === this) {
-        cerrarModal();
+    function guardarDireccion() {
+        const form = document.getElementById('direccionForm');
+        if (form.checkValidity()) {
+            // Aquí enviarías los datos con AJAX
+            alert('Guardando dirección...');
+            cerrarModal();
+        } else {
+            form.reportValidity();
+        }
     }
-});
+
+    function setPredeterminada(id) {
+        if (confirm('¿Establecer esta dirección como predeterminada?')) {
+            // Aquí harías la petición AJAX
+            alert('Dirección establecida como predeterminada: ' + id);
+            location.reload(); // Temporal - usa AJAX en producción
+        }
+    }
+
+    function eliminarDireccion(id) {
+        if (confirm('¿Estás seguro de que quieres eliminar esta dirección?')) {
+            // Aquí harías la petición AJAX
+            alert('Eliminando dirección: ' + id);
+        }
+    }
+
+    // Cerrar modal al hacer clic fuera
+    document.getElementById('direccionModal')?.addEventListener('click', function (e) {
+        if (e.target === this) {
+            cerrarModal();
+        }
+    });
 </script>

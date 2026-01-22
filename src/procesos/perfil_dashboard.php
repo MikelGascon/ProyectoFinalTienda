@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../Entity/bootstrap.php';
+require_once __DIR__ . '/../Entity/TarjetaRegalo.php'; 
+
+use App\Entity\TarjetaRegalo;
 
 session_start();
 
@@ -10,37 +13,26 @@ $usuario = $_SESSION['usuario'] ?? 'Invitado';
 $email = $_SESSION['email'] ?? 'email@example.com';
 $telefono = $_SESSION['telefono'] ?? 'No especificado';
 
-// Contar favoritos
-$totalFavoritos = 0;
-if ($usuario_id) {
+
+if($usuario_id){
     $conn = $entityManager->getConnection();
+
+    // 1. Contar favoritos y pedidos
     $totalFavoritos = $conn->fetchOne("SELECT COUNT(*) FROM favoritos WHERE usuario_id = ?", [$usuario_id]);
-}
-
-// Obtener total de pedido
-$totalPedidos = 0;
-if ($usuario_id) {
-    $conn = $entityManager->getConnection();
     $totalPedidos = $conn->fetchOne("SELECT COUNT(*) FROM pedido WHERE usuario_id = ?", [$usuario_id]);
+
+    // 2. OBTENER TARJETAS REGALO MEDIANTE ORM
+    $repoTarjetas = $entityManager->getRepository(TarjetaRegalo::class);
+
+    
+    // Buscamos todas las tarjetas que pertenezcan a este usuario
+    $misTarjetas = $repoTarjetas->findBy(['usuario' => $usuario_id]);
+    
+    // La cantidad de tarjetas es el tamaño del array obtenido
+    $tarjetaRegalo = count($misTarjetas);
 }
-
-//Obtener total de tarjetas de regalo
-$tarjetaRegalo = 0;
-if ($usuario_id) {
-    $conn = $entityManager->getConnection();
-    $tarjetaRegalo = $conn->fetchOne("SELECT COUNT(*) FROM tarjetas_regalo WHERE usuario_id = ?", [$usuario_id]);
-}
-
-//Sacar todos los datos de la tarjeta Regalo para usarlo en el div
-
-
-$nombreTarjeta = "nombre";
-$descripcionTarjeta = "Descripcion";
-$fechaTarjeta = "10/02/2026";
-$importeTarjeta = "100$";
-
-
 ?>
+
 
 <div class="section-title">
     <i class="bi bi-speedometer2"></i> Panel de Control
@@ -97,36 +89,37 @@ $importeTarjeta = "100$";
     <div class="section-title">
         <i class="bi bi-gift-fill"></i> Tarjetas Regalo
     </div>
+    <!-- Cantidad de Tarjetas regalo para cada usuario-->
+    <?php if (empty($misTarjetas)): ?>
+        <div class="alert alert-info">No tienes tarjetas regalo todavía.</div>
+    <?php else: ?>
+        <?php foreach ($misTarjetas as $tarjeta): ?>
+            <div class="order-card mb-3">
+                <div class="order-header">
+                    <span class="order-id">
+                        <strong>#<?php echo $tarjeta->getCodigo(); ?></strong>
+                    </span>
+                </div>
 
-    <div class="order-card">
-
-        <div class="order-header">
-            <span class="order-id"> <strong>#<?php echo $nombreTarjeta ?></strong></span>
-        </div>
-        <div class="text-muted small">
-            <div>Fecha: <strong><?php echo $fechaTarjeta ?></strong>
-                <div>
-                    <div>Total Importe: <strong><?php echo $importeTarjeta ?></strong></div>
-                    <div>Descripcion: <strong><?php echo $descripcionTarjeta ?></strong></div>
+                <div class="text-muted small">
+                    <div>Fecha: <strong><?php echo $tarjeta->getFechaCompra()->format('d/m/Y'); ?></strong></div>
+                    <div>Total Importe: <strong><?php echo number_format($tarjeta->getImporte(), 2); ?>€</strong></div>
+                    <div>Descripción: <strong><?php echo $tarjeta->getMensaje() ?: 'Sin mensaje'; ?></strong></div>
                 </div>
             </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
 
-            <div class="text-center mt-3">
-                <a href="#" class="text-decoration-none view-all-link" data-section="pedidos">
-                    Ver todos las Tarjeta Regalo <i class="bi bi-arrow-right"></i>
-                </a>
-            </div>
-        </div>
 
-        <script>
-            function enableEdit() {
-                alert('Función de edición - Aquí puedes implementar un modal o formulario de edición');
-            }
+    <script>
+        function enableEdit() {
+            alert('Función de edición - Aquí puedes implementar un modal o formulario de edición');
+        }
 
-            // Event listener para el link "Ver todos los pedidos"
-            document.querySelector('.view-all-link')?.addEventListener('click', function (e) {
-                e.preventDefault();
-                const section = this.getAttribute('data-section');
-                document.querySelector(`[data-section="${section}"]`).click();
-            });
-        </script>
+        // Event listener para el link "Ver todos los pedidos"
+        document.querySelector('.view-all-link')?.addEventListener('click', function (e) {
+            e.preventDefault();
+            const section = this.getAttribute('data-section');
+            document.querySelector(`[data-section="${section}"]`).click();
+        });
+    </script>

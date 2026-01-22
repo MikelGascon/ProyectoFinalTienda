@@ -67,8 +67,9 @@ if ($usuario_id) {
             <i class="bi bi-heart-fill"></i>
             <h3>Tu lista de favoritos está vacía</h3>
             <p>Explora nuestra tienda y guarda los productos que te gusten</p>
-            <a href="../index.php" class="btn btn-primary">
-                <i class="bi bi-shop"></i> Ir a la Tienda
+            
+            <a href="../public/filtro.php" class="btn btn-primary">
+                Ir a la Tienda
             </a>
         </div>
     <?php else: ?>
