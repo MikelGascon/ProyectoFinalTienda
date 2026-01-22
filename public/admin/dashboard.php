@@ -12,7 +12,6 @@ if (!isset($_SESSION['admin_logueado']) || $_SESSION['admin_logueado'] !== true)
     exit;
 }
 
-require_once '../../config/config.php';
 $entityManager = require '../../src/Entity/bootstrap.php';
 require_once '../../src/Entity/Producto.php';
 require_once '../../src/Entity/Marcas.php';
