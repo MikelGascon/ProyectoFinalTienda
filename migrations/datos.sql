@@ -34,14 +34,7 @@ CREATE TABLE tipoRopa (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL
 );
-CREATE TABLE comentarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT NOT NULL,
-    rating TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
-    texto TEXT NOT NULL,
-    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
-);
+
 
 CREATE TABLE tallaRopa (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -141,13 +134,6 @@ INSERT INTO productos (nombre, categoriaId, tipo_ropaId, marcaId, precio, color)
 ('Bolso gucci',2,5,1,280.00,'Beige'),
 ('Collar Versace',2,5,1,280.00,'Multicolor');
 
-CREATE TABLE tarjetas_regalo (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    usuario_id INT NULL,
-    importe DECIMAL(10,2) NOT NULL,
-    mensaje VARCHAR(255) NULL,
-    fecha_compra DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
-);
+
 
 */

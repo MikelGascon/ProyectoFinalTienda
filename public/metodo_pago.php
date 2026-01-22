@@ -130,43 +130,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado && $usuario_logeado) {
 
     if (empty($erroresCampos)) {
 
-        if (isset($_SESSION['tarjeta_regalo'])) {
-            $importe         = $_SESSION['tarjeta_regalo']['importe'];
-            $mensaje_tarjeta = $_SESSION['tarjeta_regalo']['mensaje'];
-            $usuario_id      = $_SESSION['usuario_id'];
+    if (isset($_SESSION['tarjeta_regalo'])) {
 
-            $stmt = $conexion->prepare("INSERT INTO tarjetas_regalo (usuario_id, importe, mensaje) VALUES (?, ?, ?)");
-            $stmt->bind_param("ids", $usuario_id, $importe, $mensaje_tarjeta);
+        $importe         = $_SESSION['tarjeta_regalo']['importe'];
+        $mensaje_tarjeta = "dsf"; // o $_SESSION['tarjeta_regalo']['mensaje']
+        $usuario_id      = $_SESSION['usuario_id'];
+        $codigo          = "hjgukhil";
+
+        $stmt = $conexion->prepare(
+            "INSERT INTO tarjetas_regalo (usuario_id, codigo, importe, mensaje) 
+             VALUES (?, ?, ?, ?)"
+        );
+
+        // i = int, s = string, d = double, s = string
+        $stmt->bind_param("isds", $usuario_id, $codigo, $importe, $mensaje_tarjeta);
+
+        $stmt->execute();
+        $stmt->close();
+
+        unset($_SESSION['tarjeta_regalo']);
+    }
+
+    if (isset($_SESSION['tarjeta_usada'])) {
+        $idTarjeta = $_SESSION['tarjeta_usada']['id'];
+        $saldo     = $_SESSION['tarjeta_usada']['importe'];
+        $restante  = $saldo - $totalCarrito;
+
+        if ($restante > 0) {
+            $stmt = $conexion->prepare("UPDATE tarjetas_regalo SET importe = ? WHERE id = ?");
+            $stmt->bind_param("di", $restante, $idTarjeta);
             $stmt->execute();
             $stmt->close();
-
-            unset($_SESSION['tarjeta_regalo']);
+        } else {
+            $stmt = $conexion->prepare("DELETE FROM tarjetas_regalo WHERE id = ?");
+            $stmt->bind_param("i", $idTarjeta);
+            $stmt->execute();
+            $stmt->close();
         }
 
-        if (isset($_SESSION['tarjeta_usada'])) {
-            $idTarjeta = $_SESSION['tarjeta_usada']['id'];
-            $saldo     = $_SESSION['tarjeta_usada']['importe'];
-            $restante  = $saldo - $totalCarrito;
-
-            if ($restante > 0) {
-                $stmt = $conexion->prepare("UPDATE tarjetas_regalo SET importe = ? WHERE id = ?");
-                $stmt->bind_param("di", $restante, $idTarjeta);
-                $stmt->execute();
-                $stmt->close();
-            } else {
-                $stmt = $conexion->prepare("DELETE FROM tarjetas_regalo WHERE id = ?");
-                $stmt->bind_param("i", $idTarjeta);
-                $stmt->execute();
-                $stmt->close();
-            }
-
-            unset($_SESSION['tarjeta_usada']);
-        }
-
-        unset($_SESSION['carrito']);
-        header("Location: index.php");
-        exit;
+        unset($_SESSION['tarjeta_usada']);
     }
+
+    unset($_SESSION['carrito']);
+    header("Location: index.php");
+    exit;
+}
 }
 
 $tarjetas = [];
