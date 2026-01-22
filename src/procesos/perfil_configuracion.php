@@ -139,13 +139,6 @@ $email = $_SESSION['email'] ?? 'email@example.com';
     </div>
 </div>
 
-<!-- Botón Guardar Cambios Generales -->
-<div class="text-end mt-4">
-    <button class="btn btn-primary btn-lg" id="saveGeneralConfig">
-        <i class="bi bi-check-circle"></i> Guardar Preferencias
-    </button>
-</div>
-
 <!-- MODAL/POPUP DE CAMBIO DE CONTRASEÑA -->
 <div id="passwordModal" class="modal-overlay" style="display: none;">
     <div class="modal-content modal-password">

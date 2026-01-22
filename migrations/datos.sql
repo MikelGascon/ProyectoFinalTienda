@@ -110,10 +110,13 @@ VALUES
 (1, 'Trabajo', 'Avenida de la Libertad 55', '48991', 'Getxo', 'Bizkaia', 'España', '944123456', 0);
 
 -- Insertar datos a la tarjeta Regalo
-INSERT INTO tarjetas_regalo (usuario_id,codigo,importe,mensaje) VALUES (1,'AGD-851',100,'Tarjeta de regalo'), (1,'KGL-624',50,'Cumpleaños');
+INSERT INTO tarjetas_regalo (usuario_id,codigo,importe,mensaje) VALUES (1,'AGD-851',100,'Tarjeta de regalo');
+INSERT INTO tarjetas_regalo (usuario_id,codigo,importe,mensaje) VALUES  (1,'KGL-624',50,'Cumpleaños');
 
 -- Insertar pedido
-INSERT INTO pedido (usuario_id, nombre ,precio, cantidadProductos) VALUES (1,'PEDIDO',45.50, 2), (1,'PEDIDO2',120.00, 5);
+INSERT INTO pedido (usuario_id, nombre ,precio, cantidadProductos) VALUES (1,'PEDIDO',45.50, 2);
+INSERT INTO pedido (usuario_id, nombre ,precio, cantidadProductos) VALUES (1,'PEDIDO2',120.00, 5);
+INSERT INTO pedido (usuario_id, nombre, precio, cantidadProductos) VALUES (1,'XJSH-1234',70.00,3);
 
 INSERT INTO categoriaSexo (nombre) VALUES ('Hombre'), ('Mujer'), ('Unisex');
 

@@ -59,6 +59,12 @@ include '../src/components/header.php';
                         </a>
                     </li>
                     <li>
+                        <a href="#" class="nav-link" data-section="tarjetaRegalo">
+                            <i class="bi bi-gift-fill"></i>
+                            <span>Tarjeta Regalo</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="#" class="nav-link" data-section="configuracion">
                             <i class="bi bi-gear"></i> 
                             <span>Configuración</span>
