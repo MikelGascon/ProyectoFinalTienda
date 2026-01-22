@@ -213,7 +213,7 @@ if ($usuario_logeado && !$desde_tarjeta_regalo) { // 👈 SOLO SI VIENE DEL CARR
     <?php endif; ?>
 
     <form method="post">
-
+        <br>
         <label>Método de pago</label>
         <select name="metodo" onchange="this.form.submit()">
             <option value="">Selecciona uno</option>
