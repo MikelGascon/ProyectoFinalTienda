@@ -1,6 +1,10 @@
 <?php
 namespace App\Entity;
 require_once "Usuario.php";
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8369c3836a2321d50042d3f5820d1b0e4b664ba1
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 // Importamos la entidad Usuario para la relación
