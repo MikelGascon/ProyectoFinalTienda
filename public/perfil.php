@@ -1,6 +1,13 @@
 <?php
-require_once __DIR__ . '/../config/config.php';
+require_once '../config/config.php';
 require_once '../src/Entity/bootstrap.php';
+
+require_once '../src/Entity/Producto.php';
+require_once '../src/Entity/Marcas.php';
+require_once '../src/Entity/TipoRopa.php';
+require_once '../src/Entity/TallaRopa.php';
+require_once '../src/Entity/CategoriaSexo.php';
+require_once '../src/Entity/Usuario.php';
 
 session_start();
 
@@ -16,6 +23,8 @@ $bannerText = "20% OFF EN COLECCIÓN DE INVIERNO";
 $showBanner = true;
 $basePath = "../src";
 include '../src/components/header.php';
+
+
 ?>
 
 <link href="<?php echo $basePath; ?>/Css/perfil.css" rel="stylesheet">
