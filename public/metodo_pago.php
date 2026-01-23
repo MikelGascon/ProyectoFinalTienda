@@ -73,6 +73,10 @@ if (isset($_SESSION['tarjeta_usada'])) {
 
 $totalFinal = max(0, $totalCarrito - $descuentoTarjeta);
 
+// VARIABLE PARA EL TXT
+$descargarFactura = false;
+$contenidoFactura = "";
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado && $usuario_logeado) {
 
     if ($metodo === '') {
@@ -80,101 +84,85 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado && $usuario_logeado) {
     }
 
     if ($metodo === 'tarjeta') {
-
-        if ($titular === '') {
-            $erroresCampos['titular'] = "El titular es obligatorio.";
-        }
-
-        if (!preg_match('/^[0-9]{12}$/', $numero)) {
-            $erroresCampos['numero'] = "El número debe tener 12 dígitos.";
-        }
-
-        if (!preg_match('/^[0-9]{2}$/', $mes) || $mes < 1 || $mes > 12) {
-            $erroresCampos['mes'] = "Mes inválido.";
-        }
-
-        if (!preg_match('/^[0-9]{2}$/', $anio)) {
-            $erroresCampos['anio'] = "Año inválido.";
-        } else {
+        if ($titular === '') { $erroresCampos['titular'] = "El titular es obligatorio."; }
+        if (!preg_match('/^[0-9]{12}$/', $numero)) { $erroresCampos['numero'] = "El número debe tener 12 dígitos."; }
+        if (!preg_match('/^[0-9]{2}$/', $mes) || $mes < 1 || $mes > 12) { $erroresCampos['mes'] = "Mes inválido."; }
+        if (!preg_match('/^[0-9]{2}$/', $anio)) { $erroresCampos['anio'] = "Año inválido."; } 
+        else {
             $anioCompleto = 2000 + (int)$anio;
             $mesActual = (int)date("m");
             $anioActual = (int)date("Y");
-
             if ($anioCompleto < $anioActual || ($anioCompleto == $anioActual && (int)$mes < $mesActual)) {
                 $erroresCampos['anio'] = "La tarjeta está caducada.";
             }
         }
-
-        if (!preg_match('/^[0-9]{3}$/', $cvv)) {
-            $erroresCampos['cvv'] = "El CVV debe tener 3 dígitos.";
-        }
+        if (!preg_match('/^[0-9]{3}$/', $cvv)) { $erroresCampos['cvv'] = "El CVV debe tener 3 dígitos."; }
     }
 
     if ($metodo === 'paypal') {
-        if (!filter_var($paypal, FILTER_VALIDATE_EMAIL)) {
-            $erroresCampos['paypal'] = "Correo PayPal inválido.";
-        }
-        if ($pass_paypal === '') {
-            $erroresCampos['pass_paypal'] = "La contraseña es obligatoria.";
-        }
+        if (!filter_var($paypal, FILTER_VALIDATE_EMAIL)) { $erroresCampos['paypal'] = "Correo PayPal inválido."; }
+        if ($pass_paypal === '') { $erroresCampos['pass_paypal'] = "La contraseña es obligatoria."; }
     }
 
     if ($metodo === 'transferencia') {
-        if ($banco === '') {
-            $erroresCampos['banco'] = "El banco es obligatorio.";
-        }
-        if (!preg_match('/^[A-Z0-9]{10,20}$/', $iban)) {
-            $erroresCampos['iban'] = "IBAN inválido.";
-        }
+        if ($banco === '') { $erroresCampos['banco'] = "El banco es obligatorio."; }
+        if (!preg_match('/^[A-Z0-9]{10,20}$/', $iban)) { $erroresCampos['iban'] = "IBAN inválido."; }
     }
 
     if (empty($erroresCampos)) {
+        
+        // --- INICIO GENERACIÓN TXT ---
+        $contenidoFactura = "RESUMEN DE COMPRA\n";
+        $contenidoFactura .= "Fecha: " . date("d-m-Y H:i") . "\n";
+        $contenidoFactura .= "Metodo de pago: " . $metodo . "\n";
+        $contenidoFactura .= "--------------------------\n";
+        foreach ($carrito as $item) {
+            $linea = $item['nombre'] . " x" . $item['cantidad'] . " - " . number_format($item['precio'] * $item['cantidad'], 2) . " EUR\n";
+            $contenidoFactura .= $linea;
+        }
+        $contenidoFactura .= "--------------------------\n";
+        $contenidoFactura .= "Subtotal: " . number_format($totalCarrito, 2) . " EUR\n";
+        $contenidoFactura .= "Descuento Tarjeta: -" . number_format($descuentoTarjeta, 2) . " EUR\n";
+        $contenidoFactura .= "TOTAL FINAL: " . number_format($totalFinal, 2) . " EUR\n";
+        
+        // Marcamos que está listo para descargar
+        $descargarFactura = true;
+        // --- FIN GENERACIÓN TXT ---
 
-    if (isset($_SESSION['tarjeta_regalo'])) {
-
-        $importe         = $_SESSION['tarjeta_regalo']['importe'];
-        $mensaje_tarjeta = "dsf"; // o $_SESSION['tarjeta_regalo']['mensaje']
-        $usuario_id      = $_SESSION['usuario_id'];
-        $codigo          = "hjgukhil";
-
-        $stmt = $conexion->prepare(
-            "INSERT INTO tarjetas_regalo (usuario_id, codigo, importe, mensaje) 
-             VALUES (?, ?, ?, ?)"
-        );
-
-        // i = int, s = string, d = double, s = string
-        $stmt->bind_param("isds", $usuario_id, $codigo, $importe, $mensaje_tarjeta);
-
-        $stmt->execute();
-        $stmt->close();
-
-        unset($_SESSION['tarjeta_regalo']);
-    }
-
-    if (isset($_SESSION['tarjeta_usada'])) {
-        $idTarjeta = $_SESSION['tarjeta_usada']['id'];
-        $saldo     = $_SESSION['tarjeta_usada']['importe'];
-        $restante  = $saldo - $totalCarrito;
-
-        if ($restante > 0) {
-            $stmt = $conexion->prepare("UPDATE tarjetas_regalo SET importe = ? WHERE id = ?");
-            $stmt->bind_param("di", $restante, $idTarjeta);
+        if (isset($_SESSION['tarjeta_regalo'])) {
+            $importe         = $_SESSION['tarjeta_regalo']['importe'];
+            $mensaje_tarjeta = "dsf"; 
+            $usuario_id      = $_SESSION['usuario_id'];
+            $codigo          = "hjgukhil";
+            $stmt = $conexion->prepare("INSERT INTO tarjetas_regalo (usuario_id, codigo, importe, mensaje) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("isds", $usuario_id, $codigo, $importe, $mensaje_tarjeta);
             $stmt->execute();
             $stmt->close();
-        } else {
-            $stmt = $conexion->prepare("DELETE FROM tarjetas_regalo WHERE id = ?");
-            $stmt->bind_param("i", $idTarjeta);
-            $stmt->execute();
-            $stmt->close();
+            unset($_SESSION['tarjeta_regalo']);
         }
 
-        unset($_SESSION['tarjeta_usada']);
-    }
+        if (isset($_SESSION['tarjeta_usada'])) {
+            $idTarjeta = $_SESSION['tarjeta_usada']['id'];
+            $saldo     = $_SESSION['tarjeta_usada']['importe'];
+            $restante  = $saldo - $totalCarrito;
+            if ($restante > 0) {
+                $stmt = $conexion->prepare("UPDATE tarjetas_regalo SET importe = ? WHERE id = ?");
+                $stmt->bind_param("di", $restante, $idTarjeta);
+                $stmt->execute();
+                $stmt->close();
+            } else {
+                $stmt = $conexion->prepare("DELETE FROM tarjetas_regalo WHERE id = ?");
+                $stmt->bind_param("i", $idTarjeta);
+                $stmt->execute();
+                $stmt->close();
+            }
+            unset($_SESSION['tarjeta_usada']);
+        }
 
-    unset($_SESSION['carrito']);
-    header("Location: index.php");
-    exit;
-}
+        unset($_SESSION['carrito']);
+        // Quitamos el header inmediato para permitir que el JS descargue el archivo
+        // Usaremos una redirección por JS después de la descarga
+    }
 }
 
 $tarjetas = [];
@@ -236,19 +224,12 @@ if ($usuario_logeado && !$desde_tarjeta_regalo) {
         <?php endif; ?>
 
         <?php if ($metodo === 'tarjeta'): ?>
-
             <div class="fila">
                 <div class="mitad">
                     <label>Titular</label>
                     <div class="input-icono">
                         <i class="fa-solid fa-user"></i>
-                        <input
-                            type="text"
-                            name="titular"
-                            placeholder="Nombre del titular"
-                            value="<?= $titular ?>"
-                            class="<?= isset($erroresCampos['titular']) ? 'error-input' : '' ?>"
-                        >
+                        <input type="text" name="titular" placeholder="Nombre del titular" value="<?= $titular ?>" class="<?= isset($erroresCampos['titular']) ? 'error-input' : '' ?>">
                     </div>
                     <?php if (isset($erroresCampos['titular'])): ?>
                         <p class="error-text"><?= $erroresCampos['titular'] ?></p>
@@ -259,14 +240,7 @@ if ($usuario_logeado && !$desde_tarjeta_regalo) {
                     <label>Número</label>
                     <div class="input-icono">
                         <i class="fa-solid fa-credit-card"></i>
-                        <input
-                            type="text"
-                            name="numero"
-                            maxlength="12"
-                            placeholder="1234 5678 9012"
-                            value="<?= $numero ?>"
-                            class="<?= isset($erroresCampos['numero']) ? 'error-input' : '' ?>"
-                        >
+                        <input type="text" name="numero" maxlength="12" placeholder="1234 5678 9012" value="<?= $numero ?>" class="<?= isset($erroresCampos['numero']) ? 'error-input' : '' ?>">
                     </div>
                     <?php if (isset($erroresCampos['numero'])): ?>
                         <p class="error-text"><?= $erroresCampos['numero'] ?></p>
@@ -275,84 +249,41 @@ if ($usuario_logeado && !$desde_tarjeta_regalo) {
             </div>
 
             <div class="fila">
-
                 <div class="campo-mini">
                     <label>Mes</label>
                     <div class="input-icono">
                         <i class="fa-solid fa-calendar"></i>
-                        <input
-                            name="mes"
-                            maxlength="2"
-                            placeholder="MM"
-                            value="<?= $mes ?>"
-                            class="<?= isset($erroresCampos['mes']) ? 'error-input' : '' ?>"
-                        >
+                        <input name="mes" maxlength="2" placeholder="MM" value="<?= $mes ?>" class="<?= isset($erroresCampos['mes']) ? 'error-input' : '' ?>">
                     </div>
                 </div>
-
                 <div class="campo-mini">
                     <label>Año</label>
                     <div class="input-icono">
                         <i class="fa-solid fa-calendar-days"></i>
-                        <input
-                            name="anio"
-                            maxlength="2"
-                            placeholder="YY"
-                            value="<?= $anio ?>"
-                            class="<?= isset($erroresCampos['anio']) ? 'error-input' : '' ?>"
-                        >
+                        <input name="anio" maxlength="2" placeholder="YY" value="<?= $anio ?>" class="<?= isset($erroresCampos['anio']) ? 'error-input' : '' ?>">
                     </div>
                 </div>
-
                 <div class="campo-mini">
                     <label>CVV</label>
                     <div class="input-icono">
                         <i class="fa-solid fa-lock"></i>
-                        <input
-                            type="password"
-                            name="cvv"
-                            maxlength="3"
-                            placeholder="•••"
-                            value="<?= $cvv ?>"
-                            class="<?= isset($erroresCampos['cvv']) ? 'error-input' : '' ?>"
-                        >
+                        <input type="password" name="cvv" maxlength="3" placeholder="•••" value="<?= $cvv ?>" class="<?= isset($erroresCampos['cvv']) ? 'error-input' : '' ?>">
                     </div>
                 </div>
-
             </div>
-
+            
             <div class="fila">
-                <div class="campo-mini">
-                    <?php if (isset($erroresCampos['mes'])): ?>
-                        <p class="error-text"><?= $erroresCampos['mes'] ?></p>
-                    <?php endif; ?>
-                </div>
-                <div class="campo-mini">
-                    <?php if (isset($erroresCampos['anio'])): ?>
-                        <p class="error-text"><?= $erroresCampos['anio'] ?></p>
-                    <?php endif; ?>
-                </div>
-                <div class="campo-mini">
-                    <?php if (isset($erroresCampos['cvv'])): ?>
-                        <p class="error-text"><?= $erroresCampos['cvv'] ?></p>
-                    <?php endif; ?>
-                </div>
+                <div class="campo-mini"> <?php if (isset($erroresCampos['mes'])): ?><p class="error-text"><?= $erroresCampos['mes'] ?></p><?php endif; ?> </div>
+                <div class="campo-mini"> <?php if (isset($erroresCampos['anio'])): ?><p class="error-text"><?= $erroresCampos['anio'] ?></p><?php endif; ?> </div>
+                <div class="campo-mini"> <?php if (isset($erroresCampos['cvv'])): ?><p class="error-text"><?= $erroresCampos['cvv'] ?></p><?php endif; ?> </div>
             </div>
-
         <?php endif; ?>
 
         <?php if ($metodo === 'paypal'): ?>
-
             <label>Correo PayPal</label>
             <div class="input-icono">
                 <i class="fa-solid fa-envelope"></i>
-                <input
-                    type="email"
-                    name="paypal"
-                    placeholder="correo@ejemplo.com"
-                    value="<?= $paypal ?>"
-                    class="<?= isset($erroresCampos['paypal']) ? 'error-input' : '' ?>"
-                >
+                <input type="email" name="paypal" placeholder="correo@ejemplo.com" value="<?= $paypal ?>" class="<?= isset($erroresCampos['paypal']) ? 'error-input' : '' ?>">
             </div>
             <?php if (isset($erroresCampos['paypal'])): ?>
                 <p class="error-text"><?= $erroresCampos['paypal'] ?></p>
@@ -361,31 +292,18 @@ if ($usuario_logeado && !$desde_tarjeta_regalo) {
             <label>Contraseña</label>
             <div class="input-icono">
                 <i class="fa-solid fa-key"></i>
-                <input
-                    type="password"
-                    name="pass_paypal"
-                    placeholder="••••••••"
-                    class="<?= isset($erroresCampos['pass_paypal']) ? 'error-input' : '' ?>"
-                >
+                <input type="password" name="pass_paypal" placeholder="••••••••" class="<?= isset($erroresCampos['pass_paypal']) ? 'error-input' : '' ?>">
             </div>
             <?php if (isset($erroresCampos['pass_paypal'])): ?>
                 <p class="error-text"><?= $erroresCampos['pass_paypal'] ?></p>
             <?php endif; ?>
-
         <?php endif; ?>
 
         <?php if ($metodo === 'transferencia'): ?>
-
             <label>Banco</label>
             <div class="input-icono">
                 <i class="fa-solid fa-building-columns"></i>
-                <input
-                    type="text"
-                    name="banco"
-                    placeholder="Nombre del banco"
-                    value="<?= $banco ?>"
-                    class="<?= isset($erroresCampos['banco']) ? 'error-input' : '' ?>"
-                >
+                <input type="text" name="banco" placeholder="Nombre del banco" value="<?= $banco ?>" class="<?= isset($erroresCampos['banco']) ? 'error-input' : '' ?>">
             </div>
             <?php if (isset($erroresCampos['banco'])): ?>
                 <p class="error-text"><?= $erroresCampos['banco'] ?></p>
@@ -394,19 +312,11 @@ if ($usuario_logeado && !$desde_tarjeta_regalo) {
             <label>IBAN</label>
             <div class="input-icono">
                 <i class="fa-solid fa-money-check-dollar"></i>
-                <input
-                    type="text"
-                    name="iban"
-                    maxlength="20"
-                    placeholder="ES00 0000 0000 0000"
-                    value="<?= $iban ?>"
-                    class="<?= isset($erroresCampos['iban']) ? 'error-input' : '' ?>"
-                >
+                <input type="text" name="iban" maxlength="20" placeholder="ES00 0000 0000 0000" value="<?= $iban ?>" class="<?= isset($erroresCampos['iban']) ? 'error-input' : '' ?>">
             </div>
             <?php if (isset($erroresCampos['iban'])): ?>
                 <p class="error-text"><?= $erroresCampos['iban'] ?></p>
             <?php endif; ?>
-
         <?php endif; ?>
 
         <button name="confirmar">Confirmar pago</button>
@@ -414,6 +324,27 @@ if ($usuario_logeado && !$desde_tarjeta_regalo) {
 
     <a href="carrito.php">Volver</a>
 </div>
+
+<?php if ($descargarFactura): ?>
+<script>
+    (function() {
+        const contenido = `<?php echo addslashes($contenidoFactura); ?>`;
+        const blob = new Blob([contenido], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'factura_compra.txt';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        
+        // Redirigir al index después de un pequeño retraso para que la descarga inicie
+        setTimeout(() => {
+            window.location.href = 'index.php';
+        }, 1500);
+    })();
+</script>
+<?php endif; ?>
 
 </body>
 </html>
