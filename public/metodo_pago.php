@@ -9,6 +9,12 @@ if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
 }
 
+function generarCodigoTarjeta() {
+    $letras = substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 3);
+    $numeros = rand(100, 999);
+    return $letras . "-" . $numeros;
+}
+
 $erroresCampos = [];
 $desde_tarjeta_regalo = isset($_SESSION['tarjeta_regalo']);
 
@@ -73,7 +79,6 @@ if (isset($_SESSION['tarjeta_usada'])) {
 
 $totalFinal = max(0, $totalCarrito - $descuentoTarjeta);
 
-// VARIABLE PARA EL TXT
 $descargarFactura = false;
 $contenidoFactura = "";
 
@@ -111,7 +116,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado && $usuario_logeado) {
 
     if (empty($erroresCampos)) {
         
-        // --- INICIO GENERACIÓN TXT ---
         $contenidoFactura = "RESUMEN DE COMPRA\n";
         $contenidoFactura .= "Fecha: " . date("d-m-Y H:i") . "\n";
         $contenidoFactura .= "Metodo de pago: " . $metodo . "\n";
@@ -125,15 +129,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado && $usuario_logeado) {
         $contenidoFactura .= "Descuento Tarjeta: -" . number_format($descuentoTarjeta, 2) . " EUR\n";
         $contenidoFactura .= "TOTAL FINAL: " . number_format($totalFinal, 2) . " EUR\n";
         
-        // Marcamos que está listo para descargar
         $descargarFactura = true;
-        // --- FIN GENERACIÓN TXT ---
 
         if (isset($_SESSION['tarjeta_regalo'])) {
-            $importe         = $_SESSION['tarjeta_regalo']['importe'];
-            $mensaje_tarjeta = "dsf"; 
-            $usuario_id      = $_SESSION['usuario_id'];
-            $codigo          = "hjgukhil";
+            $importe = $_SESSION['tarjeta_regalo']['importe'];
+
+            $mensaje_tarjeta = !empty($_SESSION['tarjeta_regalo']['mensaje'])
+                ? $_SESSION['tarjeta_regalo']['mensaje']
+                : "No hay mensaje";
+
+            $usuario_id = $_SESSION['usuario_id'];
+
+            $codigo = generarCodigoTarjeta();
+
             $stmt = $conexion->prepare("INSERT INTO tarjetas_regalo (usuario_id, codigo, importe, mensaje) VALUES (?, ?, ?, ?)");
             $stmt->bind_param("isds", $usuario_id, $codigo, $importe, $mensaje_tarjeta);
             $stmt->execute();
@@ -160,8 +168,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $confirmado && $usuario_logeado) {
         }
 
         unset($_SESSION['carrito']);
-        // Quitamos el header inmediato para permitir que el JS descargue el archivo
-        // Usaremos una redirección por JS después de la descarga
     }
 }
 
@@ -338,7 +344,6 @@ if ($usuario_logeado && !$desde_tarjeta_regalo) {
         a.click();
         window.URL.revokeObjectURL(url);
         
-        // Redirigir al index después de un pequeño retraso para que la descarga inicie
         setTimeout(() => {
             window.location.href = 'index.php';
         }, 1500);
