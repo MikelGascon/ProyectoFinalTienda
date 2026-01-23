@@ -1,6 +1,6 @@
 <?php
 require_once '../config/config.php';
-require_once  '../src/Entity/bootstrap.php';
+require_once '../src/Entity/bootstrap.php';
 
 require_once '../src/Entity/Producto.php';
 require_once '../src/Entity/Marcas.php';

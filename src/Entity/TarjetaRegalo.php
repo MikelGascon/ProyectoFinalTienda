@@ -2,6 +2,7 @@
 namespace App\Entity;
 require_once "Usuario.php";
 use Doctrine\ORM\Mapping as ORM;
+require_once 'Usuario.php';
 use App\Entity\Usuario;
 
 
