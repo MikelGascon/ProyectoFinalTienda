@@ -1,90 +1,179 @@
-:root {
-            --marron-claro: #AAA085;
-            --marron-oscuro: #8C836A;
-            --negro: #000000;
-            --gris-medio: #878686;
-            --gris-claro: #D9D9D9;
-        }
+/* ESTRUCTURA Y SIDEBAR */
+.layout {
+    display: flex;
+    max-width: 1600px;
+    margin: 40px auto;
+    padding: 0 20px;
+    gap: 40px;
+    align-items: flex-start;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-        }
+.sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    background: #fff;
+    padding: 20px;
+    position: sticky;
+    top: 120px;
+    overflow: scroll;
+    overflow-x: auto;
+    height: 46pc;
+}
 
-        /* Reutilizamos la misma clase que el carrito para consistencia */
-        .wishlist-box {
-            max-width: 720px;
-            margin: 80px auto;
-            background-color: #fff;
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
-            padding: 40px;
-        }
+.filter-group {
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
 
-        .wishlist-box h2 {
-            text-align: center;
-            font-size: 1.8rem;
-            color: var(--marron-oscuro);
-            margin-bottom: 30px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+.filter-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
+    color: var(--color-dark);
+}
 
-        .lista-vacia {
-            text-align: center;
-            font-size: 1rem;
-            color: var(--gris-medio);
-            padding: 20px;
-            border: 1px solid var(--gris-medio);
-            border-radius: 10px;
-            background-color: var(--gris-claro);
-        }
+/* SELECTORES ESTILO LUXURY (REDONDEADOS) */
+.filter-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 25px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-dark);
+    background-color: #fff;
+    outline: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    transition: 0.3s;
+}
 
-        .acciones {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-        }
+.filter-group select:hover { border-color: var(--color-dark); }
 
-        .acciones button {
-            padding: 12px 24px;
-            background-color: var(--marron-claro);
-            color: #ffffff;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-            text-transform: uppercase;
-        }
+/* BOTONES DEL FILTRO (UNIFICADOS CON PRODUCTOS) */
+.sidebar-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
 
-        .acciones button:hover {
-            background-color: var(--marron-oscuro);
-        }
+.btn-apply {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--color-dark);
+    color: white;
+    border: 1px solid var(--color-dark);
+    border-radius: 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
 
-        .login-aviso {
-            text-align: center;
-            font-size: 1rem;
-            color: var(--gris-medio);
-        }
+.btn-apply:hover { background-color: var(--color-primary); border-color: var(--color-primary); }
 
-        .login-aviso a {
-            color: var(--marron-claro);
-            font-weight: bold;
-            text-decoration: none;
-        }
+.btn-limpiar {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    color: var(--color-dark);
+    border: 1px solid var(--color-dark);
+    border-radius: 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.7rem;
+    text-decoration: none;
+    text-align: center;
+    transition: 0.3s;
+}
 
-        .login-aviso a:hover {
-            text-decoration: underline;
-        }
+.btn-limpiar:hover { background: var(--color-dark); color: white; }
 
-        /* Icono decorativo opcional para la lista de deseos */
-        .heart-icon {
-            display: block;
-            text-align: center;
-            font-size: 2.5rem;
-            color: var(--marron-claro);
-            margin-bottom: 10px;
+/* COLORES Y SLIDER */
+.color-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.color-circle { width: 22px; height: 22px; cursor: pointer; position: relative; }
+.color-circle input { display: none; }
+.color-circle .inner { display: block; width: 100%; height: 100%; border-radius: 50%; border: 1px solid #ddd; }
+.color-circle input:checked + .inner { outline: 2px solid var(--color-dark); outline-offset: 3px; }
+
+#p-range { -webkit-appearance: none; width: 100%; height: 4px; background: #eee; border-radius: 5px; margin: 20px 0; }
+#p-range::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--color-dark); border-radius: 50%; cursor: pointer; border: 2px solid #fff; }
+
+/* GRID DE PRODUCTOS (SE MANTIENE TU DISEÑO) */
+.main-container { flex-grow: 1; }
+.grid-productos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
+.producto-card { text-align: center; margin-bottom: 30px; }
+.prod-img { aspect-ratio: 3/4; overflow: hidden; background-color: #f9f9f9; margin-bottom: 15px; position: relative; }
+.img-fit { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+.producto-card:hover .img-fit { transform: scale(1.08); }
+.prod-name { font-size: 0.9rem; font-weight: 500; text-transform: uppercase; margin-bottom: 5px; }
+.prod-price { font-size: 1rem; color: var(--color-primary); font-weight: 600; margin-bottom: 10px; }
+.prod-info { font-size: 0.7rem; color: #888; text-transform: uppercase; margin-bottom: 15px; }
+
+.btn-link { display: block; width: 100%; padding: 10px; margin-top: 5px; text-decoration: none; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; border-radius: 25px; transition: 0.3s; }
+.btn-dark { background: var(--color-dark); color: white; border: 1px solid var(--color-dark); }
+.btn-outline { background: transparent; color: var(--color-dark); border: 1px solid var(--color-dark); }
+.btn-dark:hover { background: var(--color-primary); border-color: var(--color-primary); }
+.btn-outline:hover { background: var(--color-dark); color: white; }
+/* Estilos para el corazón en la cuadrícula de productos */
+.prod-img { 
+    position: relative; 
+}
+
+.btn-favorito-flotante {
+    position: absolute; 
+    bottom: 12px; 
+    right: 12px;
+    background: rgba(255, 255, 255, 0.9); 
+    width: 36px; 
+    height: 36px;
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    text-decoration: none; 
+    font-size: 1.3rem; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease, background 0.3s ease; 
+    z-index: 5;
+}
+
+.btn-favorito-flotante:hover {
+    transform: scale(1.15);
+    background: #fff;
+}
+
+/* Estilo para la lista vacía en favoritos */
+.wishlist-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 100px 20px;
+}
+.prod-img { position: relative; }
+        .btn-favorito-eliminar {
+            position: absolute; bottom: 12px; right: 12px;
+            background: rgba(255, 255, 255, 0.9); width: 36px; height: 36px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            text-decoration: none; font-size: 1.3rem; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: 0.3s; z-index: 5;
+            color: #e74c3c; /* Siempre rojo porque estamos en la lista de favoritos */
+        }
+        .btn-favorito-eliminar:hover {
+            transform: scale(1.1);
+            background: #fff;
         }

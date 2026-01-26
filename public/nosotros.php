@@ -1,3 +1,52 @@
+<?php
+session_start();
+
+require_once "../src/Entity/bootstrap.php";
+require_once "../src/Entity/Comentario.php";
+require_once "../src/Entity/Usuario.php";
+
+use Entity\Comentario;
+
+// Procesar comentario
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $comentarioTexto = trim($_POST['comentario'] ?? '');
+    $rating = intval($_POST['rating'] ?? 0);
+
+    if (!empty($comentarioTexto) && $rating >= 1 && $rating <= 5) {
+        $comentario = new Comentario();
+        if (!isset($_SESSION['usuario_id'])) {
+            header("Location: login.php");
+            exit;
+        }
+        $usuario = $entityManager->find(
+            \App\Entity\Usuario::class,
+            $_SESSION['usuario_id']
+        );
+
+        $comentario->setUsuario($usuario);
+        $comentario->setRating($rating);
+        $comentario->setTexto($comentarioTexto);
+        $comentario->setFecha(new \DateTime());
+
+        $entityManager->persist($comentario);
+        $entityManager->flush();
+    }
+}
+
+// Obtener comentarios
+$query = $entityManager->createQuery("
+SELECT c
+    FROM Entity\Comentario c
+    WHERE c.fecha = (
+        SELECT MAX(c2.fecha)
+        FROM Entity\Comentario c2
+        WHERE c2.usuario = c.usuario
+    )
+    ORDER BY c.fecha DESC
+
+");
+$comentarios = $query->getResult();
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -11,24 +60,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
-    <style>
-        .hero-section {
-            background: #f8f9fa;
-            padding: 100px 0;
-        }
 
-        .team-img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-
-        .icon-box {
-            font-size: 2.5rem;
-            color: #0d6efd;
-        }
-    </style>
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
@@ -36,7 +70,7 @@
     <?php include "../src/components/header.php" ?>
 
     <!-- Hero Section (Nuestra Identidad) -->
-    <section class="hero-section text-center">
+    <section class="hero-section text-center" style="position: relative; top: 29px;">
         <div class="container">
             <h1 class="display-4 fw-bold mb-4">Transformando el futuro desde 2026</h1>
             <p class="lead text-muted mx-auto" style="max-width: 700px;">
@@ -51,7 +85,8 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="images.unsplash.com" class="img-fluid rounded shadow" alt="Nuestro Equipo">
+                    <img src="../src/img/sobreNosotros.jpg" class="img-fluid rounded shadow" alt="Nuestro Equipo"
+                        style="width: 100pc;">
                 </div>
                 <div class="col-lg-6 ps-lg-5">
                     <h2 class="fw-bold mb-3">Nuestra Historia</h2>
@@ -119,12 +154,81 @@
             </div>
         </div>
     </section>
+    <!-- Opiniones de clientes -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="fw-bold text-center mb-4">Opiniones de nuestros clientes</h2>
+            <div class="row g-4">
+                <?php foreach ($comentarios as $c): ?>
+                    <?php
+                    $comentario = $c instanceof Comentario ? $c : $c[0];
+                    $usuario = is_array($c) && isset($c[1]) ? $c[1] : null;
+                    $texto = htmlspecialchars($comentario->getTexto());
+                    $recortado = strlen($texto) > 140 ? substr($texto, 0, 140) . '...' : $texto;
+                    ?>
+                    <div class="col-md-4">
+                        <div class="bg-white p-4 rounded shadow-sm h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="text-warning">
+                                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                                        <span
+                                            class="<?php echo $i <= $comentario->getRating() ? 'text-warning' : 'text-muted'; ?>">★</span>
+                                    <?php endfor; ?>
+                                </div>
+                                <small class="text-muted"><?php echo $comentario->getFecha()->format('d/m/Y'); ?></small>
+                            </div>
+                            <p class="mb-2"><?php echo $recortado; ?></p>
+                            <p class="fw-bold mb-0">
+                                <?php echo htmlspecialchars($comentario->getUsuario()->getNombre()); ?>
+                            </p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- Formulario de comentario -->
+            <div class="mt-5">
+                <h3 class="fw-bold text-center mb-4">Deja tu comentario</h3>
+
+                <?php if (isset($_SESSION['usuario_id'])): ?>
+
+                    <form method="POST" class="mx-auto" style="max-width: 600px;">
+                        <div class="mb-3 text-center">
+                            <div class="rating-stars" data-rating="0">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <span data-value="<?php echo $i; ?>" style="font-size: 30px; cursor: pointer;"
+                                        class="text-muted">★</span>
+                                <?php endfor; ?>
+                            </div>
+                            <input type="hidden" name="rating" id="rating-value" value="0">
+                        </div>
+
+                        <div class="mb-3">
+                            <textarea name="comentario" class="form-control" rows="4" placeholder="Escribe tu opinión..."
+                                required></textarea>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Enviar comentario</button>
+                        </div>
+                    </form>
+
+                <?php else: ?>
+
+                    <div class="alert alert-warning text-center">
+                        Debes <a href="login.php">iniciar sesión</a> para dejar un comentario.
+                    </div>
+
+                <?php endif; ?>
+            </div>
+
+        </div>
+    </section>
 
     <!-- Footer -->
     <?php include "../src/components/footer.php" ?>
 
-    <!-- Bootstrap 5 JS -->
-    <script src="cdn.jsdelivr.net"></script>
+    <script src="../src/Js/nosotros.js"></script>
 </body>
 
 </html>
