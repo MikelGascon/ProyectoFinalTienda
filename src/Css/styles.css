@@ -386,8 +386,6 @@ body.menu-open {
     object-fit: contain;
 }
 
-<<<<<<< HEAD
-=======
 /* MENSAJE DE BIENVENIDA*/
 .user-welcome {
     display: flex;
@@ -529,7 +527,6 @@ body.menu-open {
     color: #c82333;
 }
 
->>>>>>> 18245cb5a2ab9a338c5881d3afe840913be123b7
 /* RESPONSIVE */
 @media (max-width: 992px) {
     .user-welcome {
