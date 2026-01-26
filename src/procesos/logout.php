@@ -26,5 +26,5 @@ if (isset($_COOKIE['usuario_id'])) {
 session_destroy();
 
 // Redirigir a la página de inicio
-header("Location: ../../public/index.php");
+header("Location: /index.php");
 exit;

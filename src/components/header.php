@@ -98,23 +98,23 @@ $basePath = $basePath ?? "../src";
                             <ul class="panelListaUsuario">
                                 <?php if (isset($_SESSION['admin_logueado']) && $_SESSION['admin_logueado'] === true): ?>
                                 <li class="opcionesListaUsuario">
-                                    <a href="../public/admin/dashboard.php">
+                                    <a href="/admin/dashboard.php">
                                         <i class="bi bi-speedometer2"></i> Dashboard
                                     </a>
                                 </li>
                                 <?php endif; ?>
                                 <li class="opcionesListaUsuario">
-                                    <a href="../public/perfil.php">
+                                    <a href="/perfil.php">
                                         <i class="bi bi-person-circle"></i> Mi Perfil
                                     </a>
                                 </li>
                                 <li class="opcionesListaUsuario">
-                                    <a href="../public/perfil.php">
+                                    <a href="/perfil.php">
                                         <i class="bi bi-bag-check"></i> Mis Pedidos
                                     </a>
                                 </li>
                                 <li class="opcionesListaUsuario">
-                                    <a href="../public/perfil.php">
+                                    <a href="/perfil.php">
                                         <i class="bi bi-house"></i> Mis Direcciones
                                     </a>
                                 </li>
@@ -128,12 +128,12 @@ $basePath = $basePath ?? "../src";
                             <!-- Panel para usuario no logueado -->
                             <ul class="panelListaUsuario">
                                 <li class="opcionesListaUsuario">
-                                    <a href="../public/login.php">
+                                    <a href="/login.php">
                                         <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
                                     </a>
                                 </li>
                                 <li class="opcionesListaUsuario">
-                                    <a href="../public/registro.php">
+                                    <a href="/registro.php">
                                         <i class="bi bi-person-plus"></i> Registrarse
                                     </a>
                                 </li>
@@ -142,10 +142,10 @@ $basePath = $basePath ?? "../src";
                     </div>
                 </div>
 
-                <a href="../public/carrito.php" class="icon-btn text-decoration-none text-dark fs-5">
+                <a href="/carrito.php" class="icon-btn text-decoration-none text-dark fs-5">
                     <i class="bi bi-cart2"></i>
                 </a>
-                <a href="../public/favoritos.php" class="icon-btn text-decoration-none text-dark fs-6">
+                <a href="/favoritos.php" class="icon-btn text-decoration-none text-dark fs-6">
                     <i class="bi bi-heart"></i>
                 </a>
             </div>

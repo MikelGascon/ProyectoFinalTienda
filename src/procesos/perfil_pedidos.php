@@ -30,7 +30,7 @@ if ($usuario_id) {
             <i class="bi bi-bag-x"></i>
             <h3>No tienes pedidos aún</h3>
             <p>Cuando realices tu primer pedido, aparecerá aquí</p>
-            <a href="../public/index.php" class="btn btn-primary">Ir a la tienda</a>
+            <a href="/index.php" class="btn btn-primary">Ir a la tienda</a>
         </div>
     <?php else: ?>
         <?php foreach ($misPedidos as $pedido): ?>

@@ -39,19 +39,19 @@ require_once __DIR__ . '/../../config/config.php';
                 <div class="col-6 col-md-4 col-lg-3 mb-4">
                     <h6 class="fw-semibold small mb-3">Ayuda</h6>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="../public/preguntas_frecuentes.php"
+                        <li class="mb-2"><a href="/preguntas_frecuentes.php"
                                 class="text-secondary text-decoration-none small">Preguntas
                                 frecuentes</a>
                         </li>
-                        <li class="mb-2"><a href="../public/tramitar_devolucion.php"
+                        <li class="mb-2"><a href="/tramitar_devolucion.php"
                                 class="text-secondary text-decoration-none small">Tramitar
                                 devolucion</a>
                         </li>
-                        <li class="mb-2"><a href="../public/servicios_tienda.php"
+                        <li class="mb-2"><a href="/servicios_tienda.php"
                                 class="text-secondary text-decoration-none small">Servicios de la
                                 tienda</a>
                         </li>
-                        <li class="mb-2"><a href="../public/tarjeta_regalo.php"
+                        <li class="mb-2"><a href="/tarjeta_regalo.php"
                                 class="text-secondary text-decoration-none small">Tarjeta de
                                 regalo</a>
                     </ul>
@@ -61,10 +61,10 @@ require_once __DIR__ . '/../../config/config.php';
                 <div class="col-6 col-md-4 col-lg-3 mb-4">
                     <h6 class="fw-semibold small mb-3">Empresa</h6>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="../public/nosotros.php"
+                        <li class="mb-2"><a href="/nosotros.php"
                                 class="text-secondary text-decoration-none small">Quienes somos</a>
                         </li>
-                        <li class="mb-2"><a href="../public/trabaja_nosotros.php"
+                        <li class="mb-2"><a href="/trabaja_nosotros.php"
                                 class="text-secondary text-decoration-none small">Trabaja con
                                 nosotros</a>
                         </li>

@@ -68,7 +68,7 @@ if ($usuario_id) {
             <h3>Tu lista de favoritos está vacía</h3>
             <p>Explora nuestra tienda y guarda los productos que te gusten</p>
             
-            <a href="../public/filtro.php" class="btn btn-primary">
+            <a href="/filtro.php" class="btn btn-primary">
                 Ir a la Tienda
             </a>
         </div>

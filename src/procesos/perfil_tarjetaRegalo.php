@@ -28,7 +28,7 @@ if($usuario_id){
         <div class="empty-state">
         <h3>No tienes tarjetas aun</h3>
         <p>Cuando compres tarjetas regalo, apreceran aqui</p>
-        <a href="../public/tarjetasRegalo.php">Ir a la pagina de Tarjetas</a>
+        <a href="/tarjetasRegalo.php">Ir a la pagina de Tarjetas</a>
         </div>
     <?php else: ?>
         <?php foreach($misTarjetasRegalo as $tarjeta):?>
