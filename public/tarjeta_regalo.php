@@ -29,7 +29,6 @@
     <div class="container" style="max-width: 1000px;">
         <div class="row g-4">
 
-            <!-- Tarjeta 25€ -->
             <div class="col-md-4">
                 <div class="gift-card">
                     <div class="gift-icon"><i class="bi bi-bag-heart"></i></div>
@@ -44,7 +43,6 @@
                 </div>
             </div>
 
-            <!-- Tarjeta 50€ -->
             <div class="col-md-4">
                 <div class="gift-card">
                     <div class="gift-icon"><i class="bi bi-bag-check"></i></div>
@@ -59,7 +57,6 @@
                 </div>
             </div>
 
-            <!-- Tarjeta 75€ -->
             <div class="col-md-4">
                 <div class="gift-card">
                     <div class="gift-icon"><i class="bi bi-stars"></i></div>
@@ -74,7 +71,6 @@
                 </div>
             </div>
 
-            <!-- Tarjeta 100€ -->
             <div class="col-md-4">
                 <div class="gift-card">
                     <div class="gift-icon"><i class="bi bi-gem"></i></div>
@@ -89,7 +85,6 @@
                 </div>
             </div>
 
-            <!-- Tarjeta 150€ -->
             <div class="col-md-4">
                 <div class="gift-card">
                     <div class="gift-icon"><i class="bi bi-trophy"></i></div>
@@ -104,7 +99,6 @@
                 </div>
             </div>
 
-            <!-- Tarjeta 200€ -->
             <div class="col-md-4">
                 <div class="gift-card">
                     <div class="gift-icon"><i class="bi bi-lightning-charge"></i></div>
@@ -119,7 +113,6 @@
                 </div>
             </div>
 
-            <!-- Tarjeta personalizada -->
             <div class="col-md-12">
                 <div class="gift-card special-card">
                     <div class="gift-icon"><i class="bi bi-pencil-square"></i></div>

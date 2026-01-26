@@ -298,7 +298,7 @@ if ($usuario_logeado && !$desde_tarjeta_regalo) {
             <label>Contraseña</label>
             <div class="input-icono">
                 <i class="fa-solid fa-key"></i>
-                <input type="password" name="pass_paypal" placeholder="••••••••" class="<?= isset($erroresCampos['pass_paypal']) ? 'error-input' : '' ?>">
+                <input type="password" name="pass_paypal"  minlength="6" placeholder="••••••••" class="<?= isset($erroresCampos['pass_paypal']) ? 'error-input' : '' ?>">
             </div>
             <?php if (isset($erroresCampos['pass_paypal'])): ?>
                 <p class="error-text"><?= $erroresCampos['pass_paypal'] ?></p>

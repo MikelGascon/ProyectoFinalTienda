@@ -12,10 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $usuario = $_POST['usuario'] ?? '';
     $password = $_POST['password'] ?? '';
-    //Recordar datos
     $recordar = isset($_POST['recordar']) && $_POST['recordar'] === 'on';
 
-    // Verificar si es admin (credenciales hardcodeadas)
     if ($usuario === 'admin' && $password === 'admin') {
         $_SESSION['admin_logueado'] = true;
         $_SESSION['admin_usuario'] = 'admin';
