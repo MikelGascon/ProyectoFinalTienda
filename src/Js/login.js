@@ -23,7 +23,8 @@ document.getElementById('form-login').addEventListener('submit', function (e) {
                 btn.innerText = "ACCESO CONCEDIDO";
 
                 setTimeout(() => {
-                    window.location.href = 'index.php';
+                    // Usar redirect si existe, sino ir a index.php
+                    window.location.href = data.redirect || 'index.php';
                 }, 1500);
             } else {
                 btn.disabled = false;
