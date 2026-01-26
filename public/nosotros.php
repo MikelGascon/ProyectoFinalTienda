@@ -10,7 +10,7 @@ use Entity\Comentario;
 // Procesar comentario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $comentarioTexto = trim($_POST['comentario'] ?? '');
-    $rating          = intval($_POST['rating'] ?? 0);
+    $rating = intval($_POST['rating'] ?? 0);
 
     if (!empty($comentarioTexto) && $rating >= 1 && $rating <= 5) {
         $comentario = new Comentario();
@@ -70,7 +70,7 @@ $comentarios = $query->getResult();
     <?php include "../src/components/header.php" ?>
 
     <!-- Hero Section (Nuestra Identidad) -->
-    <section class="hero-section text-center">
+    <section class="hero-section text-center" style="position: relative; top: 29px;">
         <div class="container">
             <h1 class="display-4 fw-bold mb-4">Transformando el futuro desde 2026</h1>
             <p class="lead text-muted mx-auto" style="max-width: 700px;">
@@ -85,7 +85,8 @@ $comentarios = $query->getResult();
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="" class="img-fluid rounded shadow" alt="Nuestro Equipo">
+                    <img src="../src/img/sobreNosotros.jpg" class="img-fluid rounded shadow" alt="Nuestro Equipo"
+                        style="width: 100pc;">
                 </div>
                 <div class="col-lg-6 ps-lg-5">
                     <h2 class="fw-bold mb-3">Nuestra Historia</h2>
@@ -161,16 +162,17 @@ $comentarios = $query->getResult();
                 <?php foreach ($comentarios as $c): ?>
                     <?php
                     $comentario = $c instanceof Comentario ? $c : $c[0];
-                    $usuario    = is_array($c) && isset($c[1]) ? $c[1] : null;
-                    $texto      = htmlspecialchars($comentario->getTexto());
-                    $recortado  = strlen($texto) > 140 ? substr($texto, 0, 140) . '...' : $texto;
+                    $usuario = is_array($c) && isset($c[1]) ? $c[1] : null;
+                    $texto = htmlspecialchars($comentario->getTexto());
+                    $recortado = strlen($texto) > 140 ? substr($texto, 0, 140) . '...' : $texto;
                     ?>
                     <div class="col-md-4">
                         <div class="bg-white p-4 rounded shadow-sm h-100">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <div class="text-warning">
                                     <?php for ($i = 1; $i <= 5; $i++): ?>
-                                        <span class="<?php echo $i <= $comentario->getRating() ? 'text-warning' : 'text-muted'; ?>">★</span>
+                                        <span
+                                            class="<?php echo $i <= $comentario->getRating() ? 'text-warning' : 'text-muted'; ?>">★</span>
                                     <?php endfor; ?>
                                 </div>
                                 <small class="text-muted"><?php echo $comentario->getFecha()->format('d/m/Y'); ?></small>
@@ -194,15 +196,16 @@ $comentarios = $query->getResult();
                         <div class="mb-3 text-center">
                             <div class="rating-stars" data-rating="0">
                                 <?php for ($i = 1; $i <= 5; $i++): ?>
-                                    <span data-value="<?php echo $i; ?>" style="font-size: 30px; cursor: pointer;" class="text-muted">★</span>
+                                    <span data-value="<?php echo $i; ?>" style="font-size: 30px; cursor: pointer;"
+                                        class="text-muted">★</span>
                                 <?php endfor; ?>
                             </div>
                             <input type="hidden" name="rating" id="rating-value" value="0">
                         </div>
 
                         <div class="mb-3">
-                            <textarea name="comentario" class="form-control" rows="4"
-                                placeholder="Escribe tu opinión..." required></textarea>
+                            <textarea name="comentario" class="form-control" rows="4" placeholder="Escribe tu opinión..."
+                                required></textarea>
                         </div>
 
                         <div class="text-center">
