@@ -61,18 +61,18 @@ if($usuario_id){
     <i class="bi bi-person-vcard"></i> Información Personal
 </div>
 
-<div class="info-card">
+<div class="info-card" id="infoPersonal">
     <div class="info-row">
         <span class="info-label">Nombre Completo</span>
-        <span class="info-value"><?php echo htmlspecialchars($nombreUsuario); ?></span>
+        <span class="info-value" id="display-nombre"><?php echo htmlspecialchars($nombreUsuario); ?></span>
     </div>
     <div class="info-row">
         <span class="info-label">Usuario</span>
-        <span class="info-value"><?php echo htmlspecialchars($usuario); ?></span>
+        <span class="info-value" id="display-usuario"><?php echo htmlspecialchars($usuario); ?></span>
     </div>
     <div class="info-row">
         <span class="info-label">Email</span>
-        <span class="info-value"><?php echo htmlspecialchars($email); ?></span>
+        <span class="info-value" id="display-email"><?php echo htmlspecialchars($email); ?></span>
     </div>
     <div class="info-row">
         <span class="info-label">Fecha de Registro</span>
@@ -81,7 +81,7 @@ if($usuario_id){
 </div>
 
 <div class="text-end mt-3">
-    <button class="btn btn-edit" onclick="enableEdit()">
+    <button class="btn btn-edit" onclick="abrirModalEdicion()">
         <i class="bi bi-pencil-square me-2"></i>Editar Información
     </button>
 </div>
@@ -110,17 +110,62 @@ if($usuario_id){
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
+</div>
+
+<!-- Modal de Edición -->
+<div id="editModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5>
+                <i class="bi bi-pencil-square"></i> Editar Información Personal
+            </h5>
+            <button class="btn-close" onclick="cerrarModalEdicion()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="formEditarPerfil">
+                <div class="form-group mb-3">
+                    <label class="form-label">
+                        <i class="bi bi-person-fill"></i> Nombre Completo *
+                    </label>
+                    <input type="text" class="form-control" id="edit-nombre" name="nombre" 
+                           value="<?php echo htmlspecialchars($nombreUsuario); ?>" required>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label class="form-label">
+                        <i class="bi bi-at"></i> Usuario *
+                    </label>
+                    <input type="text" class="form-control" id="edit-usuario" name="usuario" 
+                           value="<?php echo htmlspecialchars($usuario); ?>" required>
+                    <small class="text-muted">Tu nombre de usuario único</small>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label class="form-label">
+                        <i class="bi bi-envelope-fill"></i> Email *
+                    </label>
+                    <input type="email" class="form-control" id="edit-email" name="email" 
+                           value="<?php echo htmlspecialchars($email); ?>" required>
+                </div>
+                
+                <div class="alert alert-info mb-3">
+                    <i class="bi bi-info-circle"></i> 
+                    Los campos marcados con * son obligatorios
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="cerrarModalEdicion()">
+                <i class="bi bi-x-circle"></i> Cancelar
+            </button>
+            <button class="btn btn-primary" onclick="guardarCambios()">
+                <i class="bi bi-check-circle"></i> Guardar Cambios
+            </button>
+        </div>
+    </div>
+</div>
 
 
-    <script>
-        function enableEdit() {
-            alert('Función de edición - Aquí puedes implementar un modal o formulario de edición');
-        }
 
-        // Event listener para el link "Ver todos los pedidos"
-        document.querySelector('.view-all-link')?.addEventListener('click', function (e) {
-            e.preventDefault();
-            const section = this.getAttribute('data-section');
-            document.querySelector(`[data-section="${section}"]`).click();
-        });
-    </script>
+<!-- Cargar script de dashboard -->
+<script src="../src/Js/dashboard.js"></script>

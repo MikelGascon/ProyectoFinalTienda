@@ -38,7 +38,6 @@ if ($usuario_id) {
                 <div class="pedido-header">
                     <div>
                         <h5 class="pedido-id">#<?php echo $pedido->getNombre(); ?></h5>
-                        <!-- CORRECCIÓN: La fecha es un objeto DateTime, hay que usar ->format() -->
                         <p class="pedido-date">
                             <i class="bi bi-calendar3"></i>
                             <?php echo $pedido->getFecha()->format('d/m/Y H:i'); ?>
@@ -50,7 +49,7 @@ if ($usuario_id) {
                     <div class="pedido-info">
                         <div class="info-item">
                             <i class="bi bi-box-seam"></i>
-                            <!-- CORRECCIÓN: Usar el getter, no acceso de array -->
+                            <!--Usar el getter-->
                             <span><?php echo $pedido->getCantidadProductos(); ?> productos</span>
                         </div>
                         <div class="info-item">
@@ -66,25 +65,6 @@ if ($usuario_id) {
     <?php endif; ?>
 </div>
 
-<script>
-    // Filtros de pedidos
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            // Actualizar botón activo
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
 
-            const filter = this.getAttribute('data-filter');
-            const pedidos = document.querySelectorAll('.pedido-card');
 
-            pedidos.forEach(pedido => {
-                if (filter === 'all' || pedido.getAttribute('data-status') === filter) {
-                    pedido.style.display = 'block';
-                } else {
-                    pedido.style.display = 'none';
-                }
-            });
-        });
-    });
-
-</script>
+<script src="../src/Js/pedidos.js"></script>

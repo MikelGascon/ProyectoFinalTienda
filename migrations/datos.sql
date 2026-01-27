@@ -64,14 +64,14 @@ CREATE TABLE pedido (
 CREATE TABLE direcciones (
     id INT AUTO_INCREMENT,
     usuario_id INT NOT NULL,
-    nombre VARCHAR(100) NOT NULL COMMENT 'Ej: Casa, Trabajo',
+    nombre VARCHAR(100) NOT NULL,
     direccion VARCHAR(255) NOT NULL,
     codigo_postal VARCHAR(15) NOT NULL,
     ciudad VARCHAR(100) NOT NULL,
     provincia VARCHAR(100) NOT NULL,
-    pais VARCHAR(100) NOT NULL DEFAULT 'España',
+    pais VARCHAR(100) NOT NULL,
     tel VARCHAR(20),
-    predeterminada TINYINT(1) DEFAULT 0 COMMENT '1 si es la dirección principal',
+    predeterminada TINYINT(1) DEFAULT 0,
     fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     CONSTRAINT fk_usuario_direccion FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
@@ -128,7 +128,5 @@ INSERT INTO productos (nombre, categoriaId, tipo_ropaId, marcaId, precio, color)
 ('Sudadera Dior',1,3,2,280.00,'Azul'),
 ('Bolso gucci',2,5,1,280.00,'Beige'),
 ('Collar Versace',2,5,1,280.00,'Multicolor');
-
-
 
 */
