@@ -7,6 +7,7 @@ require_once '../src/Entity/Marcas.php';
 require_once '../src/Entity/TipoRopa.php';
 require_once '../src/Entity/TallaRopa.php';
 require_once '../src/Entity/CategoriaSexo.php';
+require_once '../src/Entity/Usuario.php';
 
 use App\Entity\Producto;
 

@@ -45,10 +45,10 @@ require_once __DIR__ . '/../../config/config.php';
                         <li class="mb-2"><a href="../public/tramitar_devolucion.php" class="text-secondary text-decoration-none small">Tramitar
                                 devolucion</a>
                         </li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Servicios de la
+                        <li class="mb-2"><a href="../public/servicios_tienda.php" class="text-secondary text-decoration-none small">Servicios de la
                                 tienda</a>
                         </li>
-                        <li class="mb-2"><a href="#" class="text-secondary text-decoration-none small">Tarjeta de
+                        <li class="mb-2"><a href="../public/tarjeta_regalo.php" class="text-secondary text-decoration-none small">Tarjeta de
                                 regalo</a>
                     </ul>
                 </div>
@@ -87,9 +87,12 @@ require_once __DIR__ . '/../../config/config.php';
             </div>
 
             <!-- Añadir el eslogan de CopyRight-->
-            <div>
-                CopyRight - Todos los derechos reservador a CorteRebelde
-            </div>
+<!-- Añadir el eslogan de CopyRight-->
+<!-- Añadir el eslogan de CopyRight-->
+<div style="width: 100%; background-color: black; color: white; text-align: center; font-weight: bold; padding: 10px;">
+    CopyRight - Todos los derechos reservados a CorteRebelde
+</div>
+
         </div>
     </footer>
 

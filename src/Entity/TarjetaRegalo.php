@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 require_once 'Usuario.php';
 use App\Entity\Usuario;
 
+
 #[ORM\Entity]
 #[ORM\Table(name: 'tarjetas_regalo')]
 

@@ -1,7 +1,6 @@
--- Nombre de la tabla
-/* CREATE DATABASE app_tienda; */
+CREATE DATABASE app_tienda;
 USE app_tienda;
-/*
+
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario VARCHAR(50) NOT NULL UNIQUE,
@@ -9,6 +8,10 @@ CREATE TABLE usuarios (
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL
 );
+
+INSERT INTO usuarios (usuario, nombre, password, email) 
+VALUES ('admin', 'Administrador', '$2y$10$yG8kxpLkuY/5K.2xtqC.MuNBBT/1kdOSom8x1Bzx0sYwSILAz7Ui6', 'admin@tienda.com');
+
 CREATE TABLE productos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
