@@ -1,4 +1,5 @@
-// Función para abrir modal con nueva dirección
+// direcciones.js - VERSIÓN QUE SÍ REDIRECCIONA
+
 window.nuevaDireccion = function() {
     document.getElementById('modalTitle').textContent = 'Nueva Dirección';
     document.getElementById('direccionForm').reset();
@@ -6,7 +7,6 @@ window.nuevaDireccion = function() {
     document.getElementById('direccionModal').style.display = 'flex';
 }
 
-// Función para editar dirección existente
 window.editarDireccion = async function(id) {
     try {
         const response = await API.direcciones.obtener();
@@ -17,7 +17,6 @@ window.editarDireccion = async function(id) {
             return;
         }
         
-        // Llenar el formulario con los datos de la dirección
         document.getElementById('modalTitle').textContent = 'Editar Dirección';
         document.getElementById('direccion-id').value = direccion.id;
         document.getElementById('direccion-nombre').value = direccion.nombre;
@@ -35,17 +34,14 @@ window.editarDireccion = async function(id) {
     }
 }
 
-// Función para guardar dirección (crear o actualizar)
 window.guardarDireccion = async function() {
     const form = document.getElementById('direccionForm');
     
-    // Validar formulario
     if (!form.checkValidity()) {
         form.reportValidity();
         return;
     }
     
-    // Recoger datos del formulario
     const formData = {
         nombre: document.getElementById('direccion-nombre').value,
         telefono: document.getElementById('direccion-telefono').value,
@@ -61,59 +57,61 @@ window.guardarDireccion = async function() {
     
     try {
         if (id) {
-            // Actualizar dirección existente
             formData.id = parseInt(id);
-            await DireccionesManager.actualizar(formData);
+            await API.direcciones.actualizar(formData);
         } else {
-            // Crear nueva dirección
-            await DireccionesManager.crear(formData);
+            await API.direcciones.crear(formData);
         }
         
-        // Cerrar modal
         cerrarModal();
         
-        // Recargar sección para mostrar cambios
-        document.querySelector('[data-section="direcciones"]')?.click();
+        // Forzar redirección
+        setTimeout(() => {
+            window.location.replace("index.php");
+        }, 500);
         
     } catch (error) {
         console.error('Error al guardar dirección:', error);
+        Toast.show('Error al guardar', 'error');
     }
 }
 
-// Función para establecer como predeterminada
 window.setPredeterminada = async function(id) {
     if (!confirm('¿Establecer esta dirección como predeterminada?')) {
         return;
     }
     
     try {
-        await DireccionesManager.setPredeterminada(id);
+        await API.direcciones.actualizar({ id: id, predeterminada: true });
         
-        // Recargar sección
-        document.querySelector('[data-section="direcciones"]')?.click();
+        setTimeout(() => {
+            window.location.replace("index.php");
+        }, 500);
+        
     } catch (error) {
         console.error('Error al establecer predeterminada:', error);
+        Toast.show('Error', 'error');
     }
 }
 
-// Función para eliminar dirección
 window.eliminarDireccion = async function(id) {
     if (!confirm('¿Estás seguro de que quieres eliminar esta dirección?')) {
         return;
     }
     
     try {
-        await DireccionesManager.eliminar(id);
+        await API.direcciones.eliminar(id);
         
-        // Recargar sección
-        document.querySelector('[data-section="direcciones"]')?.click();
+        setTimeout(() => {
+            window.location.replace("index.php");
+        }, 500);
+        
     } catch (error) {
         console.error('Error al eliminar dirección:', error);
+        Toast.show('Error', 'error');
     }
 }
 
-// Función para cerrar modal
 window.cerrarModal = function() {
     document.getElementById('direccionModal').style.display = 'none';
 }
-

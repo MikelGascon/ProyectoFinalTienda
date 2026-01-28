@@ -108,6 +108,8 @@ const Toast = {
 /**
  * Manejo de direcciones
  */
+// perfil.js - MODIFICAR DireccionesManager (líneas 135-180)
+
 const DireccionesManager = {
     async cargar() {
         try {
@@ -119,47 +121,23 @@ const DireccionesManager = {
     },
     
     async crear(data) {
-        try {
-            const response = await API.direcciones.crear(data);
-            Toast.show(response.message, 'success');
-            this.cargar();
-            return response;
-        } catch (error) {
-            Toast.show(error.message, 'error');
-            throw error;
-        }
+        const response = await API.direcciones.crear(data);
+        return response;
     },
     
     async actualizar(data) {
-        try {
-            const response = await API.direcciones.actualizar(data);
-            Toast.show(response.message, 'success');
-            this.cargar();
-            return response;
-        } catch (error) {
-            Toast.show(error.message, 'error');
-            throw error;
-        }
+        const response = await API.direcciones.actualizar(data);
+        return response;
     },
     
     async eliminar(id) {
-        try {
-            const response = await API.direcciones.eliminar(id);
-            Toast.show(response.message, 'success');
-            this.cargar();
-        } catch (error) {
-            Toast.show(error.message, 'error');
-        }
+        const response = await API.direcciones.eliminar(id);
+        return response;
     },
     
     async setPredeterminada(id) {
-        try {
-            const response = await API.direcciones.actualizar({ id, predeterminada: true });
-            Toast.show(response.message, 'success');
-            this.cargar();
-        } catch (error) {
-            Toast.show(error.message, 'error');
-        }
+        const response = await API.direcciones.actualizar({ id, predeterminada: true });
+        return response;
     }
 };
 
@@ -339,6 +317,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 });
+
 
 /* Estilos de Toast dinamicos*/
 const toastStyles = document.createElement('style');

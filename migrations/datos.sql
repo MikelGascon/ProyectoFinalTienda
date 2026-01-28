@@ -79,6 +79,15 @@ CREATE TABLE direcciones (
     CONSTRAINT fk_usuario_direccion FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
+CREATE TABLE comentarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    rating TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    texto TEXT NOT NULL,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
+);
+
 
 CREATE TABLE tarjetas_regalo (
     id INT AUTO_INCREMENT PRIMARY KEY,
