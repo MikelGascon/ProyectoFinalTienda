@@ -148,13 +148,13 @@ include '../src/components/header.php';
     <section class="py-4">
         <div class="container">
             <div class="d-flex justify-content-center align-items-center gap-3 gap-md-4 flex-wrap">
-                <span class="fw-semibold text-uppercase" role="button">NEW</span>
+                <span class="fw-semibold text-uppercase" role="button">Camiseta</span>
                 <div class="dot rounded-circle"></div>
-                <span class="fw-semibold text-uppercase" role="button">NEW</span>
+                <span class="fw-semibold text-uppercase" role="button">Pantalones</span>
                 <div class="dot rounded-circle"></div>
-                <span class="fw-semibold text-uppercase" role="button">NEW</span>
+                <span class="fw-semibold text-uppercase" role="button">Chaquetas</span>
                 <div class="dot rounded-circle"></div>
-                <span class="fw-semibold text-uppercase" role="button">NEW</span>
+                <span class="fw-semibold text-uppercase" role="button">Accesorios</span>
             </div>
         </div>
     </section>
