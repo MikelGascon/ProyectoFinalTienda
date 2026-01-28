@@ -40,6 +40,7 @@ $basePath = $basePath ?? "../src";
         crossorigin="anonymous"></script>
 
     <link href="<?php echo $basePath; ?>/Css/styles.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href= "<?php echo BASE_URL . IMG_URL ?>/logo_rebelde.png">
 </head>
 
 <body>
