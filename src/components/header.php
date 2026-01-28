@@ -61,11 +61,11 @@ $basePath = $basePath ?? "../src";
             </a>
 
             <!-- Search Bar (Desktop/Tablet) -->
-            <form class="search-container d-none d-md-flex mx-auto">
-                <div class="search-wrapper w-100">
-                    <input class="form-control search-box px-3 py-2" type="text" id="searchInput" placeholder=""
-                        aria-label="Buscar">
-                    <button type="button" class="btn-clear-search" id="clearSearch" aria-label="Limpiar búsqueda">
+            <form class="search-container d-none d-md-flex mx-auto" id="marcaSearchForm" autocomplete="off" action="filtro.php" method="get">
+                <div class="search-wrapper w-100 position-relative">
+                    <input class="form-control search-box px-3 py-2" type="text" id="marcaSearchInput" name="marca" placeholder="Buscar marca..." aria-label="Buscar marca">
+                    <div id="marcaSuggestions" class="dropdown-menu w-100" style="max-height: 250px; overflow-y: auto;"></div>
+                    <button type="button" class="btn-clear-search" id="clearMarcaSearch" aria-label="Limpiar búsqueda">
                         <i class="bi bi-x"></i>
                     </button>
                     <button type="submit" class="btn-search" aria-label="Buscar">
@@ -96,6 +96,13 @@ $basePath = $basePath ?? "../src";
                                 <div class="user-email"><?php echo htmlspecialchars($usuario); ?></div>
                             </div>
                             <ul class="panelListaUsuario">
+                                <?php if (isset($_SESSION['admin_logueado']) && $_SESSION['admin_logueado'] === true): ?>
+                                <li class="opcionesListaUsuario">
+                                    <a href="../public/admin/dashboard.php">
+                                        <i class="bi bi-speedometer2"></i> Dashboard
+                                    </a>
+                                </li>
+                                <?php endif; ?>
                                 <li class="opcionesListaUsuario">
                                     <a href="../public/perfil.php">
                                         <i class="bi bi-person-circle"></i> Mi Perfil
@@ -147,11 +154,11 @@ $basePath = $basePath ?? "../src";
 
         <!-- Search Bar (Mobile) -->
         <div class="container d-md-none pt-2">
-            <form class="search-container w-100">
-                <div class="search-wrapper w-100">
-                    <input class="form-control search-box-mobile px-3 py-2" type="text" placeholder=""
-                        aria-label="Buscar">
-                    <button type="button" class="btn-clear-search" aria-label="Limpiar búsqueda">
+            <form class="search-container w-100" id="marcaSearchFormMobile" autocomplete="off" action="filtro.php" method="get">
+                <div class="search-wrapper w-100 position-relative">
+                    <input class="form-control search-box-mobile px-3 py-2" type="text" id="marcaSearchInputMobile" name="marca" placeholder="Buscar marca..." aria-label="Buscar marca">
+                    <div id="marcaSuggestionsMobile" class="dropdown-menu w-100" style="max-height: 250px; overflow-y: auto;"></div>
+                    <button type="button" class="btn-clear-search" id="clearMarcaSearchMobile" aria-label="Limpiar búsqueda">
                         <i class="bi bi-x"></i>
                     </button>
                     <button type="submit" class="btn-search" aria-label="Buscar">
@@ -173,16 +180,112 @@ $basePath = $basePath ?? "../src";
         </div>
         <div class="side-menu-body">
             <ul class="menu-nav">
-                <li><a href="#">Mujer</a></li>
-                <li><a href="#">Hombre</a></li>
-                <li><a href="#">Niños</a></li>
+                <li><a href="filtro.php?categoria=Mujer">Mujer</a></li>
+                <li><a href="filtro.php?categoria=Hombre">Hombre</a></li>
                 <li><a href="nosotros.php">Sobre Nosotros</a></li>
             </ul>
         </div>
     </div>
 
     <!-- Script para el buscador -->
-    <script src="..<?php echo JS_URL ?>/header.js"> </script>
+    <script src="..<?php echo JS_URL ?>/header.js"></script>
+    <script>
+    // --- Autocompletado de marcas (Desktop) ---
+    const marcaInput = document.getElementById('marcaSearchInput');
+    const marcaSuggestions = document.getElementById('marcaSuggestions');
+    const clearMarcaBtn = document.getElementById('clearMarcaSearch');
+    let marcaSelectedIndex = -1;
+
+    marcaInput && marcaInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        if (query.length === 0) {
+            marcaSuggestions.innerHTML = '';
+            marcaSuggestions.classList.remove('show');
+            return;
+        }
+        fetch('../src/procesos/buscar_marcas.php?q=' + encodeURIComponent(query))
+            .then(res => res.json())
+            .then(data => {
+                if (data.length === 0) {
+                    marcaSuggestions.innerHTML = '';
+                    marcaSuggestions.classList.remove('show');
+                    return;
+                }
+                marcaSuggestions.innerHTML = data.map((marca, idx) => `<button type="button" class="dropdown-item" data-value="${marca}">${marca}</button>`).join('');
+                marcaSuggestions.classList.add('show');
+                marcaSelectedIndex = -1;
+            });
+    });
+
+    marcaSuggestions && marcaSuggestions.addEventListener('mousedown', function(e) {
+        if (e.target.matches('.dropdown-item')) {
+            marcaInput.value = e.target.getAttribute('data-value');
+            marcaSuggestions.classList.remove('show');
+            document.getElementById('marcaSearchForm').submit();
+        }
+    });
+
+    clearMarcaBtn && clearMarcaBtn.addEventListener('click', function() {
+        marcaInput.value = '';
+        marcaSuggestions.innerHTML = '';
+        marcaSuggestions.classList.remove('show');
+        marcaInput.focus();
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!marcaSuggestions.contains(e.target) && e.target !== marcaInput) {
+            marcaSuggestions.classList.remove('show');
+        }
+    });
+
+    // --- Autocompletado de marcas (Mobile) ---
+    const marcaInputMob = document.getElementById('marcaSearchInputMobile');
+    const marcaSuggestionsMob = document.getElementById('marcaSuggestionsMobile');
+    const clearMarcaBtnMob = document.getElementById('clearMarcaSearchMobile');
+    let marcaSelectedIndexMob = -1;
+
+    marcaInputMob && marcaInputMob.addEventListener('input', function() {
+        const query = this.value.trim();
+        if (query.length === 0) {
+            marcaSuggestionsMob.innerHTML = '';
+            marcaSuggestionsMob.classList.remove('show');
+            return;
+        }
+        fetch('../src/procesos/buscar_marcas.php?q=' + encodeURIComponent(query))
+            .then(res => res.json())
+            .then(data => {
+                if (data.length === 0) {
+                    marcaSuggestionsMob.innerHTML = '';
+                    marcaSuggestionsMob.classList.remove('show');
+                    return;
+                }
+                marcaSuggestionsMob.innerHTML = data.map((marca, idx) => `<button type="button" class="dropdown-item" data-value="${marca}">${marca}</button>`).join('');
+                marcaSuggestionsMob.classList.add('show');
+                marcaSelectedIndexMob = -1;
+            });
+    });
+
+    marcaSuggestionsMob && marcaSuggestionsMob.addEventListener('mousedown', function(e) {
+        if (e.target.matches('.dropdown-item')) {
+            marcaInputMob.value = e.target.getAttribute('data-value');
+            marcaSuggestionsMob.classList.remove('show');
+            document.getElementById('marcaSearchFormMobile').submit();
+        }
+    });
+
+    clearMarcaBtnMob && clearMarcaBtnMob.addEventListener('click', function() {
+        marcaInputMob.value = '';
+        marcaSuggestionsMob.innerHTML = '';
+        marcaSuggestionsMob.classList.remove('show');
+        marcaInputMob.focus();
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!marcaSuggestionsMob.contains(e.target) && e.target !== marcaInputMob) {
+            marcaSuggestionsMob.classList.remove('show');
+        }
+    });
+    </script>
 </body>
 
 </html>
