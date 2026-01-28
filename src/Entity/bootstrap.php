@@ -16,11 +16,11 @@ $isDevMode = true;
 
 $dbParams = [
     'driver'   => 'pdo_mysql',
-    'host'     => $_ENV['DB_HOST'],
-    'user'     => $_ENV['DB_USER'],
-    'password' => $_ENV['DB_PASS'],
-    'dbname'   => $_ENV['DB_NAME'],
-    'port'     => $_ENV['DB_PORT'],
+    'host'     => $_SERVER['DB_HOST'],
+    'user'     => $_SERVER['DB_USER'],
+    'password' => $_SERVER['DB_PASS'],
+    'dbname'   => $_SERVER['DB_NAME'],
+    'port'     => $_SERVER['DB_PORT'],
 ];
 
 $config = ORMSetup::createAttributeMetadataConfiguration($paths, $isDevMode);
