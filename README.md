@@ -36,7 +36,7 @@ cp config/config.example.php config/config.php
 
 
 ## Estructura del Proyecto
-
+```text
 CorteRebelde/
 ├── public /
     ├──
@@ -44,13 +44,15 @@ CorteRebelde/
     ├── filtro.php          # Sistema de filtrado
     ├── producto.php        # Detalle de producto
     ├── carrito.php         # Carrito de compras
+    ├── detalles.php        #Detalles de los productos
+    ├──......
 ├── assets/
     ├── css/           # Estilos
     ├── js/            # Scripts
     └── img/           # Imágenes
 ├── config/            # Configuración
 └── includes/          # Componentes reutilizables
-
+```
 
 ## Páginas Principales
 
