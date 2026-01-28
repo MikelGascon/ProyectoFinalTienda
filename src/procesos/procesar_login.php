@@ -15,20 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //Recordar datos
     $recordar = isset($_POST['recordar']) && $_POST['recordar'] === 'on';
 
-    // Verificar si es admin (credenciales hardcodeadas)
-    if ($usuario === 'admin' && $password === 'admin') {
-        $_SESSION['admin_logueado'] = true;
-        $_SESSION['admin_usuario'] = 'admin';
-        $_SESSION['logueado'] = true;
-        
-        echo json_encode([
-            'status' => 'success',
-            'mensaje' => "Bienvenido, Administrador",
-            'redirect' => 'admin/dashboard.php'
-        ]);
-        exit;
-    }
-
     $repo = $entityManager->getRepository(Usuario::class);
     $user = $repo->findOneBy(['usuario' => $usuario]);
 
@@ -40,11 +26,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['email'] = $user->getEmail();
         $_SESSION['logueado'] = true;
 
-        if ($recordar) {
-            $expiracion = time() + (86400 * 30); // 30 días
-            setcookie('usuario_id', $user->getId(), ['expires' => $expiracion, 'path' => '/', 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);
+        // Verificar si es admin
+        if ($user->getUsuario() === 'admin') {
+            $_SESSION['admin_logueado'] = true;
+            $_SESSION['admin_usuario'] = 'admin';
+            
+            echo json_encode([
+                'status' => 'success',
+                'mensaje' => "Bienvenido, Administrador",
+                'redirect' => 'admin/dashboard.php'
+            ]);
+            exit;
         }
 
+        if ($recordar) {
+            $expiracion = time() + (86400 * 30);
+            setcookie('usuario_id', $user->getId(), ['expires' => $expiracion, 'path' => '/', 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);
+        }
 
         echo json_encode([
             'status' => 'success',

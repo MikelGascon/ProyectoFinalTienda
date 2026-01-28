@@ -115,7 +115,7 @@ if ($usuario_id) {
 </div>
 
 <div>
-    <h2>Para editar favortios dirigese al apartado de Favoritos</h2>
+    <h2>Para editar favoritos dirigese al apartado de Favoritos</h2>
     <a href="../public/favoritos.php"> Redireccion Favoritos</a>
 </div>
 
