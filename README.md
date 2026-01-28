@@ -165,6 +165,23 @@ SELECT c
 ");
 $comentarios = $query->getResult();
 ```
+### `perfil.php`
+**Información sobre el usuario**
+
+Información adicional y personal del propio usuario.Inlcuye:
+-Información personal , como nombre completo, dirección del usuario.
+-Pedidos que haya hecho por nuestra página web.
+-**Tarjeta regalo:** Opción a ver tus tarjetas regalo y también acceder a la página de las tarjetas para comprar una.
+-**Favoritos:** Ver la lista de favoritos y acceder a la página de favoritos.
+-Configuracción de la página y del perfil, como por ejemplo cambiar de contraseña.
+-Opción de cerrar sesión
+```php
+//Información del usuario
+$usuario_id = $_SESSION['usuario_id'] ?? null;
+$nombreUsuario = $_SESSION['nombre'] ?? 'Usuario';
+$usuario = $_SESSION['usuario'] ?? 'Invitado';
+$email = $_SESSION['email'] ?? 'email@example.com';
+```
 
 
 
