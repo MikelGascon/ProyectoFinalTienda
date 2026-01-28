@@ -58,7 +58,7 @@ include '../src/components/header.php';
                     <li>
                         <a href="#" class="nav-link" data-section="direcciones">
                             <i class="bi bi-house"></i> 
-                            <span>Mis Direcciones</span>
+                            <span>Direcciones</span>
                         </a>
                     </li>
                     <li>

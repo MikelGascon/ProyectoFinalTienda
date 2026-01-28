@@ -8,36 +8,31 @@ use App\Entity\Direccion;
 session_start();
 
 $usuario_id = $_SESSION['usuario_id'] ?? null;
-
 $nombreUsuario = $_SESSION['nombre'] ?? 'Usuario';
-$codigoPostal = "48991";
-$ciudad = "Getxo";
 
 if ($usuario_id) {
-    $conn = $entityManager->getConnection();
-
     $repoDireccion = $entityManager->getRepository(Direccion::class);
-    $misDirecccion = $repoDireccion->findBy(['usuario' => $usuario_id]);
-
-
+    $misDirecciones = $repoDireccion->findBy(['usuario' => $usuario_id]);
 }
-
 ?>
 
 <div class="section-title">
     <i class="bi bi-house"></i> Mis Direcciones
 </div>
 
-<div class="direcciones-grid">
-    <?php if (empty($misDirecccion)): ?>
-       <div class="direcciones-actions mb-4">
+<div class="direcciones-actions mb-4">
     <button class="btn btn-primary" onclick="nuevaDireccion()">
         <i class="bi bi-plus-circle"></i> Añadir Nueva Dirección
     </button>
 </div>
+
+<div class="direcciones-grid">
+    <?php if (empty($misDirecciones)): ?>
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i> No tienes direcciones guardadas todavía.
+        </div>
     <?php else: ?>
-        <?php foreach ($misDirecccion as $dir): ?>
-            <!-- Usa el getter para comprobar si es predeterminada -->
+        <?php foreach ($misDirecciones as $dir): ?>
             <div class="direccion-card <?php echo $dir->isPredeterminada() ? 'predeterminada' : ''; ?>">
                 <?php if ($dir->isPredeterminada()): ?>
                     <div class="badge-predeterminada">
@@ -50,41 +45,41 @@ if ($usuario_id) {
                 </div>
 
                 <div class="direccion-body">
-                    <!-- Usamos el nombre de sesión como destinatario -->
                     <p class="destinatario"><strong><?php echo htmlspecialchars($nombreUsuario); ?></strong></p>
                     <p class="direccion-line"><?php echo htmlspecialchars($dir->getDireccion()); ?></p>
                     <p class="direccion-line">
-                        <!-- Usamos los getters para ciudad y CP -->
                         <?php echo htmlspecialchars($dir->getCodigoPostal()); ?> -
                         <?php echo htmlspecialchars($dir->getCiudad()); ?>,
                         <?php echo htmlspecialchars($dir->getProvincia()); ?>
                     </p>
                     <p class="direccion-line"><?php echo htmlspecialchars($dir->getPais()); ?></p>
-                    <p class="telefono"><i class="bi bi-telephone"></i> <?php echo htmlspecialchars($dir->getTelefono()); ?></p>
+                    <?php if ($dir->getTelefono()): ?>
+                        <p class="telefono"><i class="bi bi-telephone"></i> <?php echo htmlspecialchars($dir->getTelefono()); ?></p>
+                    <?php endif; ?>
                 </div>
 
-                <!-- Añadir acciones -->
                 <div class="direccion-actions">
-                    <button class="btn btn-sm btn-outline-secondary" onclick="editarDireccion(<?php echo $dir->getId(); ?>)">
-                        <i class="bi bi-pencil"></i>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="editarDireccion(<?php echo $dir->getId(); ?>)"
+                        title="Editar">
+                        <i class="bi bi-pencil"></i> Editar
                     </button>
                     <?php if (!$dir->isPredeterminada()): ?>
                         <button class="btn btn-sm btn-outline-secondary" onclick="setPredeterminada(<?php echo $dir->getId(); ?>)"
                             title="Establecer como predeterminada">
-                            <i class="bi bi-star"></i>
+                            <i class="bi bi-star"></i> Predetermina
                         </button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="eliminarDireccion(<?php echo $dir->getId(); ?>)">
-                            <i class="bi bi-trash"></i>
+                        <button class="btn btn-sm btn-outline-danger" onclick="eliminarDireccion(<?php echo $dir->getId(); ?>)"
+                            title="Eliminar">
+                            <i class="bi bi-trash"></i> Eliminar
                         </button>
                     <?php endif; ?>
                 </div>
-
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
 </div>
 
-<!-- Modal para Nueva/Editar Dirección (oculto por defecto) -->
+<!-- Modal para Nueva/Editar Dirección -->
 <div id="direccionModal" class="modal-overlay" style="display: none;">
     <div class="modal-content">
         <div class="modal-header">
@@ -93,105 +88,91 @@ if ($usuario_id) {
         </div>
         <div class="modal-body">
             <form id="direccionForm">
-                <div class="form-group">
-                    <label>Nombre de la dirección</label>
-                    <input type="text" class="form-control" name="nombre" placeholder="Ej: Casa, Trabajo..." required>
-                </div>
-                <div class="form-group">
-                    <label>Destinatario</label>
-                    <input type="text" class="form-control" name="destinatario" required>
-                </div>
-                <div class="form-group">
-                    <label>Teléfono</label>
-                    <input type="tel" class="form-control" name="telefono" required>
-                </div>
-                <div class="form-group">
-                    <label>Dirección</label>
-                    <input type="text" class="form-control" name="direccion" required>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label>Código Postal</label>
-                        <input type="text" class="form-control" name="codigo_postal" required>
-                    </div>
-                    <div class="form-group col-md-8">
-                        <label>Ciudad</label>
-                        <input type="text" class="form-control" name="ciudad" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>Provincia</label>
-                        <input type="text" class="form-control" name="provincia" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>País</label>
-                        <input type="text" class="form-control" name="pais" value="España" required>
-                    </div>
-                </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" name="predeterminada" id="predeterminada">
-                    <label class="form-check-label" for="predeterminada">
-                        Establecer como dirección predeterminada
+                <input type="hidden" id="direccion-id" name="id">
+                
+                <div class="form-group mb-3">
+                    <label class="form-label">
+                        <i class="bi bi-tag"></i> Nombre de la dirección *
                     </label>
+                    <input type="text" class="form-control" id="direccion-nombre" name="nombre" 
+                           placeholder="Ej: Casa, Trabajo..." required>
+                    <small class="text-muted">Un nombre para identificar esta dirección</small>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label class="form-label">
+                        <i class="bi bi-telephone"></i> Teléfono *
+                    </label>
+                    <input type="tel" class="form-control" id="direccion-telefono" name="telefono" 
+                           placeholder="666777888" required>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label class="form-label">
+                        <i class="bi bi-geo-alt"></i> Dirección *
+                    </label>
+                    <input type="text" class="form-control" id="direccion-direccion" name="direccion" 
+                           placeholder="Calle, número, piso..." required>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Código Postal *</label>
+                            <input type="text" class="form-control" id="direccion-codigo_postal" name="codigo_postal" 
+                                   placeholder="28001" required>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Ciudad *</label>
+                            <input type="text" class="form-control" id="direccion-ciudad" name="ciudad" 
+                                   placeholder="Madrid" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Provincia *</label>
+                            <input type="text" class="form-control" id="direccion-provincia" name="provincia" 
+                                   placeholder="Madrid" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label">País *</label>
+                            <input type="text" class="form-control" id="direccion-pais" name="pais" 
+                                   value="España" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="direccion-predeterminada" name="predeterminada">
+                    <label class="form-check-label" for="direccion-predeterminada">
+                        <i class="bi bi-star"></i> Establecer como dirección predeterminada
+                    </label>
+                </div>
+                
+                <div class="alert alert-info mb-0">
+                    <i class="bi bi-info-circle"></i> Los campos marcados con * son obligatorios
                 </div>
             </form>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
-            <button class="btn btn-primary" onclick="guardarDireccion()">Guardar Dirección</button>
+            <button class="btn btn-secondary" onclick="cerrarModal()">
+                <i class="bi bi-x-circle"></i> Cancelar
+            </button>
+            <button class="btn btn-primary" onclick="guardarDireccion()">
+                <i class="bi bi-check-circle"></i> Guardar Dirección
+            </button>
         </div>
     </div>
 </div>
 
-<script>
-    function nuevaDireccion() {
-        document.getElementById('modalTitle').textContent = 'Nueva Dirección';
-        document.getElementById('direccionForm').reset();
-        document.getElementById('direccionModal').style.display = 'flex';
-    }
 
-    function editarDireccion(id) {
-        document.getElementById('modalTitle').textContent = 'Editar Dirección';
-        // Aquí cargarías los datos de la dirección con AJAX
-        document.getElementById('direccionModal').style.display = 'flex';
-        alert('Editar dirección ID: ' + id);
-    }
 
-    function cerrarModal() {
-        document.getElementById('direccionModal').style.display = 'none';
-    }
-
-    function guardarDireccion() {
-        const form = document.getElementById('direccionForm');
-        if (form.checkValidity()) {
-            // Aquí enviarías los datos con AJAX
-            alert('Guardando dirección...');
-            cerrarModal();
-        } else {
-            form.reportValidity();
-        }
-    }
-
-    function setPredeterminada(id) {
-        if (confirm('¿Establecer esta dirección como predeterminada?')) {
-            // Aquí harías la petición AJAX
-            alert('Dirección establecida como predeterminada: ' + id);
-            location.reload(); // Temporal - usa AJAX en producción
-        }
-    }
-
-    function eliminarDireccion(id) {
-        if (confirm('¿Estás seguro de que quieres eliminar esta dirección?')) {
-            // Aquí harías la petición AJAX
-            alert('Eliminando dirección: ' + id);
-        }
-    }
-
-    // Cerrar modal al hacer clic fuera
-    document.getElementById('direccionModal')?.addEventListener('click', function (e) {
-        if (e.target === this) {
-            cerrarModal();
-        }
-    });
-</script>
+<!-- Cargar script de direcciones -->
+<script src="../src/Js/direcciones.js"></script>
