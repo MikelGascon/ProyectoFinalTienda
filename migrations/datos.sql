@@ -1,5 +1,4 @@
--- Nombre de la tabla
-/* CREATE DATABASE app_tienda; */
+/*CREATE DATABASE app_tienda;*/
 USE app_tienda;
 /*
 CREATE TABLE usuarios (
@@ -9,6 +8,10 @@ CREATE TABLE usuarios (
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL
 );
+
+INSERT INTO usuarios (usuario, nombre, password, email) 
+VALUES ('admin', 'Administrador', '$2y$10$yG8kxpLkuY/5K.2xtqC.MuNBBT/1kdOSom8x1Bzx0sYwSILAz7Ui6', 'admin@tienda.com');
+
 CREATE TABLE productos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -46,7 +49,6 @@ CREATE TABLE favoritos (
     usuario_id INT NOT NULL,
     producto_id INT NOT NULL,
     fecha_agregado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    -- Evita que un usuario guarde el mismo producto dos veces
     UNIQUE KEY usuario_producto (usuario_id, producto_id) 
 );
 
@@ -54,7 +56,7 @@ CREATE TABLE pedido (
     id INT AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     nombre varchar(255) NOT NULL,
-    precio DECIMAL(10, 2) NOT NULL, -- Soporta hasta 8 enteros y 2 decimales
+    precio DECIMAL(10, 2) NOT NULL,
     cantidadProductos INT NOT NULL,
     fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
