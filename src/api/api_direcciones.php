@@ -6,6 +6,10 @@ error_reporting(E_ALL);
 // Iniciar buffer de salida para capturar cualquier output no deseado
 ob_start();
 
+/**
+ * API REST para direcciones del perfil
+ */
+
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');

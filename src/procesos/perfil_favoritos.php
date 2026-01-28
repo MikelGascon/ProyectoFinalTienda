@@ -2,43 +2,59 @@
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../Entity/bootstrap.php';
 
+require_once "../Entity/Favoritos.php";
+require_once "../Entity/Producto.php";
+require_once "../Entity/Usuario.php";
+
+
 session_start();
 
 $usuario_id = $_SESSION['usuario_id'] ?? null;
 
+
+// 4. MAPEO DE IMÁGENES
+$img_productos = [
+    'Camiseta Logo Gold' => 'https://media.gucci.com/style/DarkGray_Center_0_0_1200x1200/1730222114/784361_XJGTE_1152_001_100_0000_Light-camiseta-de-punto-de-algodon-estampado.jpg',
+    'Bolso Saddle Mini' => 'https://assets.christiandior.com/is/image/diorprod/M0455CBAAM66B_SBG_E01?$r2x3_raw$&crop=0,0,4000,5000&wid=1334&hei=2000&scale=1&bfc=on&qlt=85',
+    'Chaqueta Maya Down' => 'https://moncler-cdn.thron.com/api/v1/content-delivery/shares/dpx6uv/contents/K29541A1252068950742_4/image/plumifero-con-capucha-maya-nino-azul-marino-moncler-4.jpg?w=1300&q=80',
+    'Camisa Silk Print' => 'https://www.versace.com/dw/image/v2/BGWN_PRD/on/demandware.static/-/Sites-ver-master-catalog/default/dw3f96a6e4/original/90_1020082-1A16350_5X000_10_PrintedSilkKnitShirt-Knitwear-Versace-online-store_0_2.jpg?sw=850&q=85&strip=true',
+    'Cartera Monogram' => 'https://es.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-cartera-lily-con-cadena--M82509_PM2_Front%20view.jpg',
+    'Vestido corto' => 'https://images.thebestshops.com/product_images/original/iKRIX-gucci-short-dresses-web-detailed-viscose-dress-00000124879f00s003.jpg',
+    'Chaqueta Dior ' => 'https://dripkickzz.com/wp-content/uploads/2025/10/Dior-sz44-54-fxtx07-6_3863537.webp',
+    'Llavero' => 'https://es.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-llavero-lv-dragonne--M62706_PM2_Front%20view.jpg',
+    'Camiseta Versace' => 'https://images.thebestshops.com/product_images/original/SL12044-035_02-f4d863.jpg',
+    'Pantalones Dior' => 'https://cdn-images.farfetch-contents.com/20/50/49/72/20504972_50589018_600.jpg',
+    'Chaqueta Moncler' => 'https://holtrenfrew.scene7.com/is/image/HoltRenfrew1/m_5000896451_01',
+    'Vestido Verde' => 'https://images.vestiairecollective.com/images/resized/w=1246,q=75,f=auto,/produit/vestidos-gucci-de-algodon-verde-54802360-1_2.jpg',
+    'Chaqueta moncler' => 'https://www.mytheresa.com/media/1094/1238/100/17/P01068383.jpg',
+    'Sudadera Dior' => 'https://cdn1.jolicloset.com/img4/detail4b/2024/05/1324295-1/ropa-punto-christian-dior.jpg',
+    'Bolso gucci' => 'https://media.gucci.com/style/DarkGray_Center_0_0_1200x1200/1697733137/764960_K9GSG_8367_001_057_0000_Light-minibolso-ophidia.jpg',
+    'Collar Versace' => 'https://www.versace.com/dw/image/v2/BGWN_PRD/on/demandware.static/-/Sites-ver-master-catalog/default/dw8e7806c5/original/90_1015461-1A00621_4JNF0_22_IconCrystalNecklace-Necklaces-Versace-online-store_0_1.jpg?sw=850&q=85&strip=true',
+    'Default' => 'https://via.placeholder.com/500x600?text=Luxury+Item'
+];
+
 // Query real a favoritos - Ajusta según tu estructura de BD
-$favoritos = [];
+
+$favoritos = []; // Usaremos esta variable para el bucle del HTML
+
 if ($usuario_id) {
     try {
         $conn = $entityManager->getConnection();
-        $sql = "SELECT p.* FROM productos p 
-                INNER JOIN favoritos f ON p.id = f.producto_id 
-                WHERE f.usuario_id = ? 
-                ORDER BY f.fecha_agregado DESC";
+        
+        // Traemos ID, Nombre y Precio de la tabla productos
+        $sql = "SELECT p.id, p.nombre, p.precio 
+                FROM favoritos f 
+                INNER JOIN productos p ON f.producto_id = p.id 
+                WHERE f.usuario_id = ?";
+
         $favoritos = $conn->fetchAllAssociative($sql, [$usuario_id]);
     } catch (Exception $e) {
-        // Datos de ejemplo si falla la query
-        $favoritos = [
-            [
-                'id' => 1,
-                'nombre' => 'Camisa Elegante',
-                'precio' => 49.99,
-                'imagen' => 'camisa1.jpg',
-                'stock' => 15,
-                'talla' => 'M'
-            ],
-            [
-                'id' => 2,
-                'nombre' => 'Pantalón Casual',
-                'precio' => 59.99,
-                'imagen' => 'pantalon1.jpg',
-                'stock' => 8,
-                'talla' => 'L'
-            ],
-        ];
+        error_log($e->getMessage());
     }
 }
+
 ?>
+
 
 <div class="section-title">
     <i class="bi bi-heart-fill"></i> Mis Favoritos
@@ -54,11 +70,6 @@ if ($usuario_id) {
             <i class="bi bi-list-ul"></i> Lista
         </button>
     </div>
-    <?php if (!empty($favoritos)): ?>
-        <button class="btn btn-outline-danger" onclick="limpiarFavoritos()">
-            <i class="bi bi-trash"></i> Limpiar Todo
-        </button>
-    <?php endif; ?>
 </div>
 
 <div class="favoritos-container" data-view="grid">
@@ -73,21 +84,19 @@ if ($usuario_id) {
             </a>
         </div>
     <?php else: ?>
-        <?php foreach ($favoritos as $producto): ?>
+        <?php foreach ($favoritos as $producto): 
+
+            $nombreProd = $producto['nombre'];
+            $imgUrl = $img_productos[$nombreProd] ?? $img_productos['Default'];
+
+            ?>
             <div class="favorito-item">
                 <div class="favorito-img">
-                    <img src="../assets/productos/<?php echo htmlspecialchars($producto['imagen'] ?? 'default.jpg'); ?>" 
-                         alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
-                    <button class="btn-remove-fav" onclick="quitarFavorito(<?php echo $producto['id']; ?>)">
-                        <i class="bi bi-x-circle-fill"></i>
-                    </button>
-                    <?php if (isset($producto['stock']) && $producto['stock'] < 5): ?>
-                        <span class="badge-stock">¡Últimas unidades!</span>
-                    <?php endif; ?>
+                    <img src="<?php echo $imgUrl?>" alt="<?php echo htmlspecialchars($nombreProd)?>">
                 </div>
                 
                 <div class="favorito-info">
-                    <h5 class="favorito-nombre"><?php echo htmlspecialchars($producto['nombre']); ?></h5>
+                    <h5 class="favorito-nombre"><?php echo htmlspecialchars($nombreProd); ?></h5>
                     
                     <?php if (isset($producto['talla'])): ?>
                         <p class="favorito-talla">Talla: <?php echo htmlspecialchars($producto['talla']); ?></p>
@@ -96,133 +105,18 @@ if ($usuario_id) {
                     <div class="favorito-precio">
                         €<?php echo number_format($producto['precio'], 2); ?>
                     </div>
-                    
-                    <?php if (isset($producto['stock']) && $producto['stock'] > 0): ?>
-                        <p class="favorito-stock">
-                            <i class="bi bi-check-circle text-success"></i> 
-                            En stock (<?php echo $producto['stock']; ?> disponibles)
-                        </p>
-                    <?php else: ?>
-                        <p class="favorito-stock">
-                            <i class="bi bi-x-circle text-danger"></i> 
-                            Agotado
-                        </p>
-                    <?php endif; ?>
+              
                 </div>
                 
-                <div class="favorito-actions">
-                    <button class="btn btn-primary btn-block" 
-                            onclick="agregarAlCarrito(<?php echo $producto['id']; ?>)"
-                            <?php echo (isset($producto['stock']) && $producto['stock'] <= 0) ? 'disabled' : ''; ?>>
-                        <i class="bi bi-cart-plus"></i> Añadir al Carrito
-                    </button>
-                    <button class="btn btn-outline-primary btn-block" 
-                            onclick="verProducto(<?php echo $producto['id']; ?>)">
-                        <i class="bi bi-eye"></i> Ver Producto
-                    </button>
-                </div>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
+    
 </div>
 
-<script>
-// Cambiar vista
-document.querySelectorAll('.filter-btn[data-view]').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const view = this.getAttribute('data-view');
-        
-        document.querySelectorAll('.filter-btn[data-view]').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        
-        document.querySelector('.favoritos-container').setAttribute('data-view', view);
-    });
-});
+<div>
+    <h2>Para editar favortios dirigese al apartado de Favoritos</h2>
+    <a href="../public/favoritos.php"> Redireccion Favoritos</a>
+</div>
 
-function quitarFavorito(productoId) {
-    if (confirm('¿Quitar este producto de favoritos?')) {
-        // AJAX para quitar de favoritos
-        fetch('../src/procesos/quitar_favorito.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ producto_id: productoId })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Recargar la sección de favoritos
-                document.querySelector('[data-section="favoritos"]').click();
-                
-                // Mostrar notificación
-                showNotification('Producto eliminado de favoritos', 'success');
-            } else {
-                showNotification('Error al eliminar el producto', 'error');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showNotification('Error al eliminar el producto', 'error');
-        });
-    }
-}
-
-function limpiarFavoritos() {
-    if (confirm('¿Estás seguro de que quieres eliminar todos tus favoritos?')) {
-        // AJAX para limpiar todos los favoritos
-        fetch('../src/procesos/limpiar_favoritos.php', {
-            method: 'POST'
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                document.querySelector('[data-section="favoritos"]').click();
-                showNotification('Favoritos limpiados correctamente', 'success');
-            }
-        });
-    }
-}
-
-function agregarAlCarrito(productoId) {
-    // AJAX para agregar al carrito
-    fetch('../src/procesos/agregar_carrito.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-            producto_id: productoId,
-            cantidad: 1 
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showNotification('Producto agregado al carrito', 'success');
-            // Actualizar contador del carrito si existe
-            updateCartCount();
-        } else {
-            showNotification(data.message || 'Error al agregar al carrito', 'error');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        showNotification('Error al agregar al carrito', 'error');
-    });
-}
-
-function verProducto(productoId) {
-    window.location.href = `producto.php?id=${productoId}`;
-}
-
-function showNotification(message, type) {
-    // Implementar sistema de notificaciones toast
-    alert(message);
-}
-
-function updateCartCount() {
-    // Actualizar el contador del carrito en el header
-    console.log('Actualizando contador del carrito...');
-}
-</script>
+<script src="../src/Js/favoritos.js"></script>
