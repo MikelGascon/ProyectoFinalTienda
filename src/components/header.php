@@ -2,6 +2,14 @@
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__. "/../procesos/check_session.php";
 
+require_once '../src/Entity/Producto.php';
+require_once '../src/Entity/Marcas.php';
+require_once '../src/Entity/TipoRopa.php';
+require_once '../src/Entity/TallaRopa.php';
+require_once '../src/Entity/CategoriaSexo.php';
+require_once '../src/Entity/Usuario.php';
+
+
 $pageTitle = $pageTitle ?? "Tienda Online";
 $bannerText = $bannerText ?? "20% OFF EN COLECCIÓN DE INVIERNO";
 $showBanner = $showBanner ?? true;
